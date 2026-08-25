@@ -1,0 +1,2108 @@
+﻿<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Wireframe - OTC Deal Form (Create) | Bond Secondary</title>
+  <meta property="og:title" content="Wireframe - OTC Deal Form (Create) | Bond Secondary" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       STYLES
+  ═══════════════════════════════════════════════════════════════ -->
+  <style>
+    /* ── CSS VARIABLES ── */
+    :root {
+      --bg: #f0f2f5;
+      --card: #fff;
+      --ink: #000000bf;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --brand: #0055a5;
+      --danger: #d92d20;
+      --ok: #039855;
+      --warn: #d48806;
+      --shadow: 0 1px 8px rgba(15,23,42,0.07);
+      --r: 12px;
+      /* Seller (Company buys IN from customer/counterparty → "B" leg) */
+      --sell: #b42318;
+      --sBg: #fef3f2;
+      --sLine: #fecdca;
+      /* Buyer (Company sells OUT to customer → "S" leg) */
+      --buy: #175cd3;
+      --bBg: #eff8ff;
+      --bLine: #b2ddff;
+      /* Inventory */
+      --inv: #7c3aed;
+      --invBg: #f5f3ff;
+      --invLine: #ddd6fe;
+    }
+
+    /* ── RESET ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Noto Sans Thai", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    input, select, textarea, button {
+      font-family: "Noto Sans Thai", sans-serif;
+      color: var(--ink);
+    }
+
+    /* ── MATERIAL ICONS ── */
+    .mi {
+      font-family: "Material Icons Round";
+      font-style: normal;
+      font-size: 18px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      vertical-align: middle;
+      user-select: none;
+    }
+    .mi.sm { font-size: 16px; }
+    .mi.xs { font-size: 14px; }
+
+    /* ── LAYOUT ── */
+    .app {
+      max-width: 1536px;
+      margin: 0 auto;
+      padding: 20px 16px 80px;
+    }
+    @media (min-width: 768px) { .app { padding: 24px 24px 80px; } }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .topbar h1 { font-size: 18px; font-weight: 700; color: var(--brand); }
+    .topbar .sub { font-size: 12px; color: var(--muted); margin-top: 1px; }
+    .mpills { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-top: 7px; }
+    .pill {
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: var(--muted);
+      display: inline-flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .pill b { color: var(--ink); font-weight: 600; }
+    .pill.ok { border-color: var(--ok); background: #ecfdf3; color: var(--ok); }
+    .pill.warn { border-color: var(--warn); background: #fffbeb; color: var(--warn); }
+    .tbar { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
+    .role-switch { display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
+    .role-chip {
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--muted);
+      border-radius:999px;
+      padding:5px 11px;
+      font-size:12px;
+      font-weight:700;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+    }
+    .role-chip.active { border-color: var(--brand); background:#eff8ff; color:var(--brand); }
+    .role-chip.settlement.active { border-color: var(--warn); background:#fffbeb; color:var(--warn); }
+    .role-note {
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--muted);
+      border-radius:999px;
+      padding:5px 10px;
+      font-size:12px;
+      font-weight:600;
+    }
+    .role-hidden { display:none !important; }
+    .empty-state-card {
+      border: 1px dashed #cbd5e1;
+      background: #f8fafc;
+      border-radius: 14px;
+      padding: 28px 18px;
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .empty-state-card .mi {
+      font-size: 34px;
+      color: #94a3b8;
+      margin-bottom: 8px;
+    }
+    .empty-state-card h3 {
+      font-size: 16px;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .empty-state-card p {
+      font-size: 13px;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* ── STATUS BADGE ── */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      border: 1px solid transparent;
+    }
+    .status-badge.draft      { background:#f8fafc;  color:var(--muted);  border-color:var(--line); }
+    .status-badge.pending    { background:#fffbeb;  color:var(--warn);   border-color:#fed7aa; }
+    .status-badge.inventory  { background:var(--invBg); color:var(--inv); border-color:var(--invLine); }
+    .status-badge.partial    { background:#fffbeb;  color:var(--warn);   border-color:#fde68a; }
+    .status-badge.fully_sold { background:#ecfdf3;  color:var(--ok);     border-color:#bbf7d0; }
+    .status-badge.completed  { background:#ecfdf3;  color:var(--ok);     border-color:#86efac; }
+    .status-badge.cancelled  { background:#fef2f2;  color:var(--danger); border-color:#fecaca; }
+
+    /* ── BUTTONS ── */
+    .btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      gap: 5px;
+      align-items: center;
+      transition: all 0.13s;
+      white-space: nowrap;
+    }
+    .btn:hover { background: #f8fafc; border-color: #94a3b8; }
+    .btn.xs { padding: 4px 9px; font-size: 12px; border-radius: 6px; gap: 4px; }
+    .btn.sm { padding: 6px 12px; font-size: 13px; }
+    .btn.primary { background: var(--brand); border-color: var(--brand); color: #fff; }
+    .btn.primary:hover { background: #004194; }
+    .btn.s-add { background: var(--sell); border-color: var(--sell); color: #fff; }
+    .btn.s-add:hover { background: #911e14; }
+    .btn.b-add { background: var(--buy); border-color: var(--buy); color: #fff; }
+    .btn.b-add:hover { background: #1447a3; }
+    .btn.danger { border-color: var(--danger); color: var(--danger); background: transparent; }
+    .btn.danger:hover { background: #fff1f0; }
+    .btn.warn-btn { border-color: var(--warn); color: var(--warn); background: #fffbeb; }
+    .btn.warn-btn:hover { background: #fef3c7; }
+    .btn.outline { background: transparent; border-color: var(--line); color: var(--muted); }
+    .btn.outline:hover { background: #f8fafc; color: var(--ink); }
+    .btn.outline-cost { background: transparent; border-color: #8b5cf6; color: #8b5cf6; }
+    .btn.outline-cost:hover { background: #f5f3ff; color: #7c3aed; }
+    .btn.outline-doc { background: transparent; border-color: #0d9488; color: #0d9488; }
+    .btn.outline-doc:hover { background: #f0fdfa; color: #0f766e; }
+    .btn.inv-add { background: var(--inv); border-color: var(--inv); color: #fff; }
+    .btn.inv-add:hover { background: #6d28d9; }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      margin-bottom: 14px;
+    }
+    .card-hd {
+      padding: 11px 15px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      border-radius: var(--r) var(--r) 0 0;
+      background: #fcfcfd;
+    }
+    .card-hd h2 { font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+    .card-bd { padding: 14px 15px; }
+    .card.s-card { border-top: 3px solid var(--sell); }
+    .card.s-card .card-hd { background: var(--sBg); }
+    .card.b-card { border-top: 3px solid var(--buy); }
+    .card.b-card .card-hd { background: var(--bBg); }
+    .card.inv-card { border-top: 3px solid var(--inv); }
+    .card.inv-card .card-hd { background: var(--invBg); }
+
+    /* ── FORM GRID ── */
+    .fg { display: grid; gap: 10px 8px; }
+    .fg2 { grid-template-columns: 1fr 1fr; }
+    .fg3 { grid-template-columns: 1fr 1fr 1fr; }
+    .fg4 { grid-template-columns: repeat(4, 1fr); }
+    .fg5 { grid-template-columns: repeat(5, 1fr); }
+    .fg6 { grid-template-columns: repeat(6, 1fr); }
+    @media (max-width: 1100px) {
+      .fg6 { grid-template-columns: repeat(3, 1fr); }
+      .fg5 { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 800px) {
+      .fg4 { grid-template-columns: 1fr 1fr; }
+      .fg3 { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 560px) {
+      .fg2,.fg3,.fg4,.fg5,.fg6 { grid-template-columns: 1fr; }
+    }
+    .sp2 { grid-column: span 2; }
+    .sp3 { grid-column: span 3; }
+    .sp4 { grid-column: span 4; }
+    .spf { grid-column: 1/-1; }
+
+    /* ── FIELD ── */
+    .fld { display: flex; flex-direction: column; gap: 3px; }
+    .fld label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+    }
+    .fld label.req::after { content: " *"; color: var(--danger); }
+    input, select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 7px 9px;
+      font-size: 13.5px;
+      color: var(--ink);
+      background: #fff;
+      outline: none;
+      transition: border-color 0.14s, box-shadow 0.14s;
+    }
+    input[readonly] { background: #f8fafc; color: #64748b; border-color: #e8ecf0; cursor: default; }
+    input:focus:not([readonly]), select:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(0,85,165,0.1);
+    }
+    .hint { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .errmsg { font-size: 11px; color: var(--danger); display: none; margin-top: 2px; }
+    .errmsg.show { display: block; }
+
+    /* ── HERO INPUTS ── */
+    input.yi-s { border: 2px solid var(--sell)!important; background:#fff8f8; color:#a8071a; font-weight:700; font-size:15px; text-align:right; }
+    input.yi-b { border: 2px solid var(--buy)!important;  background:#f0f7ff; color:#004085; font-weight:700; font-size:15px; text-align:right; }
+    input.ni   { border: 2px solid var(--brand)!important; background:#f8fcff; font-weight:600; text-align:right; }
+    input.st-s { border: 2px solid var(--sell)!important; background:#fff8f8; color:#a8071a; font-weight:600; text-align:right; }
+    input.st-b { border: 2px solid var(--buy)!important;  background:#f0f7ff; color:#004085; font-weight:600; text-align:right; }
+    input.warn-input { border-color: var(--warn)!important; background:#fffbeb; }
+
+    /* ── PARTY ROW ── */
+    .party-list { display: flex; flex-direction: column; gap: 10px; }
+    .prow { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #fafafa; }
+    .prow.s-row { border-left: 3px solid var(--sell); }
+    .prow.b-row { border-left: 3px solid var(--buy); }
+    .prow.inv-row { border-left: 3px solid var(--inv); }
+    .prow.readonly-row { opacity: 0.7; }
+    .phd {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      background: #fff;
+      cursor: pointer;
+      user-select: none;
+      border-bottom: 1px solid #f0f2f5;
+      flex-wrap: wrap;
+    }
+    .phd:hover { background: #fafafa; }
+    .pbd { padding: 12px 14px; }
+    .pbd.hide { display: none; }
+
+    /* ── CHIPS ── */
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .chip.s  { background: var(--sBg);   color: var(--sell); border: 1px solid var(--sLine); }
+    .chip.b  { background: var(--bBg);   color: var(--buy);  border: 1px solid var(--bLine); }
+    .chip.inv{ background: var(--invBg); color: var(--inv);  border: 1px solid var(--invLine); }
+    .chip.ok { background: #ecfdf3; color: var(--ok); border: 1px solid #bbf7d0; }
+    .chip.na { background: #f8fafc; color: var(--muted); border: 1px solid var(--line); }
+    .psum { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; flex: 1; }
+    .ps-item { font-size: 12px; color: var(--muted); white-space: nowrap; }
+    .ps-item b { color: var(--ink); font-weight: 600; }
+    .net-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 9px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .net-chip.s { background: var(--sBg);   color: var(--sell); border: 1px solid var(--sLine); }
+    .net-chip.b { background: var(--bBg);   color: var(--buy);  border: 1px solid var(--bLine); }
+
+    /* ── SEARCH BAR ── */
+    .sbar {
+      display: flex;
+      gap: 7px;
+      align-items: flex-end;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 9px 11px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .sbar .fld { flex: 1; min-width: 130px; }
+
+    /* ── DIVIDER & SECTION LABEL ── */
+    .div { height: 1px; background: var(--line); margin: 10px 0; }
+    .slbl {
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 8px;
+    }
+    .slbl::after { content:""; flex:1; height:1px; background:var(--line); }
+
+    /* ── CALC SUMMARY BOX ── */
+    .cbox {
+      border-radius: 7px;
+      padding: 7px 11px;
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+    }
+    .cbox.s { background: var(--sBg); border: 1px solid var(--sLine); }
+    .cbox.b { background: var(--bBg); border: 1px solid var(--bLine); }
+    .citem {
+      display: flex;
+      flex-direction: column;
+      padding: 4px 10px;
+      border-right: 1px solid rgba(0,0,0,0.06);
+      min-width: 100px;
+      flex: 1;
+    }
+    .citem:last-child { border-right: none; }
+    .citem .ck { font-size: 10px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.2px; }
+    .citem .cv { font-size: 13px; font-weight: 700; margin-top: 1px; }
+    .citem.total { background: rgba(0,0,0,0.03); border-radius: 5px; padding: 5px 10px; }
+    .citem.total .ck { font-size: 10px; }
+    .citem.total.ts .cv { color: var(--sell); font-size: 15px; }
+    .citem.total.tb .cv { color: var(--buy);  font-size: 15px; }
+    .cthai { font-size: 10px; color: var(--muted); margin-top: 1px; display: block; }
+
+    /* ── COST BOX ── */
+    .cost-box { background: #fffcf0; border: 1px solid #ffe58f; border-radius: 8px; padding: 10px 12px; margin-top: 8px; }
+
+    /* ── ATTACHMENT SECTION ── */
+    .attach-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    @media (max-width: 800px) { .attach-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 560px) { .attach-grid { grid-template-columns: 1fr; } }
+    .attach-box {
+      border: 2px dashed var(--line);
+      border-radius: 10px;
+      padding: 12px;
+      background: #fafafa;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      position: relative;
+    }
+    .attach-box:hover { border-color: var(--brand); background: #eff8ff; }
+    .attach-box.has-file { border-color: var(--ok); background: #ecfdf3; border-style: solid; }
+    .attach-box input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+    .attach-box .at-icon { font-size: 22px; color: var(--muted); margin-bottom: 4px; }
+    .attach-box.has-file .at-icon { color: var(--ok); }
+    .attach-box .at-label { font-size: 12px; font-weight: 700; color: var(--ink); line-height: 1.3; }
+    .attach-box .at-sub { font-size: 10px; color: var(--muted); margin-top: 2px; }
+    .attach-box .at-fname { font-size: 10px; color: var(--ok); margin-top: 3px; font-weight: 600; word-break: break-all; }
+    .attach-box .at-req { font-size: 10px; color: var(--danger); font-weight: 700; }
+
+    /* ── PAYMENT METHOD ── */
+    .pay-method-group { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+    .pay-btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      gap: 5px;
+      align-items: center;
+      transition: all 0.13s;
+    }
+    .pay-btn.active { border-color: var(--buy); background: var(--bBg); color: var(--buy); }
+    .pay-btn:hover { border-color: #94a3b8; }
+
+    /* ── ACCOUNT TYPE WARNING ── */
+    .acc-warn {
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 12px;
+      color: #c2410c;
+      display: none;
+      gap: 6px;
+      align-items: flex-start;
+      margin-top: 6px;
+    }
+    .acc-warn.show { display: flex; }
+
+    /* ── RADIO ── */
+    .rg { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 5px; }
+    .rl { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; font-size: 13px; }
+    input[type="radio"] { width: auto; accent-color: var(--brand); }
+
+    /* ── TOGGLE ICON ── */
+    .tgico { transition: transform 0.18s; flex-shrink: 0; }
+    .phd.closed .tgico { transform: rotate(-90deg); }
+
+    /* ── READONLY LEG OVERLAY ── */
+    .readonly-overlay {
+      position: relative;
+    }
+    .readonly-overlay::after {
+      content: 'Read Only';
+      position: absolute;
+      top: 6px;
+      right: 10px;
+      background: #f1f5f9;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      border: 1px solid var(--line);
+      text-transform: uppercase;
+    }
+
+    /* ── INFO ALERT ── */
+    .info-box {
+      background: #eff8ff;
+      border: 1px solid var(--bLine);
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 12px;
+      color: #1e40af;
+      display: flex;
+      gap: 7px;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    /* ── FOOTER ── */
+    .fbar { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
+  </style>
+</head>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     HTML BODY
+═══════════════════════════════════════════════════════════════ -->
+<body>
+<div class="app">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div>
+      <h1><span class="mi" style="color:var(--brand);font-size:20px;margin-right:4px">account_balance</span>สร้าง Deal OTC Bond</h1>
+      <div class="sub">Fixed Income Desk · Secondary Market</div>
+      <div class="mpills">
+        <div class="pill"><span class="mi xs">tag</span>Deal Ref <b id="metaDealRef">–</b></div>
+        <div class="pill"><span class="mi xs">schedule</span><b id="metaTime">–</b></div>
+        <div class="pill"><span class="mi xs">badge</span>Role <b id="metaRole">Fixed Team</b></div>
+        <div id="metaStatusBadge" class="status-badge draft"><span class="mi xs">radio_button_checked</span>Draft</div>
+      </div>
+    </div>
+    <div class="tbar">
+        <div class="role-switch">
+          <button class="role-chip active" id="fixedRoleBtn" type="button" onclick="setRole('fixed')"><span class="mi xs">edit_note</span>Fixed Team</button>
+          <button class="role-chip settlement" id="settlementRoleBtn" type="button" onclick="setRole('settlement')"><span class="mi xs">fact_check</span>Settlement Team</button>
+        </div>
+        <div class="role-note" id="roleNote">จัดเตรียมรายการและ Submit ให้ Settlement</div>
+        <button class="btn danger" id="clearAllBtn" data-role-only="fixed"><span class="mi sm">delete_sweep</span>ล้างแบบฟอร์ม</button>
+    </div>
+  </div>
+
+  <!-- 1 BOND & DEAL INFO -->
+  <div class="card" id="bondCard">
+    <div class="card-hd">
+      <h2 style="color:var(--brand)"><span class="mi sm">library_books</span>1 Bond &amp; Deal Info</h2>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="btn xs outline" id="bondClearBtn" data-role-only="fixed"><span class="mi xs">clear</span>ล้าง Bond</button>
+      </div>
+    </div>
+    <div class="card-bd">
+
+      <!-- Bond Fields -->
+      <div class="fg fg4" style="margin-bottom:10px">
+        <div class="fld">
+          <label class="req">Symbol</label>
+          <select id="bondSymbol"><option value="">-- เลือก --</option></select>
+        </div>
+        <div class="fld">
+          <label class="req">ISIN</label>
+          <select id="bondIsin"><option value="">-- เลือก --</option></select>
+        </div>
+        <div class="fld sp2"><label>ชื่อหุ้นกู้</label><input id="bondName" readonly placeholder="ดึงอัตโนมัติ"/></div>
+        <div class="fld"><label>Rating</label><input id="bondRating" readonly/></div>
+        <div class="fld"><label>Par (บาท/unit)</label><input id="bondPar" readonly/></div>
+        <div class="fld"><label>Coupon Rate (%)</label><input id="bondCouponRate" readonly/></div>
+        <div class="fld"><label>Coupon Frequency</label><input id="bondCouponFreq" readonly/></div>
+        <div class="fld"><label>Issue Date</label><input id="bondIssueDate" type="date" readonly/></div>
+        <div class="fld"><label>Maturity Date</label><input id="bondMaturity" type="date" readonly/></div>
+        <div class="fld"><label>Next Coupon Date</label><input id="bondNextCoupon" type="date" readonly/></div>
+        <div class="fld"><label>Issuer</label><input id="bondIssuer" readonly/></div>
+      </div>
+      <!-- Attachments -->
+      <div class="div" style="margin-top:14px"></div>
+      <div class="slbl"><span class="mi xs">attach_file</span>เอกสารแนบ (Deal Level)</div>
+      <div class="attach-grid" style="grid-template-columns:1fr">
+
+        <div class="attach-box" id="atFactSheet" onclick="triggerUpload('upFactSheet')">
+          <input type="file" id="upFactSheet" accept=".pdf,.jpg,.jpeg,.png" onchange="onFileChange('upFactSheet','atFactSheet','fnFactSheet')"/>
+          <div class="mi at-icon">description</div>
+          <div class="at-label">Fact Sheet</div>
+          <div class="at-sub">แนบไปกับ Email Confirmation อัตโนมัติ</div>
+          <div class="at-req">* จำเป็น</div>
+          <div class="at-fname" id="fnFactSheet"></div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;margin-top:14px">
+        <button class="btn primary" id="saveBondDealBtn" data-role-only="fixed"><span class="mi xs">save</span>บันทึก Bond Deal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- REF CHIPS BAR -->
+  <div id="dealFlowSection" style="display:none">
+  <div style="background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:10px 16px;box-shadow:var(--shadow);margin-bottom:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <div>
+      <div style="font-size:11px;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:4px"><span class="mi xs">tag</span>Ref. ในรายการนี้</div>
+      <div id="refChips" style="display:flex;gap:5px;flex-wrap:wrap;margin-top:4px">
+      <span class="chip s">B–</span><span class="chip b">S–</span>
+      </div>
+    </div>
+    <div class="hint" id="roleFlowHint" style="margin-left:auto">Fixed Team จะบันทึก Draft และ Submit ราย transaction</div>
+  </div>
+
+  <div class="empty-state-card role-hidden" id="settlementEmptyState">
+    <div><span class="mi">fact_check</span></div>
+    <h3>ยังไม่มีรายการให้ ตรวจสอบ</h3>
+    <p>รายการที่ยังเป็น Draft จะยังไม่แสดงในมุมมองนี้ เมื่อ Fixed Team ทำการ Submit ราย transaction แล้ว รายการจะขึ้นมาให้ ตรวจสอบที่หน้านี้</p>
+  </div>
+
+  <!-- 2 SELLER LEGS — ลูกค้าขายหุ้นให้บริษัท (บริษัทซื้อเข้าพอร์ต) → B{Ref} — สีแดง อยู่บน -->
+  <div class="card s-card" id="sellersCard">
+    <div class="card-hd">
+      <h2 style="color:var(--sell)">
+        <span class="mi sm">north_east</span>2 Seller Legs — ลูกค้าขายหุ้นให้บริษัท
+        <span class="chip s" style="margin-left:4px">B{Ref}</span>
+        <span style="font-size:11px;font-weight:400;color:var(--muted);margin-left:6px">บริษัทซื้อเข้าพอร์ต</span>
+      </h2>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+        <button class="btn sm s-add" id="addSellerBtn" data-role-only="fixed" disabled><span class="mi xs">person_add</span>เพิ่ม Seller</button>
+        <button class="btn xs outline" id="clearSellersBtn" data-role-only="fixed" disabled><span class="mi xs">clear_all</span>ล้างทั้งหมด</button>
+      </div>
+    </div>
+    <div class="card-bd">
+      <div class="hint" id="sellerHint" style="margin-bottom:10px">บันทึก Bond Deal ก่อน จึงจะสามารถเพิ่ม Seller Leg ได้</div>
+      <div class="party-list" id="sellerList"></div>
+    </div>
+  </div>
+
+  <!-- 3 BUYER LEGS — ลูกค้าซื้อหุ้นจากบริษัท (บริษัทขายออกจากพอร์ต) → S{Ref} -->
+  <div class="card b-card" id="buyersCard">
+    <div class="card-hd">
+      <h2 style="color:var(--buy)">
+        <span class="mi sm">south_west</span>3 Buyer Legs — ลูกค้าซื้อหุ้นจากบริษัท
+        <span class="chip b" style="margin-left:4px">S{Ref}</span>
+        <span style="font-size:11px;font-weight:400;color:var(--muted);margin-left:6px">บริษัทขายออก</span>
+      </h2>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+        <button class="btn sm b-add" id="addBuyerBtn" data-role-only="fixed" disabled><span class="mi xs">person_add</span>เพิ่ม Buyer</button>
+        <button class="btn xs outline" id="clearBuyersBtn" data-role-only="fixed" disabled><span class="mi xs">clear_all</span>ล้างทั้งหมด</button>
+      </div>
+    </div>
+    <div class="card-bd">
+      <div class="hint" id="buyerHint" style="margin-bottom:10px">บันทึก Bond Deal ก่อน จึงจะสามารถเพิ่ม Buyer Leg ได้</div>
+      <div class="party-list" id="buyerList"></div>
+    </div>
+  </div>
+
+  <!-- FOOTER ACTIONS -->
+  <div class="card" data-role-only="fixed">
+    <div class="card-bd">
+      <div class="fbar">
+        <button class="btn outline" id="saveDraftBtn" data-role-only="fixed"><span class="mi sm">save</span>บันทึก Draft ทั้งหมด</button>
+        <button class="btn warn-btn" id="submitReviewBtn" data-role-only="fixed"><span class="mi sm">send</span>Submit All</button>
+      </div>
+    </div>
+  </div>
+  </div>
+
+</div><!-- /.app -->
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════════════════════════════════ -->
+<script type="module">
+
+// ─────────────────────────────────────────────────────────────────
+// 1. UTILITIES
+// ─────────────────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+const isSampleMode = /\/otc-deals\/\d{6}\/?$/.test(window.location.pathname);
+let currentRole = 'fixed';
+
+const nowStr = () => {
+  const d = new Date(), p = n => String(n).padStart(2,'0');
+  return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+};
+const dateInputStr = (offsetDays = 0) => {
+  const d = new Date();
+  d.setDate(d.getDate() + offsetDays);
+  const p = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+};
+const toN = v => {
+  const n = Number(String(v ?? '').replaceAll(',','').trim());
+  return isFinite(n) ? n : 0;
+};
+const fmt   = (n, d=2) => isFinite(n) ? n.toLocaleString('th-TH', { minimumFractionDigits:d, maximumFractionDigits:d }) : '–';
+const applyFmt = (el, d) => { if (el?.value?.trim()) el.value = fmt(toN(el.value), d); };
+const removeFmt = el     => { if (el?.value?.trim()) el.value = toN(el.value); };
+const gv = id => $(id)?.value ?? '';
+const gt = id => $(id)?.textContent ?? '';
+
+window.setRole = role => {
+  currentRole = role === 'settlement' ? 'settlement' : 'fixed';
+  applyRoleMode();
+};
+
+function applyRoleMode() {
+  document.body.dataset.role = currentRole;
+  $('fixedRoleBtn')?.classList.toggle('active', currentRole === 'fixed');
+  $('settlementRoleBtn')?.classList.toggle('active', currentRole === 'settlement');
+  if ($('metaRole')) $('metaRole').textContent = currentRole === 'fixed' ? 'Fixed Team' : 'Settlement Team';
+  if ($('roleNote')) $('roleNote').textContent = currentRole === 'fixed'
+    ? 'จัดเตรียมรายการและ Submit ให้ Settlement'
+    : 'ตรวจสอบรายการ Pending และ Complete/Reject';
+  if ($('roleFlowHint')) $('roleFlowHint').textContent = currentRole === 'fixed'
+    ? 'Fixed Team จะบันทึก Draft และ Submit ราย transaction'
+    : 'Settlement Team จะตรวจสอบ transaction ที่ Pending เป็นรายรายการ';
+  document.querySelectorAll('[data-role-only]').forEach(el => {
+    const roles = (el.dataset.roleOnly || '').split(',').map(v => v.trim()).filter(Boolean);
+    el.classList.toggle('role-hidden', !roles.includes(currentRole));
+  });
+  syncSettlementVisibility();
+}
+
+function syncSettlementVisibility() {
+  const sellerVisible = sellers.some(p => (p.status || 'draft') !== 'draft');
+  const buyerVisible = buyers.some(p => (p.status || 'draft') !== 'draft');
+  [...sellers, ...buyers].forEach(p => {
+    const row = $(`prow_${p.id}`);
+    if (!row) return;
+    const hideForSettlement = currentRole === 'settlement' && (p.status || 'draft') === 'draft';
+    row.classList.toggle('role-hidden', hideForSettlement);
+  });
+  $('sellersCard')?.classList.toggle('role-hidden', currentRole === 'settlement' && !sellerVisible);
+  $('buyersCard')?.classList.toggle('role-hidden', currentRole === 'settlement' && !buyerVisible);
+  $('settlementEmptyState')?.classList.toggle('role-hidden', !(currentRole === 'settlement' && !sellerVisible && !buyerVisible));
+}
+
+// Thai baht text
+function thaiNum(n) {
+  const D = ['ศูนย์','หนึ่ง','สอง','สาม','สี่','ห้า','หก','เจ็ด','แปด','เก้า'];
+  function chunk(c) {
+    let t=''; const s=String(c).padStart(6,'0').split('').map(Number);
+    const U=['แสน','หมื่น','พัน','ร้อย','สิบ',''];
+    for (let i=0;i<s.length;i++) {
+      const d=s[i], u=U[i]; if(!d) continue;
+      if(u==='สิบ') { t+=d===1?'สิบ':d===2?'ยี่สิบ':D[d]+'สิบ'; continue; }
+      if(u===''&&d===1&&t) { t+='เอ็ด'; continue; }
+      t+=D[d]+u;
+    }
+    return t||'ศูนย์';
+  }
+  if(!n) return 'ศูนย์';
+  const pts=[]; let x=Math.floor(n);
+  while(x>0) { pts.push(x%1000000); x=Math.floor(x/1000000); }
+  return pts.reverse().map((p,i,a)=>p?chunk(p)+(i<a.length-1?'ล้าน':''):'').join('');
+}
+function thaiBaht(v) {
+  const r=Math.round(v*100)/100, b=Math.floor(r), s=Math.round((r-b)*100);
+  return thaiNum(b)+'บาท'+(s===0?'ถ้วน':thaiNum(s)+'สตางค์');
+}
+
+
+// ─────────────────────────────────────────────────────────────────
+// 2. MASTER DATA
+// ─────────────────────────────────────────────────────────────────
+const BOND_DB = [
+  {
+    symbol: 'CPALL26OA', isin: 'THCPALL26001',
+    bondName: 'หุ้นกู้บริษัท ซีพี ออลล์ จำกัด (มหาชน) รุ่น CPALL26OA',
+    issuer: 'CP ALL PUBLIC COMPANY LIMITED',
+    rating: 'A+/TRIS', par: 1000, couponRate: 4.85, couponFreq: 'Semi-Annual', periodsPerYear: 2,
+    issueDate: '2024-03-20', maturityDate: '2026-10-20', nextCouponDate: '2026-04-20',
+  },
+  {
+    symbol: 'PTT256A', isin: 'THPTT250601',
+    bondName: 'หุ้นกู้บริษัท ปตท. จำกัด (มหาชน) รุ่น PTT256A',
+    issuer: 'PTT PUBLIC COMPANY LIMITED',
+    rating: 'AAA/AAA', par: 1000, couponRate: 5.20, couponFreq: 'Semi-Annual', periodsPerYear: 2,
+    issueDate: '2025-01-15', maturityDate: '2026-06-15', nextCouponDate: '2026-06-15',
+  },
+  {
+    symbol: 'MQDC271B', isin: 'THMQDC271B1',
+    bondName: 'หุ้นกู้บริษัท แมกโนเลีย ควอลิตี้ ดีเวล็อปเม้นต์ คอร์ปอเรชั่น จำกัด รุ่น MQDC271B',
+    issuer: 'MAGNOLIA QUALITY DEVELOPMENT CORPORATION LIMITED',
+    rating: 'BBB+/TRIS', par: 1000, couponRate: 6.10, couponFreq: 'Quarterly', periodsPerYear: 4,
+    issueDate: '2025-03-18', maturityDate: '2027-01-18', nextCouponDate: '2026-04-18',
+  },
+  {
+    symbol: 'AQUA25NA', isin: 'TH7130A37101',
+    bondName: 'หุ้นกู้เสี่ยงสูงชนิดระบุชื่อผู้ถือ ประเภทไม่ด้อยสิทธิ มีประกันของบริษัท อควา คอร์เปอเรชั่น จำกัด (มหาชน) ครั้งที่ 1/2566 ครบกำหนดไถ่ถอนปี พ.ศ. 2570',
+    issuer: 'MAGNOLIA QUALITY DEVELOPMENT CORPORATION LIMITED',
+    rating: 'NR', par: 1000, couponRate: 6.75, couponFreq: 'Quarterly', periodsPerYear: 4,
+    issueDate: '2024-07-19', maturityDate: '2027-01-21', nextCouponDate: '2026-04-20',
+  },
+  {
+    symbol: 'TTA287A', isin: 'TH0535038705',
+    bondName: 'หุ้นกู้ของบริษัท โทรีเซนไทย เอเยนต์ซีส์ จำกัด (มหาชน) ครั้งที่ 1/2569 ครบกำหนดไถ่ถอนปี พ.ศ. 2571',
+    issuer: 'THORESEN THAI AGENCIES PUBLIC COMPANY LIMITED',
+    rating: 'BBB/TRIS', par: 1000, couponRate: 5.15, couponFreq: 'Quarterly', periodsPerYear: 4,
+    issueDate: '2026-01-27', maturityDate: '2028-07-27', nextCouponDate: '2026-04-27',
+  },
+  {
+    symbol: 'GULF285A', isin: 'THGULF285A1',
+    bondName: 'หุ้นกู้บริษัท กัลฟ์ เอ็นเนอร์จี ดีเวลลอปเมนท์ จำกัด (มหาชน) รุ่น GULF285A',
+    issuer: 'GULF ENERGY DEVELOPMENT PUBLIC COMPANY LIMITED',
+    rating: 'A/TRIS', par: 1000, couponRate: 4.95, couponFreq: 'Semi-Annual', periodsPerYear: 2,
+    issueDate: '2025-05-17', maturityDate: '2028-05-17', nextCouponDate: '2026-05-17',
+  },
+];
+
+const CUST_DB = [
+  {
+    taxId: '0111111111111', accountCode: '111111-Y', accountType: 'Y',
+    fullName: 'นาย สมชาย มั่งมี', mktName: 'สมฤดี (AO)',
+    bankAccounts: [{ bank:'KBank', acc:'1112223334' },{ bank:'BBL', acc:'1112225555' }],
+  },
+  {
+    taxId: '0222222222222', accountCode: '222222-N', accountType: 'N',
+    fullName: 'นางสาว สมศรี ดีเลิศ', mktName: 'สมชาย (AO)',
+    bankAccounts: [{ bank:'SCB', acc:'0294119566' }],
+  },
+  {
+    taxId: '0333333333333', accountCode: '333333-Y', accountType: 'Y',
+    fullName: 'บริษัท ร่ำรวย จำกัด', mktName: 'สมปอง (AO)',
+    bankAccounts: [{ bank:'BBL', acc:'7778889990' }],
+  },
+  { taxId: '0444444444444', accountCode: '444444-N', accountType: 'N', fullName: 'บริษัทประกันชีวิต B', mktName: 'FI Desk', bankAccounts: [{ bank:'SCB', acc:'0294119566' }] },
+  { taxId: '0555555555555', accountCode: '555555-N', accountType: 'N', fullName: 'บล. จัดการกองทุน C', mktName: 'FI Desk', bankAccounts: [{ bank:'KBank', acc:'1112223334' }] },
+  { taxId: '0666666666666', accountCode: '666666-Y', accountType: 'Y', fullName: 'Draft Counterparty', mktName: 'FI Desk', bankAccounts: [{ bank:'KBank', acc:'1112223334' }] },
+  { taxId: '0777777777777', accountCode: '777777-N', accountType: 'N', fullName: 'คู่ค้า D', mktName: 'FI Desk', bankAccounts: [{ bank:'KBank', acc:'1112223334' }] },
+  { taxId: '0888888888888', accountCode: '888888-N', accountType: 'N', fullName: 'บริษัทประกัน E', mktName: 'FI Desk', bankAccounts: [{ bank:'SCB', acc:'0294119566' }] },
+  { taxId: '1000000000001', accountCode: '900001-Y', accountType: 'Y', fullName: 'ลูกค้า Private Wealth P1', mktName: 'IC A', bankAccounts: [] },
+  { taxId: '1000000000002', accountCode: '900002-Y', accountType: 'Y', fullName: 'ลูกค้า HNW A', mktName: 'IC B', bankAccounts: [] },
+  { taxId: '1000000000003', accountCode: '900003-Y', accountType: 'Y', fullName: 'ลูกค้าสถาบัน B', mktName: 'IC E', bankAccounts: [] },
+  { taxId: '1000000000004', accountCode: '900004-Y', accountType: 'Y', fullName: 'ลูกค้า UHNW C1', mktName: 'IC F', bankAccounts: [] },
+  { taxId: '1000000000005', accountCode: '900005-Y', accountType: 'Y', fullName: 'ลูกค้า UHNW C2', mktName: 'IC G', bankAccounts: [] },
+  { taxId: '1000000000006', accountCode: '900006-N', accountType: 'N', fullName: 'Draft Customer', mktName: 'IC H', bankAccounts: [] },
+  { taxId: '1000000000007', accountCode: '900007-Y', accountType: 'Y', fullName: 'ลูกค้า VIP D1', mktName: 'IC I', bankAccounts: [] },
+  { taxId: '1000000000008', accountCode: '900008-Y', accountType: 'Y', fullName: 'ลูกค้า VIP D2', mktName: 'IC J', bankAccounts: [] },
+  { taxId: '1000000000009', accountCode: '900009-Y', accountType: 'Y', fullName: 'ลูกค้า VIP D3', mktName: 'IC K', bankAccounts: [] },
+  { taxId: '1000000000010', accountCode: '900010-Y', accountType: 'Y', fullName: 'ลูกค้า E', mktName: 'IC L', bankAccounts: [] },
+];
+
+
+// ─────────────────────────────────────────────────────────────────
+// 3. DEAL STATE
+// ─────────────────────────────────────────────────────────────────
+let runNo = 1, dealRef = null, bondDealSaved = false;
+
+function buildRefs() {
+  if (!dealRef) return { sR: [], bR: [], dr: null };
+  const sR = Array.from({ length: sellers.length }, (_, i) => `B${dealRef}-${String(i + 1).padStart(2, '0')}`);
+  const bR = Array.from({ length: buyers.length }, (_, i) => `S${dealRef}-${String(i + 1).padStart(2, '0')}`);
+  return { sR, bR, dr: dealRef };
+}
+
+function setBondInputsDisabled(disabled) {
+  [
+    'bondSymbol','bondIsin','upFactSheet'
+  ].forEach(id => {
+    if ($(id)) $(id).disabled = disabled;
+  });
+  $('bondClearBtn').disabled = disabled;
+  $('saveBondDealBtn').disabled = disabled;
+}
+
+function toggleDealFlow(show) {
+  $('dealFlowSection').style.display = show ? '' : 'none';
+}
+
+function refreshLegControls() {
+  const canManageLegs = bondDealSaved;
+  $('addSellerBtn').disabled = !canManageLegs;
+  $('addBuyerBtn').disabled = !canManageLegs;
+  $('clearSellersBtn').disabled = !canManageLegs || sellers.length === 0;
+  $('clearBuyersBtn').disabled = !canManageLegs || buyers.length === 0;
+  $('submitReviewBtn').disabled = !bondDealSaved;
+  $('sellerHint').style.display = canManageLegs ? 'none' : '';
+  $('buyerHint').style.display = canManageLegs ? 'none' : '';
+  toggleDealFlow(canManageLegs);
+}
+
+function refreshRefs() {
+  const { sR, bR, dr } = buildRefs();
+  $('metaDealRef').textContent = dr || '–';
+  $('refChips').innerHTML = [
+    ...sR.map(r => `<span class="chip s">${r}</span>`),
+    ...bR.map(r => `<span class="chip b">${r}</span>`),
+  ].join('') || '<span class="chip s">B–</span><span class="chip b">S–</span>';
+  sellers.forEach((p, i) => { const e = $(`ref_${p.id}`); if (e) e.textContent = sR[i] || '–'; });
+  buyers.forEach((p, i) => { const e = $(`ref_${p.id}`); if (e) e.textContent = bR[i] || '–'; });
+  refreshLegControls();
+}
+
+
+// ─────────────────────────────────────────────────────────────────
+// 6. BOND UI
+// ─────────────────────────────────────────────────────────────────
+function populateBonds() {
+  $('bondSymbol').innerHTML = '<option value="">-- เลือก --</option>';
+  $('bondIsin').innerHTML   = '<option value="">-- เลือก --</option>';
+  BOND_DB.forEach(b => {
+    $('bondSymbol').add(new Option(b.symbol, b.symbol));
+    $('bondIsin').add(new Option(b.isin, b.isin));
+  });
+}
+function currentBond() {
+  return BOND_DB.find(b => b.symbol === gv('bondSymbol')) || null;
+}
+function syncBond() {
+  const s = gv('bondSymbol'), i = gv('bondIsin');
+  const b = BOND_DB.find(x => (s && x.symbol===s)||(i && x.isin===i));
+  if (!b) return;
+  $('bondSymbol').value    = b.symbol;
+  $('bondIsin').value      = b.isin;
+  $('bondName').value      = b.bondName;
+  $('bondRating').value    = b.rating;
+  $('bondPar').value       = fmt(b.par, 2);
+  $('bondCouponRate').value= fmt(b.couponRate, 4);
+  $('bondCouponFreq').value= b.couponFreq;
+  $('bondIssueDate').value = b.issueDate;
+  $('bondMaturity').value  = b.maturityDate;
+  $('bondNextCoupon').value= b.nextCouponDate;
+  $('bondIssuer').value    = b.issuer;
+  recalcAll();
+}
+$('bondSymbol').addEventListener('change', syncBond);
+$('bondIsin').addEventListener('change', syncBond);
+
+
+// ─────────────────────────────────────────────────────────────────
+// 7. ATTACHMENT HELPERS
+// ─────────────────────────────────────────────────────────────────
+window.triggerUpload = id => { $(id)?.click(); };
+window.onFileChange = (inputId, boxId, fnId) => {
+  const file = $(inputId)?.files?.[0];
+  const box  = $(boxId);
+  const fn   = $(fnId);
+  if (file && box && fn) {
+    box.classList.add('has-file');
+    fn.textContent = '✅ ' + file.name;
+  } else if (box && fn) {
+    box.classList.remove('has-file');
+    fn.textContent = '';
+  }
+};
+
+
+// ─────────────────────────────────────────────────────────────────
+// 8. PARTY MANAGEMENT
+// ─────────────────────────────────────────────────────────────────
+let sellers = [], buyers = [], pidx = 0, sellerDocIdx = 0;
+
+function addParty(side, readonlyMode = false) {
+  const isSel  = side === 'seller';
+  const list   = isSel ? sellers : buyers;
+  const listEl = $(isSel ? 'sellerList' : 'buyerList');
+  const id     = `p${pidx++}`;
+  const no     = list.length + 1;
+  const clr    = isSel ? 'var(--sell)' : 'var(--buy)';
+  const bCls   = isSel ? 's-add' : 'b-add';
+  const calcCls= isSel ? 's' : 'b';
+  const totCls = isSel ? 'ts' : 'tb';
+  const stCls  = isSel ? 'st-s' : 'st-b';
+  const yCls   = isSel ? 'yi-s' : 'yi-b';
+  const sideTh = isSel ? 'Seller' : 'Buyer';
+  const netLbl = isSel ? 'ยอดรับสุทธิ (ลูกค้าขาย)' : 'ยอดจ่ายสุทธิ (ลูกค้าซื้อ)';
+  const canRm  = true;
+  const roAttr = readonlyMode ? 'readonly' : '';
+  const rdStr  = readonlyMode ? `<div class="info-box"><span class="mi xs">info</span>Leg นี้อยู่ใน read-only mode (บันทึกแล้ว)</div>` : '';
+
+  const prow = document.createElement('div');
+  const selRowCls = isSel ? 's-row' : 'b-row';
+  prow.className = `prow ${selRowCls}${readonlyMode?' readonly-row':''}`;
+  prow.id = `prow_${id}`;
+
+  prow.innerHTML = `
+<div class="phd" id="phd_${id}" onclick="toggleP('${id}')">
+  <span class="mi sm" style="color:${clr}">${isSel?'sell':'shopping_cart'}</span>
+  <span class="chip ${isSel?'s':'b'}" id="ref_${id}">–</span>
+  <span style="font-size:12.5px;font-weight:700;color:${clr}">${sideTh} ${no}</span>
+  <span id="pname_${id}" style="font-size:12px;color:var(--muted);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">–</span>
+  <span id="legStatus_${id}" class="status-badge draft"><span class="mi xs">radio_button_checked</span>Draft</span>
+  <div class="psum" id="psum_${id}">
+    <span class="ps-item">Notional: <b id="hN_${id}">–</b></span>
+    <span class="ps-item">Yield: <b id="hY_${id}" style="color:${clr}">–</b>%</span>
+    <span class="ps-item">Accrued: <b id="hA_${id}">–</b></span>
+    <span class="net-chip ${isSel?'s':'b'}" id="hNet_${id}">Net: –</span>
+  </div>
+  <div style="flex:1"></div>
+  ${!readonlyMode ? `<button class="btn xs outline" onclick="event.stopPropagation();clearParty('${id}','${side}')"><span class="mi xs">refresh</span>ล้าง</button>` : ''}
+  ${canRm && !readonlyMode ? `<button class="btn xs danger" onclick="event.stopPropagation();removeParty('${id}','${side}')"><span class="mi xs">close</span>ลบ</button>` : ''}
+  <span class="mi sm tgico" style="color:var(--muted)">expand_more</span>
+</div>
+
+<div class="pbd" id="pbd_${id}">
+  ${rdStr}
+
+  <!-- Customer Search -->
+  <div class="sbar">
+    <div class="fld"><label class="req">เลขประจำตัวผู้เสียภาษี / ปชช.</label>
+      <input id="taxId_${id}" inputmode="numeric" placeholder="13 หลัก" ${roAttr}
+        oninput="onTaxIn('${id}')"/></div>
+    <div class="fld"><label class="req">เลขที่บัญชีซื้อขายหลักทรัพย์</label>
+      <input id="acc_${id}" placeholder="เช่น 123456-Y" ${roAttr}/></div>
+    ${!readonlyMode ? `<button class="btn ${bCls} sm" onclick="doSearch('${id}','${side}')"><span class="mi xs">search</span>ค้นหา</button>` : ''}
+  </div>
+  <div class="errmsg" id="serr_${id}"></div>
+
+  <!-- Account Type Warning (Y-Account Only) -->
+  <div class="acc-warn" id="accWarn_${id}">
+    <span class="mi xs" style="color:#c2410c;flex-shrink:0">warning</span>
+    <span>บัญชีนี้ <b>ไม่ใช่ Y-Account</b> — ลูกค้าต้องเปิด Y-Account ก่อนทำรายการหุ้นกู้ (ตาม D.4)</span>
+  </div>
+
+  <div class="fg fg3" style="margin-bottom:10px">
+    <div class="fld sp2"><label>ชื่อ-นามสกุล / ชื่อบริษัท</label>
+      <input id="name_${id}" readonly placeholder="ดึงจากระบบ"/></div>
+    <div class="fld"><label>ผู้ดูแลบัญชี (AO)</label>
+      <input id="ao_${id}" readonly placeholder="ดึงจากระบบ"/></div>
+  </div>
+
+  <div class="div"></div>
+
+  <div class="slbl" style="color:${clr}"><span class="mi xs">event</span>ข้อมูลการทำรายการ</div>
+  <div class="fg fg2" style="margin-bottom:10px">
+    <div class="fld">
+      <label class="req" style="color:${clr}">Trade Date</label>
+      <input id="tradeDate_${id}" type="date" ${roAttr} onchange="recalcPWrap('${id}','${side}')"/>
+    </div>
+    <div class="fld">
+      <label class="req" style="color:${clr}">Settlement Date</label>
+      <input id="settleDate_${id}" type="date" ${roAttr} onchange="recalcPWrap('${id}','${side}')"/>
+    </div>
+  </div>
+
+  <!-- Seller Leg: ลูกค้าขายหุ้น รับเงินจากบริษัท → บัญชีธนาคารลูกค้า -->
+  ${isSel ? `
+  <div class="slbl" style="color:var(--sell)"><span class="mi xs">outbound</span>รายละเอียดการชำระเงินออก (โอนเงินให้ลูกค้าผู้ขาย)</div>
+  <div class="fg fg2" style="margin-bottom:10px">
+    <div class="fld sp2">
+      <label class="req">บัญชีรับเงิน (ลูกค้าผู้ขาย)</label>
+      <select id="bank_${id}" ${roAttr}>
+        <option value="">-- เลือกบัญชีธนาคาร --</option>
+        <option value="0294119566">029-X-XXXX-566 - SCB</option>
+        <option value="1112223334">111-X-XXXX-334 - KBank</option>
+        <option value="7778889990">777-X-XXXX-990 - BBL</option>
+      </select>
+    </div>
+  </div>
+  ` : `
+  <!-- Buyer Leg: ลูกค้าซื้อหุ้น จ่ายเงินให้บริษัท → ATS หรือ Cash Balance -->
+  <div class="slbl" style="color:var(--buy)"><span class="mi xs">payments</span>วิธีชำระเงิน (ลูกค้าผู้ซื้อจ่ายเข้าบริษัท)</div>
+  <div class="fg fg2" style="margin-bottom:10px">
+    <div class="fld">
+      <label class="req">ช่องทางการชำระเงิน</label>
+      <div class="pay-method-group" id="payMethodGrp_${id}">
+        <button class="pay-btn active" data-method="ATS" onclick="selectPayMethod('${id}','ATS')">
+          <span class="mi xs">sync_alt</span>ATS
+        </button>
+        <button class="pay-btn" data-method="CashBalance" onclick="selectPayMethod('${id}','CashBalance')">
+          <span class="mi xs">account_balance_wallet</span>Cash Balance (Y-Acc)
+        </button>
+      </div>
+      <div class="hint">ไม่รองรับ Bill Payment (ยกเลิกตาม §10.1)</div>
+    </div>
+    <div class="fld">
+      <label>บัญชีปลายทางรับเงิน (บริษัท)</label>
+      <input value="บล. หยวนต้า — KBank 042-1-11388-2 สาขาราชดำริ" readonly style="font-size:12px"/>
+    </div>
+  </div>
+  `}
+
+  <!-- Trading Data (from ThaiBMA / iBond) -->
+  <div class="slbl" style="color:${clr}"><span class="mi xs">handshake</span>ข้อมูลที่ตกลงกัน (อ้างอิงจาก ThaiBMA / iBond)</div>
+  <div class="fg fg6" style="margin-bottom:10px">
+    <div class="fld">
+      <label class="req" style="color:${clr}">จำนวน (Units)</label>
+      <input id="qty_${id}" type="text" inputmode="numeric" class="ni" placeholder="เช่น 500"
+        ${roAttr}
+        oninput="onQtyIn('${id}','${side}')"
+        onblur="pBlur('${id}','${side}','qty',0)"
+        onfocus="removeFmtEl(this)"/>
+    </div>
+    <div class="fld">
+      <label class="req" style="color:${clr}">Notional (บาท)</label>
+      <input id="not_${id}" type="text" inputmode="decimal" class="ni" placeholder="เช่น 500,000"
+        ${roAttr}
+        oninput="onNotIn('${id}','${side}')"
+        onblur="pBlur('${id}','${side}','not',2)"
+        onfocus="removeFmtEl(this)"/>
+    </div>
+    <div class="fld">
+      <label class="req" style="color:${clr}">Yield (%)</label>
+      <input id="yld_${id}" type="text" inputmode="decimal" class="${yCls}" placeholder="เช่น 6.75"
+        ${roAttr}
+        onblur="pBlur('${id}','${side}','yld',6)"
+        onfocus="removeFmtEl(this)"/>
+    </div>
+    <div class="fld">
+      <label class="req" style="color:${clr}">Gross Value (บาท)</label>
+      <input id="gross_${id}" type="text" inputmode="decimal" class="ni" placeholder="จาก ThaiBMA"
+        ${roAttr}
+        oninput="recalcPWrap('${id}','${side}')"
+        onblur="pBlur('${id}','${side}','gross',2)"
+        onfocus="removeFmtEl(this)"/>
+    </div>
+    <div class="fld">
+      <label class="req" style="color:${clr}">Clean Price (บาท)</label>
+      <input id="cB_${id}" type="text" inputmode="decimal" class="ni" placeholder="จาก ThaiBMA"
+        ${roAttr}
+        oninput="recalcPWrap('${id}','${side}')"
+        onblur="pBlur('${id}','${side}','cB',2)"
+        onfocus="removeFmtEl(this)"/>
+    </div>
+    <div class="fld">
+      <label class="req" style="color:${clr}">AI Value (บาท)</label>
+      <input id="acc2_${id}" type="text" inputmode="decimal" class="ni" placeholder="จาก ThaiBMA"
+        ${roAttr}
+        oninput="recalcPWrap('${id}','${side}')"
+        onblur="pBlur('${id}','${side}','acc2',2)"
+        onfocus="removeFmtEl(this)"/>
+    </div>
+  </div>
+
+  <!-- Settlement Summary -->
+  <div class="slbl"><span class="mi xs">receipt_long</span>สรุปรายการ (คำนวณอัตโนมัติ)</div>
+  <div class="fg ${isSel ? 'fg5' : 'fg3'}" style="margin-bottom:8px">
+    <div class="fld">
+      <label>WHT</label>
+      <div class="rg">
+        <label class="rl"><input type="radio" name="wht_${id}" value="0" checked onchange="triggerWhtCalc('${id}','${side}')">ไม่หัก</label>
+        <label class="rl"><input type="radio" name="wht_${id}" value="1" onchange="triggerWhtCalc('${id}','${side}')">หัก%</label>
+        <input id="whtR_${id}" type="text" value="15.00"
+          style="width:52px;display:none;padding:4px 6px;text-align:center"
+          oninput="triggerWhtCalc('${id}','${side}')"
+          onblur="pBlur('${id}','${side}','whtR',2)"/>
+      </div>
+    </div>
+    <div class="fld">
+      <label>WHT Amount (บาท)</label>
+      <input id="whtAmt_${id}" readonly style="background:#fff1f0;color:var(--danger);font-weight:600;text-align:right;"/>
+    </div>
+    <div class="fld">
+      <label>Net Amount (บาท)</label>
+      <input id="settle_${id}" readonly class="${stCls}"/>
+    </div>
+    ${isSel ? `
+    <div class="fld"><label>Sell per unit</label><input id="cU_${id}" readonly style="background:#f8fafc;text-align:right;"/></div>
+    <div class="fld"><label>Clean % (per 100)</label><input id="cPct_${id}" readonly style="background:#f8fafc;text-align:right;"/></div>
+    ` : ''}
+  </div>
+
+  <!-- Cost Box: ต้นทุนของลูกค้าผู้ขาย ใช้คำนวณ WHT Capital Gain -->
+  ${isSel ? `
+  <div class="cost-box">
+    <div style="font-size:11px;font-weight:700;color:var(--warn);margin-bottom:7px;display:flex;align-items:center;gap:4px">
+      <span class="mi xs" style="color:var(--warn)">savings</span>ต้นทุนของลูกค้าผู้ขาย (Seller Cost) — ใช้คำนวณ WHT จาก Capital Gain ของลูกค้า
+    </div>
+    <div class="fg fg4">
+      <div class="fld"><label>ต้นทุน/unit (บาท)</label>
+        <input id="coU_${id}" type="text" inputmode="decimal" placeholder="เช่น 1,002.78"
+          oninput="onCoUIn('${id}')" onblur="pBlur('${id}','seller','coU',6)" onfocus="removeFmtEl(this)"/></div>
+      <div class="fld"><label>ต้นทุนรวม (บาท)</label>
+        <input id="coB_${id}" type="text" inputmode="decimal" placeholder="ยอดรวม"
+          oninput="onCoBIn('${id}')" onblur="pBlur('${id}','seller','coB',2)" onfocus="removeFmtEl(this)"/></div>
+      <div class="fld"><label>ส่วนต่าง/unit</label><input id="difU_${id}" readonly/></div>
+      <div class="fld"><label>ส่วนต่างรวม (กำไร/ขาดทุน)</label><input id="difB_${id}" readonly/></div>
+    </div>
+    <div id="difHint_${id}" class="hint" style="text-align:right;margin-top:4px">–</div>
+  </div>
+
+  <div class="slbl" style="color:var(--sell);margin-top:12px"><span class="mi xs">attach_file</span>เอกสารเพิ่มเติม</div>
+  <div class="hint" style="margin-bottom:8px">แนบเอกสารของลูกค้าผู้ขายได้มากกว่า 1 รายการ พร้อมระบุชื่อเอกสารแต่ละไฟล์</div>
+  <div id="sellerDocList_${id}" style="display:flex;flex-direction:column;gap:10px"></div>
+  ${!readonlyMode ? `<div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn xs outline" onclick="addSellerDocumentRow('${id}')"><span class="mi xs">add</span>เพิ่มเอกสาร</button></div>` : ''}
+  ` : ''}
+
+  <!-- Calc Summary -->
+  <div class="cbox ${calcCls}">
+    <div class="citem"><span class="ck">Accrued</span><span class="cv" id="dAcc_${id}">0.00</span></div>
+    <div class="citem"><span class="ck">WHT</span><span class="cv" id="dWht_${id}">0.00</span></div>
+    <div class="citem"><span class="ck">Gross</span><span class="cv" id="dGross_${id}">0.00</span></div>
+    <div class="citem total ${totCls}">
+      <span class="ck">${netLbl}</span>
+      <span class="cv" id="dNet_${id}">0.00</span>
+      <span class="cthai" id="dThai_${id}">–</span>
+    </div>
+  </div>
+
+  <!-- Document Buttons -->
+  <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:12px;">
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      ${!readonlyMode ? `<button class="btn outline" data-role-only="fixed" onclick="saveLegDraft('${id}')"><span class="mi xs">save</span>บันทึก Draft</button>` : ''}
+      ${!readonlyMode ? `<button class="btn warn-btn" data-role-only="fixed" onclick="submitLeg('${id}')"><span class="mi xs">send</span>Submit</button>` : ''}
+      ${!readonlyMode ? `<button class="btn success role-hidden" data-role-only="settlement" onclick="completeLeg('${id}')"><span class="mi xs">task_alt</span>Complete</button>` : ''}
+      ${!readonlyMode ? `<button class="btn danger role-hidden" data-role-only="settlement" onclick="rejectLegReview('${id}')"><span class="mi xs">cancel</span>Reject</button>` : ''}
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">
+    ${isSel ? `<button class="btn outline-cost sm" onclick="previewDoc('cost','${id}')"><span class="mi xs">find_in_page</span>หนังสือยืนยันราคาต้นทุน</button>` : ''}
+    <button class="btn outline-doc sm" onclick="previewDoc('order','${id}')"><span class="mi xs">find_in_page</span>ใบยืนยันคำสั่งซื้อขาย</button>
+    </div>
+  </div>
+</div>
+`;
+
+  listEl.appendChild(prow);
+
+  // WHT radio toggle
+  document.querySelectorAll(`input[name="wht_${id}"]`).forEach(r =>
+    r.addEventListener('change', e => {
+      const wr = $(`whtR_${id}`);
+      if (wr) wr.style.display = e.target.value === '1' ? 'inline-block' : 'none';
+    })
+  );
+
+  // Default pay-method state for buyer legs (ลูกค้าผู้ซื้อจ่ายเงินให้บริษัท)
+  if (!isSel) {
+    window[`payMethod_${id}`] = 'ATS';
+  }
+
+  list.push({ id, side, status: 'draft' });
+  if ($(`tradeDate_${id}`)) $(`tradeDate_${id}`).value = dateInputStr(0);
+  if ($(`settleDate_${id}`)) $(`settleDate_${id}`).value = dateInputStr(2);
+  if (isSel) addSellerDocumentRow(id);
+  applyRoleMode();
+  refreshRefs();
+  recalcAll();
+  return id;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// 8a. PARTY HELPERS
+// ─────────────────────────────────────────────────────────────────
+window.removeParty = (id, side) => {
+  const list = side === 'seller' ? sellers : buyers;
+  const i = list.findIndex(p => p.id === id);
+  if (i < 0) return;
+  list.splice(i, 1);
+  $(`prow_${id}`)?.remove();
+  relabel(side);
+  refreshRefs();
+  recalcAll();
+};
+window.toggleP = id => {
+  const bd = $(`pbd_${id}`), hd = $(`phd_${id}`);
+  if (!bd) return;
+  const open = !bd.classList.contains('hide');
+  bd.classList.toggle('hide', open);
+  hd.classList.toggle('closed', open);
+};
+window.addSellerDocumentRow = (sellerId, doc = {}) => {
+  const listEl = $(`sellerDocList_${sellerId}`);
+  if (!listEl) return;
+  const docId = `sd${sellerDocIdx++}`;
+  const item = document.createElement('div');
+  item.id = `sellerDocItem_${docId}`;
+  item.style.cssText = 'border:1px solid var(--line);border-radius:10px;padding:10px;background:#fafafa';
+  item.innerHTML = `
+    <div class="fg fg2">
+      <div class="fld">
+        <label class="req">ชื่อเอกสาร</label>
+        <input id="sellerDocName_${docId}" type="text" placeholder="เช่น หลักฐานการถือครอง / ใบยืนยันราคา" value="${doc.name || ''}"/>
+      </div>
+      <div class="fld">
+        <label>ไฟล์แนบ</label>
+        <div class="attach-box" id="sellerDocBox_${docId}" onclick="triggerUpload('sellerDocFile_${docId}')">
+          <input type="file" id="sellerDocFile_${docId}" accept=".pdf,.jpg,.jpeg,.png" onchange="onFileChange('sellerDocFile_${docId}','sellerDocBox_${docId}','sellerDocFileName_${docId}')"/>
+          <div class="mi at-icon">attach_file</div>
+          <div class="at-label">เลือกไฟล์เอกสาร</div>
+          <div class="at-sub">รองรับ PDF / JPG / PNG</div>
+          <div class="at-fname" id="sellerDocFileName_${docId}">${doc.fileName ? '✅ ' + doc.fileName : ''}</div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;margin-top:8px">
+      <button class="btn xs danger" onclick="removeSellerDocumentRow('${sellerId}','${docId}')"><span class="mi xs">delete</span>ลบเอกสาร</button>
+    </div>
+  `;
+  listEl.appendChild(item);
+};
+window.removeSellerDocumentRow = (sellerId, docId) => {
+  const listEl = $(`sellerDocList_${sellerId}`);
+  if (!listEl) return;
+  const items = listEl.children.length;
+  if (items <= 1) {
+    alert('ต้องมีเอกสารอย่างน้อย 1 รายการใน Seller Leg');
+    return;
+  }
+  $(`sellerDocItem_${docId}`)?.remove();
+};
+function clearSellerDocumentRows(sellerId) {
+  const listEl = $(`sellerDocList_${sellerId}`);
+  if (!listEl) return;
+  listEl.innerHTML = '';
+  addSellerDocumentRow(sellerId);
+}
+function collectSellerDocuments(sellerId) {
+  const listEl = $(`sellerDocList_${sellerId}`);
+  if (!listEl) return [];
+  return Array.from(listEl.children).map(item => {
+    const docId = item.id.replace('sellerDocItem_', '');
+    const fileEl = $(`sellerDocFile_${docId}`);
+    return {
+      documentName: gv(`sellerDocName_${docId}`),
+      attached: !!fileEl?.files?.[0],
+      fileName: fileEl?.files?.[0]?.name || '',
+    };
+  }).filter(doc => doc.documentName || doc.attached);
+}
+function relabel(side) {
+  const list = side === 'seller' ? sellers : buyers;
+  const lbl  = side === 'seller' ? 'Seller' : 'Buyer';
+  list.forEach((p,i) => {
+    const el = document.querySelector(`#phd_${p.id} span:nth-child(3)`);
+    if (el) el.textContent = `${lbl} ${i+1}`;
+  });
+}
+window.selectPayMethod = (id, method) => {
+  window[`payMethod_${id}`] = method;
+  const grp = $(`payMethodGrp_${id}`);
+  if (!grp) return;
+  grp.querySelectorAll('.pay-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.method === method);
+  });
+};
+window.previewDoc = (type, id) => {
+  const nm = gv(`name_${id}`) || 'ลูกค้า';
+  const msg = type === 'cost'
+    ? `Preview หนังสือยืนยันราคาต้นทุน สำหรับ ${nm}`
+    : `Preview ใบยืนยันคำสั่งซื้อขายหุ้นกู้ สำหรับ ${nm}`;
+  alert(msg);
+};
+window.saveLegDraft = id => {
+  if (currentRole !== 'fixed') {
+    alert('หน้าจอนี้อยู่ในมุมมอง Settlement Team');
+    return;
+  }
+  if (!bondDealSaved) {
+    alert('กรุณาบันทึก Bond Deal ก่อน');
+    return;
+  }
+  const leg = getPartyById(id);
+  if (!leg) return;
+  leg.status = 'draft';
+  updateLegStatusBadge(id, 'draft');
+  setStatusBadge(deriveDealStatus());
+  console.log('Leg Draft Payload', collectPayload());
+  alert(`บันทึก Draft ของ ${leg.side === 'seller' ? 'Seller' : 'Buyer'} Leg เรียบร้อย`);
+};
+window.submitLeg = id => {
+  if (currentRole !== 'fixed') {
+    alert('หน้าจอนี้อยู่ในมุมมอง Settlement Team');
+    return;
+  }
+  if (!bondDealSaved) {
+    alert('กรุณาบันทึก Bond Deal ก่อน');
+    return;
+  }
+  const leg = getPartyById(id);
+  if (!validateLegBeforeSubmit(leg)) return;
+  leg.status = 'pending_review';
+  updateLegStatusBadge(id, 'pending_review');
+  setStatusBadge(deriveDealStatus());
+  console.log('Leg Submit Payload', collectPayload());
+  alert(`Submit ${leg.side === 'seller' ? 'Seller' : 'Buyer'} Leg เรียบร้อย`);
+};
+window.completeLeg = id => {
+  if (currentRole !== 'settlement') {
+    alert('หน้าจอนี้อยู่ในมุมมอง Fixed Team');
+    return;
+  }
+  const leg = getPartyById(id);
+  if (!leg) return;
+  if (leg.status !== 'pending_review') {
+    alert('Settlement สามารถ Complete ได้เฉพาะ transaction ที่ Pending');
+    return;
+  }
+  leg.status = 'completed';
+  updateLegStatusBadge(id, 'completed');
+  setStatusBadge(deriveDealStatus());
+  console.log('Settlement Complete Payload', collectPayload());
+  alert(`Settlement Complete ${leg.side === 'seller' ? 'Seller' : 'Buyer'} Leg เรียบร้อย`);
+};
+window.rejectLegReview = id => {
+  if (currentRole !== 'settlement') {
+    alert('หน้าจอนี้อยู่ในมุมมอง Fixed Team');
+    return;
+  }
+  const leg = getPartyById(id);
+  if (!leg) return;
+  if (leg.status !== 'pending_review') {
+    alert('Settlement สามารถ Reject ได้เฉพาะ transaction ที่ Pending');
+    return;
+  }
+  const reason = prompt(`Reject ${leg.side === 'seller' ? 'Seller' : 'Buyer'} Leg\nกรุณาระบุเหตุผล:`,'');
+  if (reason === null) return;
+  leg.status = 'rejected';
+  leg.rejectReason = reason.trim();
+  updateLegStatusBadge(id, 'rejected');
+  setStatusBadge(deriveDealStatus());
+  console.log('Settlement Reject Payload', collectPayload());
+  alert(`Settlement Reject ${leg.side === 'seller' ? 'Seller' : 'Buyer'} Leg เรียบร้อย`);
+};
+
+
+// ─────────────────────────────────────────────────────────────────
+// 9. CUSTOMER SEARCH with Y-Account Validation
+// ─────────────────────────────────────────────────────────────────
+window.doSearch = (id, side) => {
+  const tax = gv(`taxId_${id}`).trim(), acc = gv(`acc_${id}`).trim();
+  const err = $(`serr_${id}`);
+  if (!tax && !acc) {
+    if (err) { err.textContent = 'กรุณากรอก Tax ID หรือ Account Code'; err.classList.add('show'); }
+    return;
+  }
+  const c = CUST_DB.find(x => (tax && x.taxId===tax)||(acc && x.accountCode===acc));
+  if (!c) {
+    if (err) { err.textContent = 'ไม่พบข้อมูลลูกค้า'; err.classList.add('show'); }
+    return;
+  }
+  if (err) err.classList.remove('show');
+  $(`taxId_${id}`).value = c.taxId;
+  $(`acc_${id}`).value   = c.accountCode;
+  $(`name_${id}`).value  = c.fullName   || '';
+  $(`ao_${id}`).value    = c.mktName    || '';
+  const pn = $(`pname_${id}`);
+  if (pn) pn.textContent = c.fullName || '–';
+
+  // Y-Account validation (ลูกค้าต้องมี Y-Account เท่านั้น — §D.4)
+  const accWarn = $(`accWarn_${id}`);
+  if (accWarn) {
+    const isY = c.accountType === 'Y';
+    accWarn.classList.toggle('show', !isY);
+    if (!isY) {
+      $(`acc_${id}`).classList.add('warn-input');
+    } else {
+      $(`acc_${id}`).classList.remove('warn-input');
+    }
+  }
+
+  // Populate bank account dropdown — เฉพาะ Seller legs (ลูกค้าผู้ขายรับเงินโอน)
+  const bankSel = $(`bank_${id}`);
+  if (bankSel) {
+    bankSel.innerHTML = '<option value="">-- เลือกบัญชี --</option>';
+    if (c.bankAccounts?.length > 0) {
+      c.bankAccounts.forEach(b => {
+        const masked = b.acc.length >= 6
+          ? b.acc.substring(0,3) + '-X-XXXX-' + b.acc.substring(b.acc.length-3)
+          : b.acc;
+        bankSel.add(new Option(`${masked} - ${b.bank} (${b.bank})`, b.acc));
+      });
+      bankSel.selectedIndex = 1;
+    } else {
+      bankSel.innerHTML = '<option value="">-- ไม่พบข้อมูลบัญชี --</option>';
+    }
+  }
+};
+
+window.clearParty = (id, side) => {
+  ['taxId','acc','name','ao','tradeDate','settleDate','qty','not','yld','gross','cB','acc2','whtAmt','settle',
+   'cU','cPct','coU','coB','difU','difB','bank'].forEach(k => {
+    const e = $(k+'_'+id);
+    if (e) { e.value = ''; e.style.color = ''; e.classList.remove('warn-input'); }
+  });
+  ['dAcc','dWht','dGross','dNet'].forEach(k => {
+    const e = $(k+'_'+id); if(e) e.textContent = '0.00';
+  });
+  const t = $(`dThai_${id}`); if(t) t.textContent = '–';
+  const pn= $(`pname_${id}`); if(pn) pn.textContent = '–';
+  const se= $(`serr_${id}`);  if(se) se.classList.remove('show');
+  const aw= $(`accWarn_${id}`); if(aw) aw.classList.remove('show');
+  if (side === 'seller') clearSellerDocumentRows(id);
+  if (side === 'buyer') selectPayMethod(id, 'ATS');
+  updateHdr(id, side);
+  recalcSpread();
+};
+
+
+// ─────────────────────────────────────────────────────────────────
+// 10. INLINE EVENT HANDLERS (window-exposed)
+// ─────────────────────────────────────────────────────────────────
+window.onTaxIn = id => { if (gv(`taxId_${id}`).trim().length === 13) doSearch(id, sellers.find(p=>p.id===id)?'seller':'buyer'); };
+window.removeFmtEl = el => removeFmt(el);
+window.pBlur = (id, side, f, d) => { applyFmt($(f+'_'+id), d); recalcParty(id, side); };
+window.triggerWhtCalc = (id, side) => recalcParty(id, side);
+window.recalcPWrap    = (id, side) => recalcParty(id, side);
+
+window.onQtyIn = (id, side) => {
+  const qty = toN(gv(`qty_${id}`)), par = toN(gv('bondPar')) || 1000;
+  if (qty > 0) $(`not_${id}`).value = fmt(qty * par, 2);
+  else $(`not_${id}`).value = '';
+  recalcParty(id, side);
+};
+window.onNotIn = (id, side) => {
+  const not = toN(gv(`not_${id}`)), par = toN(gv('bondPar')) || 1000;
+  if (not > 0 && par > 0) $(`qty_${id}`).value = fmt(not/par, 0);
+  else $(`qty_${id}`).value = '';
+  recalcParty(id, side);
+};
+window.onCoUIn = id => {
+  const qty = getQty(id,'seller'), v = toN(gv(`coU_${id}`));
+  if (qty > 0) $(`coB_${id}`).value = fmt(v*qty, 2);
+  recalcParty(id, 'seller');
+};
+window.onCoBIn = id => {
+  const qty = getQty(id,'seller'), v = toN(gv(`coB_${id}`));
+  if (qty > 0) $(`coU_${id}`).value = fmt(v/qty, 6);
+  recalcParty(id, 'seller');
+};
+
+
+// ─────────────────────────────────────────────────────────────────
+// 11. CALCULATION ENGINE
+//     Business rules per §8.2:
+//     WHT Seller = (Gross - CostTotal) * rate  (capital gain only)
+//     WHT Buyer  = 0
+//     Net Seller = Gross - WHT
+//     Net Buyer  = Gross
+// ─────────────────────────────────────────────────────────────────
+function getQty(id, side) {
+  const qty = toN(gv(`qty_${id}`));
+  if (qty > 0) return qty;
+  const not = toN(gv(`not_${id}`)), par = toN(gv('bondPar')) || 1000;
+  return not > 0 ? not/par : 0;
+}
+function getWht(id) {
+  const r = document.querySelector(`input[name="wht_${id}"]:checked`);
+  const isTax = r?.value === '1', rate = isTax ? toN(gv(`whtR_${id}`) || '15') : 0;
+  return { isTax, rate };
+}
+
+function recalcParty(id, side) {
+  const isSel = side === 'seller';
+  const qty   = getQty(id, side);
+  const par   = toN(gv('bondPar')) || 1000;
+  const gross  = toN(gv(`gross_${id}`));
+  const cleanB = toN(gv(`cB_${id}`));
+  const accrued= toN(gv(`acc2_${id}`));
+  const { isTax, rate } = getWht(id);
+
+  let wht = 0;
+  if (isSel) {
+    const costTotal = toN(gv(`coB_${id}`));
+    if (isTax && gross > costTotal) wht = (gross - costTotal) * (rate/100);
+  }
+  // Buyers: WHT = 0 (§8.2)
+
+  const net = isSel ? gross - wht : gross;
+
+  // Per-unit & % display (Sell-Out only)
+  if (isSel) {
+    const e1 = $(`cU_${id}`);
+    if (e1) e1.value = qty > 0 ? fmt(gross/qty, 6) : '';
+    const e2 = $(`cPct_${id}`);
+    if (e2 && par > 0) e2.value = qty > 0 ? fmt((gross/qty/par)*100, 6) : '';
+  }
+
+  $(`whtAmt_${id}`).value = wht > 0 ? fmt(wht,2) : '0.00';
+  $(`settle_${id}`).value = net !== 0 ? fmt(net,2) : '';
+
+  const sv = (k,v) => { const e=$(k+'_'+id); if(e) e.textContent=v; };
+  sv('dAcc',  fmt(accrued,2));
+  sv('dWht',  fmt(wht,2));
+  sv('dGross',fmt(gross,2));
+  sv('dNet',  fmt(net,2));
+  const te = $(`dThai_${id}`);
+  if (te) te.textContent = net > 0 ? `(${thaiBaht(net)})` : '–';
+
+  // P&L for Sell-Out legs
+  if (isSel) {
+    const costTotal = toN(gv(`coB_${id}`));
+    const du=$(`difU_${id}`), db=$(`difB_${id}`), dh=$(`difHint_${id}`);
+    if (du && db && dh) {
+      if (qty > 0 && gross > 0 && costTotal > 0) {
+        const pb = gross - costTotal, pu = pb/qty;
+        const clr = pb >= 0 ? 'var(--ok)' : 'var(--danger)';
+        du.value = fmt(pu,6); du.style.color = clr;
+        db.value = fmt(pb,2); db.style.color = clr;
+        dh.textContent = pb >= 0 ? '✅ กำไร' : '❌ ขาดทุน';
+        dh.style.color = clr;
+      } else {
+        du.value=''; db.value=''; dh.textContent='–';
+      }
+    }
+  }
+
+  updateHdr(id, side);
+  recalcSpread();
+}
+
+function updateHdr(id, side) {
+  const n = gv(`not_${id}`), y = gv(`yld_${id}`);
+  const acc = gt(`dAcc_${id}`), net = gt(`dNet_${id}`);
+  const hn=$(`hN_${id}`), hy=$(`hY_${id}`), ha=$(`hA_${id}`), hnet=$(`hNet_${id}`);
+  if(hn) hn.textContent = n||'–';
+  if(hy) hy.textContent = y||'–';
+  if(ha) ha.textContent = acc!=='–'?acc:'–';
+  if(hnet) hnet.textContent = `Net: ${net}`;
+}
+
+function recalcSpread() {
+  // Spread removed — no display needed
+  // (kept as function stub so recalcAll() calls don't break)
+}
+
+function recalcAll() {
+  sellers.forEach(p => recalcParty(p.id,'seller'));
+  buyers.forEach(p  => recalcParty(p.id,'buyer'));
+  recalcSpread();
+}
+
+
+// ─────────────────────────────────────────────────────────────────
+// 12. BUTTON EVENTS
+// ─────────────────────────────────────────────────────────────────
+function resetAll() {
+  $('sellerList').innerHTML = '';
+  $('buyerList').innerHTML  = '';
+  sellers = [];
+  buyers = [];
+  pidx = 0;
+  dealRef = null;
+  bondDealSaved = false;
+}
+
+$('clearAllBtn').addEventListener('click', () => {
+  resetAll();
+  ['bondSymbol','bondIsin','bondName','bondRating','bondPar','bondCouponRate',
+   'bondCouponFreq','bondIssueDate','bondMaturity','bondNextCoupon','bondIssuer',
+   'upFactSheet'].forEach(k => { if($(k)) $(k).value=''; });
+  ['atFactSheet'].forEach(k => $(k)?.classList.remove('has-file'));
+  ['fnFactSheet'].forEach(k => { if ($(k)) $(k).textContent = ''; });
+  setBondInputsDisabled(false);
+  recalcSpread();
+  setStatusBadge('draft');
+  refreshRefs();
+});
+
+$('addSellerBtn').addEventListener('click', () => addParty('seller'));
+$('addBuyerBtn').addEventListener('click',  () => addParty('buyer'));
+
+$('clearSellersBtn').addEventListener('click', () => sellers.forEach(p => clearParty(p.id,'seller')));
+$('clearBuyersBtn').addEventListener('click',  () => buyers.forEach(p  => clearParty(p.id,'buyer')));
+
+$('bondClearBtn').addEventListener('click', () => {
+  $('bondSymbol').value = '';
+  syncBond();
+  ['bondName','bondRating','bondPar','bondCouponRate','bondCouponFreq',
+   'bondIssueDate','bondMaturity','bondNextCoupon','bondIssuer',
+   'upFactSheet'].forEach(k => { if($(k)) $(k).value=''; });
+  ['atFactSheet'].forEach(k => $(k)?.classList.remove('has-file'));
+  ['fnFactSheet'].forEach(k => { if ($(k)) $(k).textContent = ''; });
+  recalcAll();
+});
+
+function validateBondDealBeforeSave() {
+  if (!gv('bondSymbol') || !gv('bondIsin')) {
+    alert('กรุณาเลือกข้อมูล Bond ให้ครบก่อนบันทึก Bond Deal');
+    return false;
+  }
+  return true;
+}
+
+function deriveDealStatus() {
+  if (!bondDealSaved) return 'draft';
+  const legStatuses = [...sellers, ...buyers].map(p => p.status || 'draft');
+  if (legStatuses.length === 0) return 'bond_saved';
+
+  const completedCount = legStatuses.filter(s => s === 'completed').length;
+  const rejectedCount = legStatuses.filter(s => s === 'rejected').length;
+  const activeCount = legStatuses.filter(s => ['pending_review', 'submitted', 'validated'].includes(s)).length;
+
+  if (completedCount === legStatuses.length) return 'completed';
+  if (rejectedCount === legStatuses.length) return 'rejected';
+  if (rejectedCount > 0) return 'partial_rejected';
+  if (activeCount > 0 || legStatuses.some(s => s === 'draft')) return 'in_progress';
+  return 'bond_saved';
+}
+
+function setAllLegStatus(status) {
+  [...sellers, ...buyers].forEach(p => {
+    p.status = status;
+    updateLegStatusBadge(p.id, status);
+  });
+}
+
+function getLegStatusMeta(status) {
+  const map = {
+    draft: ['draft', 'radio_button_checked', 'Draft'],
+    pending_review: ['pending', 'pending', 'Pending'],
+    submitted: ['pending', 'pending', 'Submitted'],
+    validated: ['inventory', 'inventory_2', 'Validated'],
+    rejected: ['cancelled', 'cancel', 'Rejected'],
+    completed: ['completed', 'task_alt', 'Completed'],
+  };
+  return map[status] || map.draft;
+}
+
+function updateLegStatusBadge(id, status) {
+  const badge = $(`legStatus_${id}`);
+  if (!badge) return;
+  const [cls, ico, lbl] = getLegStatusMeta(status);
+  badge.className = `status-badge ${cls}`;
+  badge.innerHTML = `<span class="mi xs">${ico}</span>${lbl}`;
+}
+
+function getPartyById(id) {
+  return [...sellers, ...buyers].find(p => p.id === id) || null;
+}
+
+function validateLegBeforeSubmit(leg) {
+  if (!leg) return false;
+  const sideLabel = leg.side === 'seller' ? 'Seller' : 'Buyer';
+  if (!gv(`taxId_${leg.id}`) || !gv(`acc_${leg.id}`)) {
+    alert(`กรุณาค้นหาข้อมูลลูกค้าใน ${sideLabel} Leg ให้ครบก่อน`);
+    return false;
+  }
+  if (!gv(`tradeDate_${leg.id}`) || !gv(`settleDate_${leg.id}`)) {
+    alert(`กรุณากรอก Trade Date และ Settlement Date ให้ครบใน ${sideLabel} Leg ก่อน Submit`);
+    return false;
+  }
+  if (!gv(`qty_${leg.id}`) || !gv(`not_${leg.id}`) || !gv(`gross_${leg.id}`)) {
+    alert(`กรุณากรอก Quantity, Notional และ Gross Value ให้ครบใน ${sideLabel} Leg ก่อน Submit`);
+    return false;
+  }
+  if (leg.side === 'seller') {
+    const docs = collectSellerDocuments(leg.id);
+    for (const doc of docs) {
+      if (!doc.documentName || !doc.attached) {
+        alert('กรุณากรอกชื่อเอกสารและแนบไฟล์ให้ครบในเอกสารเพิ่มเติมของ Seller Leg');
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+function validateLegsBeforeSubmit(targetLegs = [...sellers, ...buyers]) {
+  const legs = targetLegs;
+  if (legs.length === 0) {
+    alert('กรุณาเพิ่ม Seller Leg หรือ Buyer Leg อย่างน้อย 1 รายการก่อน Submit');
+    return false;
+  }
+
+  for (const leg of legs) {
+    if (!validateLegBeforeSubmit(leg)) return false;
+  }
+  return true;
+}
+
+function setStatusBadge(status) {
+  const map = {
+    draft:            ['draft',      'radio_button_checked', 'Draft'],
+    bond_saved:       ['inventory',  'inventory_2',          'Bond Saved'],
+    in_progress:      ['pending',    'pending',              'In Progress'],
+    partial_rejected: ['partial',    'pie_chart',            'Partial Rejected'],
+    rejected:         ['cancelled',  'cancel',               'Rejected'],
+    completed:        ['completed',  'task_alt',             'Completed'],
+    cancelled:        ['cancelled',  'cancel',               'Cancelled'],
+  };
+  const [cls, ico, lbl] = map[status] || map['draft'];
+  const b = $('metaStatusBadge');
+  b.className = `status-badge ${cls}`;
+  b.innerHTML = `<span class="mi xs">${ico}</span>${lbl}`;
+}
+
+function collectPayload() {
+  const { sR, bR, dr } = buildRefs();
+  const bond = currentBond();
+
+  function pData(p, i, refs) {
+    const { id, side } = p;
+    const isSel = side === 'seller';
+    const qty = getQty(id, side);
+    const { isTax, rate } = getWht(id);
+    const accrued = toN(gv(`acc2_${id}`));
+    const wht     = toN(gt(`dWht_${id}`));
+    const gross   = toN(gv(`gross_${id}`));
+    const net     = toN(gt(`dNet_${id}`));
+    const grossPerUnit = qty > 0 ? gross / qty : 0;
+
+    const cust = CUST_DB.find(c => c.taxId === gv(`taxId_${id}`) || c.accountCode === gv(`acc_${id}`));
+
+    let paymentMethod = '', paymentBank = '', paymentAccountNo = '', paymentAccountName = '', paymentBranch = '';
+    if (isSel) {
+      const selectedAcc = gv(`bank_${id}`);
+      paymentMethod = 'transfer';
+      paymentAccountNo = selectedAcc;
+      paymentAccountName = gv(`name_${id}`);
+      if (cust?.bankAccounts) {
+        const bankInfo = cust.bankAccounts.find(x => x.acc === selectedAcc);
+        if (bankInfo) paymentBank = bankInfo.bank;
+      }
+    } else {
+      paymentMethod = window[`payMethod_${id}`] || 'ATS';
+      paymentAccountName = 'บล. หยวนต้า (ประเทศไทย) จำกัด';
+      paymentBank = 'กสิกรไทย';
+      paymentAccountNo = '042-1-11388-2';
+      paymentBranch = 'ราชดำริ';
+    }
+
+    const base = {
+      legRef: refs[i],
+      transactionType: isSel ? 'buy_from_customer' : 'sell_to_customer',
+      counterpartyType: cust ? 'customer' : 'counterparty',
+      transactionStatus: p.status || 'draft',
+      inputTime: nowStr(),
+      tradeDate: gv(`tradeDate_${id}`),
+      settlementDate: gv(`settleDate_${id}`),
+      taxId: gv(`taxId_${id}`),
+      accountCode: gv(`acc_${id}`),
+      accountType: cust?.accountType || '',
+      fullName: gv(`name_${id}`),
+      ao: gv(`ao_${id}`),
+      notional: toN(gv(`not_${id}`)),
+      units: qty,
+      yield: toN(gv(`yld_${id}`)),
+      accruedInterest: accrued,
+      isTaxable: isTax,
+      whtRate: rate,
+      wht,
+      cleanPricePerUnit: toN(gv(`cU_${id}`)),
+      cleanPriceBaht: toN(gv(`cB_${id}`)),
+      cleanPricePct: toN(gv(`cPct_${id}`)),
+      grossAmount: gross,
+      grossPerUnit,
+      netAmount: net,
+      netAmountThai: net > 0 ? thaiBaht(net) : '',
+      paymentMethod,
+      paymentBank,
+      paymentAccountNo,
+      paymentAccountName,
+      paymentBranch,
+      additionalDocuments: isSel ? collectSellerDocuments(id) : [],
+    };
+
+    if (isSel) {
+      base.costPerUnit = toN(gv(`coU_${id}`));
+      base.costTotal = toN(gv(`coB_${id}`));
+      base.diffPerUnit = toN(gv(`difU_${id}`));
+      base.diffTotal = toN(gv(`difB_${id}`));
+    }
+    return base;
+  }
+
+  return {
+    dealRef: dr,
+    dealType: 'bond_deal',
+    dealStatus: deriveDealStatus(),
+    createdAt: nowStr(),
+    bond: bond ? {
+      symbol: bond.symbol,
+      isin: bond.isin,
+      bondName: bond.bondName,
+      par: bond.par,
+      couponRate: bond.couponRate,
+      couponFreq: bond.couponFreq,
+      maturityDate: bond.maturityDate,
+      nextCouponDate: bond.nextCouponDate,
+      issuer: bond.issuer,
+      rating: bond.rating,
+    } : null,
+    attachments: {
+      factSheet: !!$('upFactSheet')?.files?.[0],
+    },
+    totalSellerNotional: sellers.reduce((a, p) => a + toN(gv(`not_${p.id}`)), 0),
+    totalBuyerNotional: buyers.reduce((a, p) => a + toN(gv(`not_${p.id}`)), 0),
+    totalSellerNet: sellers.reduce((a, p) => a + toN(gt(`dNet_${p.id}`)), 0),
+    totalBuyerNet: buyers.reduce((a, p) => a + toN(gt(`dNet_${p.id}`)), 0),
+    sellerLegs: sellers.map((p, i) => pData(p, i, sR)),
+    buyerLegs: buyers.map((p, i) => pData(p, i, bR)),
+  };
+}
+
+$('saveBondDealBtn').addEventListener('click', () => {
+  if (currentRole !== 'fixed') {
+    alert('มุมมอง Settlement Team ไม่สามารถบันทึก Bond Deal ได้');
+    return;
+  }
+  if (!bondDealSaved) {
+    if (!validateBondDealBeforeSave()) return;
+    const yy = new Date().getFullYear().toString().slice(-2);
+    dealRef = `${yy}${String(runNo++).padStart(4, '0')}`;
+    bondDealSaved = true;
+    setBondInputsDisabled(true);
+    setStatusBadge('bond_saved');
+    refreshRefs();
+    console.log('Bond Deal Saved Payload', collectPayload());
+    alert(`บันทึก Bond Deal เรียบร้อย — สร้าง Bond Deal Ref: ${dealRef} แล้ว`);
+    return;
+  }
+
+  setStatusBadge(deriveDealStatus());
+  console.log('Bond Deal Draft Payload', collectPayload());
+  alert('อัปเดต Bond Deal เรียบร้อย');
+});
+
+$('saveDraftBtn').addEventListener('click', () => {
+  if (currentRole !== 'fixed') {
+    alert('มุมมอง Settlement Team ไม่สามารถบันทึก Draft ได้');
+    return;
+  }
+  if (!bondDealSaved) {
+    alert('กรุณาบันทึก Bond Deal ใน block Bond & Deal Info ก่อน');
+    return;
+  }
+  setStatusBadge(deriveDealStatus());
+  console.log('Save All Draft Payload', collectPayload());
+  alert('บันทึก Draft ทั้งหมดเรียบร้อย');
+});
+
+$('submitReviewBtn').addEventListener('click', () => {
+  if (currentRole !== 'fixed') {
+    alert('มุมมอง Settlement Team ไม่สามารถ Submit รายการได้');
+    return;
+  }
+  if (!bondDealSaved) {
+    alert('กรุณาบันทึก Bond Deal ก่อน Submit');
+    return;
+  }
+  if (!validateLegsBeforeSubmit()) return;
+  setAllLegStatus('pending_review');
+  const dealStatus = deriveDealStatus();
+  setStatusBadge(dealStatus);
+  console.log('Submit All Deal Payload', collectPayload());
+  alert('Submit ทุก Leg เรียบร้อย — รายการ transaction จะรอตรวจสอบเป็นราย transaction');
+});
+
+const SAMPLE_DEALS = {
+  '260001': {
+    status: 'bond_saved',
+    bondSymbol: 'CPALL26OA',
+    attachments: { factSheet: 'fact-sheet-cpall26oa.pdf' },
+    sellers: [
+      { taxId: '0111111111111', account: '111111-Y', tradeDate: '2026-03-18', settlementDate: '2026-03-20', qty: '5000', notional: '5000000.00', yield: '4.8500', gross: '5000000.00', paymentBank: '1112223334', status: 'completed', documents: [{ documentName: 'หนังสือยืนยันการถือครอง', fileName: 'holding-proof.pdf' }] }
+    ],
+    buyers: []
+  },
+  '260002': {
+    status: 'in_progress',
+    bondSymbol: 'PTT256A',
+    attachments: { factSheet: 'fact-sheet-ptt256a.pdf' },
+    sellers: [
+      { taxId: '0222222222222', account: '222222-N', tradeDate: '2026-03-18', settlementDate: '2026-03-20', qty: '8000', notional: '8000000.00', yield: '5.2000', gross: '8000000.00', paymentBank: '0294119566', status: 'completed', documents: [{ documentName: 'ใบแจ้งราคาขาย', fileName: 'seller-price-note.pdf' }] }
+    ],
+    buyers: [
+      { taxId: '0333333333333', account: '900001-Y', tradeDate: '2026-03-19', settlementDate: '2026-03-21', qty: '3000', notional: '3000000.00', yield: '5.3500', gross: '3000000.00', status: 'pending_review', paymentMethod: 'ATS' }
+    ]
+  },
+  '260003': {
+    status: 'completed',
+    bondSymbol: 'MQDC271B',
+    attachments: { factSheet: 'fact-sheet-mqdc271b.pdf' },
+    sellers: [
+      { taxId: '0333333333333', account: '333333-Y', tradeDate: '2026-03-18', settlementDate: '2026-03-20', qty: '4000', notional: '4000000.00', yield: '6.1000', gross: '4000000.00', paymentBank: '7778889990', status: 'completed', documents: [{ documentName: 'ใบยืนยันต้นทุน', fileName: 'cost-confirmation.pdf' }] }
+    ],
+    buyers: [
+      { taxId: '0111111111111', account: '900002-Y', tradeDate: '2026-03-18', settlementDate: '2026-03-20', qty: '4000', notional: '4000000.00', yield: '6.2500', gross: '4000000.00', status: 'completed', paymentMethod: 'ATS' }
+    ]
+  },
+  '260004': {
+    status: 'draft',
+    bondSymbol: 'TTA287A',
+    attachments: { factSheet: 'fact-sheet-tta287a.pdf' },
+    sellers: [
+      { taxId: '0222222222222', account: '444444-N', tradeDate: '2026-03-17', settlementDate: '2026-03-19', qty: '6000', notional: '6000000.00', yield: '5.1500', gross: '6000000.00', paymentBank: '0294119566', status: 'draft', documents: [] }
+    ],
+    buyers: [
+      { taxId: '0333333333333', account: '900003-Y', tradeDate: '2026-03-17', settlementDate: '2026-03-19', qty: '6000', notional: '6000000.00', yield: '5.3000', gross: '6000000.00', status: 'draft', paymentMethod: 'ATS' }
+    ]
+  },
+  '260005': {
+    status: 'partial_rejected',
+    bondSymbol: 'GULF285A',
+    attachments: { factSheet: 'fact-sheet-gulf285a.pdf' },
+    sellers: [
+      { taxId: '0111111111111', account: '555555-N', tradeDate: '2026-03-17', settlementDate: '2026-03-19', qty: '10000', notional: '10000000.00', yield: '4.9500', gross: '10000000.00', paymentBank: '1112223334', status: 'completed', documents: [{ documentName: 'ใบโอนหลักทรัพย์', fileName: 'transfer-slip.pdf' }] }
+    ],
+    buyers: [
+      { taxId: '0222222222222', account: '900004-Y', tradeDate: '2026-03-18', settlementDate: '2026-03-20', qty: '5000', notional: '5000000.00', yield: '5.1000', gross: '5000000.00', status: 'completed', paymentMethod: 'ATS' },
+      { taxId: '0333333333333', account: '900005-Y', tradeDate: '2026-03-18', settlementDate: '2026-03-20', qty: '5000', notional: '5000000.00', yield: '5.1000', gross: '5000000.00', status: 'rejected', paymentMethod: 'CashBalance' }
+    ]
+  },
+  '260006': {
+    status: 'in_progress',
+    bondSymbol: 'CPALL26OA',
+    attachments: { factSheet: 'fact-sheet-cpall26oa.pdf' },
+    sellers: [
+      { taxId: '0111111111111', account: '666666-Y', tradeDate: '2026-03-17', settlementDate: '2026-03-19', qty: '2000', notional: '2000000.00', yield: '4.7500', gross: '2000000.00', paymentBank: '1112223334', status: 'draft', documents: [{ documentName: 'หลักฐานราคาลูกค้า', fileName: 'price-note.pdf' }] }
+    ],
+    buyers: [
+      { taxId: '0222222222222', account: '900006-N', tradeDate: '2026-03-17', settlementDate: '2026-03-19', qty: '2000', notional: '2000000.00', yield: '4.9000', gross: '2000000.00', status: 'pending_review', paymentMethod: 'ATS' }
+    ]
+  },
+  '260007': {
+    status: 'in_progress',
+    bondSymbol: 'AQUA25NA',
+    attachments: { factSheet: 'fact-sheet-aqua25na.pdf' },
+    sellers: [
+      { taxId: '0111111111111', account: '777777-N', tradeDate: '2026-03-16', settlementDate: '2026-03-18', qty: '9000', notional: '9000000.00', yield: '6.7500', gross: '9000000.00', paymentBank: '1112223334', status: 'completed', documents: [{ documentName: 'หลักฐานราคาลูกค้า', fileName: 'seller-doc-1.pdf' }] }
+    ],
+    buyers: [
+      { taxId: '0222222222222', account: '900007-Y', tradeDate: '2026-03-19', settlementDate: '2026-03-21', qty: '2000', notional: '2000000.00', yield: '6.9000', gross: '2000000.00', status: 'pending_review', paymentMethod: 'ATS' },
+      { taxId: '0333333333333', account: '900008-Y', tradeDate: '2026-03-19', settlementDate: '2026-03-21', qty: '2000', notional: '2000000.00', yield: '6.9000', gross: '2000000.00', status: 'pending_review', paymentMethod: 'ATS' },
+      { taxId: '0111111111111', account: '900009-Y', tradeDate: '2026-03-20', settlementDate: '2026-03-22', qty: '2000', notional: '2000000.00', yield: '6.9000', gross: '2000000.00', status: 'draft', paymentMethod: 'CashBalance' }
+    ]
+  },
+  '260008': {
+    status: 'rejected',
+    bondSymbol: 'PTT256A',
+    attachments: { factSheet: 'fact-sheet-ptt256a.pdf' },
+    sellers: [
+      { taxId: '0222222222222', account: '888888-N', tradeDate: '2026-03-15', settlementDate: '2026-03-17', qty: '3000', notional: '3000000.00', yield: '5.2000', gross: '3000000.00', paymentBank: '0294119566', status: 'rejected', documents: [{ documentName: 'หนังสือรับรองราคา', fileName: 'seller-price-proof.pdf' }] }
+    ],
+    buyers: [
+      { taxId: '0333333333333', account: '900010-Y', tradeDate: '2026-03-15', settlementDate: '2026-03-17', qty: '3000', notional: '3000000.00', yield: '5.3500', gross: '3000000.00', status: 'rejected', paymentMethod: 'ATS' }
+    ]
+  }
+};
+
+function setMockAttachment(boxId, fnId, fileName) {
+  const box = $(boxId);
+  const fn = $(fnId);
+  if (!box || !fn || !fileName) return;
+  box.classList.add('has-file');
+  fn.textContent = '✅ ' + fileName;
+}
+
+function fillLegFromSample(id, side, leg) {
+  if (leg.taxId) $(`taxId_${id}`).value = leg.taxId;
+  if (leg.account) $(`acc_${id}`).value = leg.account;
+  if (leg.taxId || leg.account) doSearch(id, side);
+  if (leg.tradeDate) $(`tradeDate_${id}`).value = leg.tradeDate;
+  if (leg.settlementDate) $(`settleDate_${id}`).value = leg.settlementDate;
+  if (leg.qty) $(`qty_${id}`).value = leg.qty;
+  if (leg.notional) $(`not_${id}`).value = leg.notional;
+  if (leg.yield) $(`yld_${id}`).value = leg.yield;
+  if (leg.gross) $(`gross_${id}`).value = leg.gross;
+  if ($(`cB_${id}`)) $(`cB_${id}`).value = leg.gross || leg.notional || '';
+  if ($(`acc2_${id}`)) $(`acc2_${id}`).value = '0.00';
+  if (side === 'seller') {
+    if ($(`bank_${id}`) && leg.paymentBank) $(`bank_${id}`).value = leg.paymentBank;
+    clearSellerDocumentRows(id);
+    (leg.documents || []).forEach((doc, index) => {
+      if (index > 0) addSellerDocumentRow(id, { name: doc.documentName, fileName: doc.fileName });
+      else {
+        const firstDocId = $(`sellerDocList_${id}`)?.firstElementChild?.id?.replace('sellerDocItem_', '');
+        if (firstDocId) {
+          $(`sellerDocName_${firstDocId}`).value = doc.documentName || '';
+          if ($(`sellerDocBox_${firstDocId}`)) $(`sellerDocBox_${firstDocId}`).classList.add('has-file');
+          if ($(`sellerDocFileName_${firstDocId}`)) $(`sellerDocFileName_${firstDocId}`).textContent = doc.fileName ? '✅ ' + doc.fileName : '';
+        }
+      }
+    });
+  } else if (leg.paymentMethod) {
+    selectPayMethod(id, leg.paymentMethod);
+  }
+  const party = getPartyById(id);
+  if (party) {
+    party.status = leg.status || 'draft';
+    updateLegStatusBadge(id, party.status);
+  }
+  recalcParty(id, side);
+}
+
+function loadSampleDealIfNeeded() {
+  const match = window.location.pathname.match(/\/otc-deals\/(\d{6})\/?$/);
+  const sampleRef = match?.[1];
+  const sample = sampleRef ? SAMPLE_DEALS[sampleRef] : null;
+  if (!sample) return;
+
+  resetAll();
+  $('bondSymbol').value = sample.bondSymbol;
+  syncBond();
+  if (sample.attachments?.factSheet) setMockAttachment('atFactSheet', 'fnFactSheet', sample.attachments.factSheet);
+  dealRef = sampleRef;
+  bondDealSaved = true;
+  setBondInputsDisabled(true);
+  refreshRefs();
+
+  sample.sellers.forEach(leg => {
+    const id = addParty('seller');
+    fillLegFromSample(id, 'seller', leg);
+  });
+  sample.buyers.forEach(leg => {
+    const id = addParty('buyer');
+    fillLegFromSample(id, 'buyer', leg);
+  });
+
+  setStatusBadge(sample.status || deriveDealStatus());
+  refreshRefs();
+}
+
+// ─────────────────────────────────────────────────────────────────
+// 14. INIT
+// ─────────────────────────────────────────────────────────────────
+$('metaTime').textContent = nowStr();
+populateBonds();
+setBondInputsDisabled(false);
+setStatusBadge('draft');
+refreshRefs();
+loadSampleDealIfNeeded();
+applyRoleMode();
+
+</script>
+</body>
+</html>

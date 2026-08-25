@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bond Secondary Market - Wireframe Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand: #0055a5;
+            --bg: #f4f7fa;
+            --card: #ffffff;
+            --text: #1d2939;
+        }
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        h1 { color: var(--brand); margin-bottom: 8px; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        .section-card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e0e6ed;
+        }
+        .section-title {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--brand);
+            border-bottom: 2px solid #f0f4f8;
+            padding-bottom: 10px;
+        }
+        .link-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .link-item {
+            text-decoration: none;
+            color: #475467;
+            padding: 10px 14px;
+            border-radius: 8px;
+            background: #f9fafb;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+        .link-item:hover {
+            background: var(--brand);
+            color: white;
+            transform: translateX(5px);
+        }
+        .link-item::after {
+            content: '↗';
+            font-size: 12px;
+        }
+        .badge {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: #eaecf0;
+            color: #344054;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>🏢 Bond Secondary Market</h1>
+        <p>Wireframe Directory Hub (Internal Testing)</p>
+    </header>
+
+    <div class="grid">
+        
+        <div class="section-card">
+            <div class="section-title">🧭 Main Entry</div>
+            <div class="link-list">
+                <a href="wireframe/bond-secondary/otc-deals/index.html" target="_blank" class="link-item">
+                    OTC Deals List <span class="badge">Latest Spec</span>
+                </a>
+                <a href="wireframe/bond-secondary/otc-deals/create/index.html" target="_blank" class="link-item">
+                    สร้าง Deal<span class="badge">Latest Spec</span>
+                </a>
+                <a href="wireframe/bond-secondary/bonds/index.html" target="_blank" class="link-item">
+                    รายชื่อหุ้นกู้ทั้งหมด
+                </a>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <div class="section-title">🧾 PDF Template</div>
+            <div class="link-list">
+                <a href="wireframe/bond-secondary/templates/cost-confirmation/index.html" target="_blank" class="link-item">
+                    ใบยืนยันต้นทุน
+                </a>
+                <a href="wireframe/bond-secondary/templates/seller-order-confirmation/index.html" target="_blank" class="link-item">
+                    ใบยืนยันคำสั่งซื้อขาย <span class="badge">ผู้ขาย / Seller</span>
+                </a>
+                <a href="wireframe/bond-secondary/templates/buyer-order-confirmation/index.html" target="_blank" class="link-item">
+                    ใบยืนยันคำสั่งซื้อขาย <span class="badge">ผู้ซื้อ / Buyer</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <div class="section-title">💰 Cost Reports</div>
+            <div class="link-list">
+                <a href="wireframe/bond-secondary/report/cost-wht/index.html" target="_blank" class="link-item">
+                    หนังสือยืนยันต้นทุน <span class="badge">WHT 15%</span>
+                </a>
+                <a href="wireframe/bond-secondary/report/cost-no-wht/index.html" target="_blank" class="link-item">
+                    หนังสือยืนยันต้นทุน <span class="badge">No WHT</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <div class="section-title">🤝 Seller Confirmation</div>
+            <div class="link-list">
+                <a href="wireframe/bond-secondary/report/confirm-sell-wht/index.html" target="_blank" class="link-item">
+                    ใบยืนยันคำสั่งขาย <span class="badge">WHT</span>
+                </a>
+                <a href="wireframe/bond-secondary/report/confirm-sell-no-wht/index.html" target="_blank" class="link-item">
+                    ใบยืนยันคำสั่งขาย <span class="badge">No WHT</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <div class="section-title">🛒 Buyer Confirmation</div>
+            <div class="link-list">
+                <a href="wireframe/bond-secondary/report/confirm-buy-wht/index.html" target="_blank" class="link-item">
+                    ใบยืนยันคำสั่งซื้อ <span class="badge">WHT</span>
+                </a>
+                <a href="wireframe/bond-secondary/report/confirm-buy-no-wht/index.html" target="_blank" class="link-item">
+                    ใบยืนยันคำสั่งซื้อ <span class="badge">No WHT</span>
+                </a>
+            </div>
+        </div>
+
+        
+    </div>
+</div>
+
+</body>
+</html>

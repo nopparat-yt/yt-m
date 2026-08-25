@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template - Buyer Order Confirmation | Bond Secondary</title>
+    <meta property="og:title" content="Template - Buyer Order Confirmation | Bond Secondary" />
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <style>
+      @page {
+        size: A4 landscape;
+        margin: 0;
+      }
+
+      body {
+        background-color: #f0f0f0;
+        font-family: "Browallia New", sans-serif;
+        margin: 0;
+        padding: 20px;
+        font-size: 10.3pt;
+        color: #000;
+        line-height: 1.1;
+      }
+
+      .page-container {
+        width: 297mm;
+        height: 210mm;
+        background-color: #fff;
+        margin: 0 auto;
+        padding: 0.5in;
+        box-sizing: border-box;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Header Section */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 3px;
+      }
+
+      .company-info img {
+        height: 35px;
+        margin-bottom: 2px;
+      }
+
+      .company-details {
+        font-size: 7pt;
+        color: #0055a5;
+        line-height: 13px;
+      }
+
+      .doc-title {
+        text-align: right;
+        font-family: "Tahoma", sans-serif;
+        font-size: 10.3pt;
+        font-weight: bold;
+        font-weight: bold;
+      }
+
+      /* Buyer Section */
+      .buyer-section {
+        border-top: 3px solid #666;
+        margin-bottom: 3px;
+      }
+      .buyer-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 10.3pt;
+        border: none !important;
+        table-layout: auto;
+      }
+
+      .buyer-table td {
+        padding-right: 2px;
+        vertical-align: top;
+        border: none !important;
+        text-align: left !important;
+      }
+
+      .buyer-table .label {
+        font-weight: bold;
+        white-space: nowrap;
+        width: 1%;
+      }
+
+      .buyer-table .red {
+        color: #c00000;
+        font-weight: bold;
+      }
+
+      .buyer-table .underline {
+        text-decoration: underline;
+      }
+
+      .buyer-table td.address {
+        vertical-align: top !important;
+        text-align: left !important;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        
+        min-height: 36px;
+        height: 36px; 
+        line-height: 18px;
+        padding-top: 0;
+        padding-bottom: 0;
+        
+        position: relative; 
+      }
+
+      /* วาดเส้นใต้บรรทัดที่ 1 ด้วย Border */
+      .buyer-table td.address::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 17px; /* ระยะความสูงของบรรทัดแรก */
+        border-bottom: 1px solid #000;
+      }
+
+      /* วาดเส้นใต้บรรทัดที่ 2 ด้วย Border */
+      .buyer-table td.address::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 35px; /* ระยะความสูงของบรรทัดที่สอง */
+        border-bottom: 1px solid #000;
+      }
+
+      .buyer-table .tax-inline span:first-child {
+        font-weight: bold;
+        margin-right: 6px;
+      }
+
+      /* Tables */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 5px;
+        table-layout: fixed;
+      }
+
+      th,
+      td {
+        border: 1px solid #000;
+        padding: 1.5px;
+        text-align: center;
+        vertical-align: middle;
+      }
+
+      th {
+        background-color: #fff;
+        font-weight: bold;
+        height: 35px;
+      }
+
+      .text-left {
+        text-align: left;
+      }
+      .text-right {
+        text-align: right;
+        padding-right: 5px;
+      }
+
+      .text-center {
+        text-align: center;
+      }
+
+      .font-12 {
+        font-size: 12pt;
+      }
+
+      .table-border-none,
+      .table-border-none td,
+      .table-border-none th {
+        border: none !important;
+      }
+
+      /* Summary Section */
+      .summary-row {
+        display: flex;
+        border: 1px solid #000;
+        padding: 8px 15px;
+        margin-bottom: 15px;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .baht-text {
+        text-align: center;
+        flex-grow: 1;
+        font-weight: bold;
+      }
+
+      .total-amount {
+        font-size: 14pt;
+        font-weight: bold;
+      }
+
+      /* --- Disclaimer & Payment (Split Borders) --- */
+      .bottom-container {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 2px;
+      }
+
+      .disclaimer {
+        flex: 7;
+        font-size: 8pt;
+        border: 1px solid #000;
+        padding: 8px;
+        border-radius: 4px;
+      }
+
+      .disclaimer ul {
+        padding-left: 12px;
+        margin: 0;
+      }
+      .disclaimer li {
+        margin-bottom: 1px;
+      }
+
+      .payment-info {
+        flex: 3;
+        border: 1px solid #000;
+        padding: 5px;
+        border-radius: 4px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+
+      .payment-info table {
+        border: none;
+        font-size: 10.3pt;
+        border-collapse: collapse;
+        table-layout: auto;
+      }
+
+      .payment-info td {
+        border: none !important;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      .payment-info td.td-dashed {
+        border-bottom: 1px dashed #999 !important;
+        padding-bottom: 0.5px;
+      }
+
+      .payment-info .label {
+        white-space: nowrap;
+        width: 1%;
+        padding-right: 8px;
+      }
+
+      .payment-info .value {
+        white-space: nowrap;
+        font-size: 10.3pt;
+      }
+
+      /* Footer / Signatures */
+      .footer {
+        margin-top: 15px;
+      }
+
+      .signatures {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 25px;
+        padding: 0 50px;
+      }
+
+      .sig-block {
+        text-align: center;
+        width: 300px;
+      }
+
+      .sig-line {
+        border-bottom: 1px dotted #000;
+        height: 20px;
+        margin-bottom: 5px;
+      }
+
+      /* Utility */
+      .intro-text {
+        margin-bottom: 3px;
+      }
+
+      /* Media Query For Print */
+      @media print {
+        * {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+        body {
+          background-color: #fff;
+          padding: 0;
+        }
+        .page-container {
+          box-shadow: none;
+          margin: 0;
+          width: 100%;
+          height: 100%;
+          padding: 10mm;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-container">
+      <header>
+        <div class="company-info">
+          <img src="https://www.yuanta.co.th/cms/uploads/Logo_aa5fd5a665.svg" alt="Yuanta Securities Logo" />
+          <div class="company-details">
+            <b>Yuanta Securities (Thailand) Company Limited</b><br />
+            Gaysorn Tower, 14th-16th Floor, 127, Ratchadamri Road, Lumpini, Pathumwan, Bangkok 10330 Tel.+66 2009 8888 Fax : +66 2009 8889<br />
+            <b>บริษัทหลักทรัพย์ หยวนต้า (ประเทศไทย) จำกัด</b><br />
+            อาคารเกษร ทาวเวอร์ ชั้น 14-16 เลขที่ 127 ถนนราชดำริ แขวงลุมพินี เขตปทุมวัน กรุงเทพฯ 10330 โทร. 0-2009-8888 แฟกซ์ : 0-2009-8889<br />
+            เลขทะเบียนบริษัท/เลขประจำตัวผู้เสียภาษีอากร 0105541067072
+          </div>
+        </div>
+        <div class="doc-title">ใบยืนยันคำสั่งซื้อขายหุ้นกู้ / Order Confirmation</div>
+      </header>
+
+      <div class="buyer-section">
+        <table class="buyer-table">
+          <colgroup>
+            <col style="width: 110px" />
+            <!-- label -->
+            <col style="width: 200px" />
+            <!-- value -->
+            <col style="width: 90px" />
+            <!-- label -->
+            <col style="width: 330px" />
+            <!-- address -->
+            <col style="width: 120px" />
+            <!-- label -->
+            <col style="width: 150px" />
+            <!-- value -->
+            <col style="width: 90px" />
+            <!-- label -->
+            <col style="width: 120px" />
+            <!-- value -->
+          </colgroup>
+
+          <tbody>
+            <!-- Row 1 -->
+            <tr style="">
+              <td class="label" style="padding-top: 5px">ผู้ซื้อ / Buyer</td>
+              <td colspan="7" style="padding-top: 5px">{{FullName}} ({{AccountCode}})</td>
+            </tr>
+
+            <!-- Row 2 -->
+            <tr>
+              <td class="label">เรียน/ATTN.</td>
+              <td>{{FullName}}</td>
+
+              <td rowspan="2" class="label" style="padding-right: 5px">ที่อยู่</td>
+              <td rowspan="2" class="address">{{Address}}</td>
+
+              <td class="label" style="padding-left: 10px;">ผู้ดูแลบัญชี/AO.</td>
+              <td>{{MktName}}</td>
+
+              <td class="label">Reference</td>
+              <td>{{RefNo}} ({{WealthStatus}})</td>
+            </tr>
+
+            <!-- Row 3 -->
+            <tr>
+              <td class="label">โทรศัพท์/TEL.</td>
+              <td>{{Phone}}</td>
+
+              <td class="label" style="padding-left: 10px;">โทรศัพท์/TEL.</td>
+              <td>{{MktPhone}}</td>
+
+              <td class="label">Input Time:</td>
+              <td>{{DocumentDate}}</td>
+            </tr>
+
+            <!-- Row 4 -->
+            <tr>
+              <td class="label">E-mail</td>
+              <td>{{Email}}</td>
+
+              <td></td>
+
+              <td class="tax-inline">
+                <span>เลขประจำตัวผู้เสียภาษี</span>
+                <span>{{TaxId}}</span>
+              </td>
+
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="intro-text">บริษัทหลักทรัพย์ หยวนต้า (ประเทศไทย) จำกัด ยืนยันรายการซื้อ/ขาย หุ้นกู้ตามรายละเอียด ดังต่อไปนี้ We confirm our trade details as follows.</div>
+
+      <table>
+        <thead>
+          <tr>
+            <th width="9%">Symbol</th>
+            <th width="46%">Description</th>
+
+            <th width="7%">ISIN</th>
+            <th width="6.5%">Issuer Rating</th>
+
+            <th width="10%">
+              <div>วันที่ซื้อ/ขาย<br />Trade Date</div>
+            </th>
+            <th width="12.5%">
+              <div>วันที่ครบกำหนดชำระเงิน<br />Settlement Date</div>
+            </th>
+            <th width="9%">
+              <div>วันถึงกำหนด<br />Maturity Date</div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-center">{{Symbol}}</td>
+            <td class="text-center">{{BondName}}</td>
+            <td class="text-center">{{ISIN}}</td>
+            <td class="text-center">{{IssuerRating}}</td>
+            <td class="text-center">{{TradeDate}}</td>
+            <td class="text-center">{{SettlementDate}}</td>
+            <td class="text-center">{{MaturityDate}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table>
+        <thead>
+          <tr>
+            <th width="9%">Symbol</th>
+            <th width="12%">Par<br />(Baht)</th>
+            <th width="12%">Quantity<br />(Units)</th>
+            <th width="10%">Coupon Rate (%)</th>
+            <th width="10%">Yield-to-maturity (%)</th>
+
+            <th width="14%">Clean Price<br />(Baht)</th>
+
+            <th width="10%">Accrued Interest<br />(Baht)</th>
+            <th width="12%">W/H Tax Amount<br />(Baht)</th>
+            <th width="9%">Settlement Amount<br />(Baht)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-center">{{Symbol}}</td>
+            <td class="text-center">{{BondPar}}</td>
+            <td class="text-center">{{Quantity}}</td>
+            <td class="text-center">{{BondCouponRate}}%</td>
+            <td class="text-center">{{Yield}}%</td>
+            <td class="text-right">{{CleanPrice}}</td>
+            <td class="text-right">{{AccruedInterest}}</td>
+            <td class="text-right">{{WHTTaxAmount}}</td>
+            <td class="text-right">{{SettleAmount}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table style="margin-bottom: 0px !important">
+        <tbody>
+          <tr>
+            <td width="21%" class="text-left">ลูกค้ารับ/จ่าย สุทธิ<br />Net Received/Paid Amount (Baht)</td>
+            <td class="text-center font-12">{{SettleAmountLabel}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table class="table-border-none font-12" style="margin-bottom: 0px !important">
+        <tbody>
+          <tr>
+            <td width="82%" class="text-right">จำนวนเงิน</td>
+            <td width="15%" class="total-amount text-right">{{SettleAmount}}</td>
+            <td width="3%">บาท</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="bottom-container">
+        <div class="disclaimer">
+          <u>ก่อนตัดสินใจลงทุน ข้าพเจ้า ได้ศึกษาข้อมูลต่างๆ และรับทราบซึ่งความเสี่ยงดังต่อไปนี้แล้ว</u>
+          <ul>
+            <li>
+              ข้าพเจ้าได้ศึกษาข้อมูลต่างๆ ตามที่ควร ซึ่งรวมถึงรายละเอียดข้อมูลและการเปิดเผยความเสี่ยงใน Term sheet เป็นอย่างดีแล้ว ข้าพเจ้าตกลงยินยอมที่จะผูกพันตนเองตามข้อกำหนดและเงื่อนไขทุกประการ
+              ข้าพเจ้าได้ตัดสินใจในการลงทุนในหุ้นกู้ด้วยตนเอง โดยไม่มีผู้ใดหรือเจ้าหน้าที่ใดชี้ชวนหรือชักจูง เพื่อให้ลงทุนในหุ้นกู้ดังกล่าว
+            </li>
+            <li>หุ้นกู้ดังกล่าวข้างต้นและผู้ออกหุ้นกู้ อาจไม่ได้รับการจัดอันดับความน่าเชื่อถือ อีกทั้งผู้ออกหุ้นกู้อาจไม่ได้เป็นบริษัทจดทะเบียนในตลาดหลักทรัพย์แห่งประเทศไทย</li>
+            <li>การลงทุนในหุ้นกู้ดังกล่าวมีความเสี่ยงทางด้านความผันผวนทางตลาด (market fluctuation) และความเสี่ยงทางด้านเครดิต</li>
+            <li>หุ้นกู้ดังกล่าวอาจไม่มีตลาดรองที่มีสภาพคล่องในการซื้อขาย และบริษัทฯไม่มีหน้าที่ในการสร้างตลาดรอง</li>
+            <li>บริษัทฯไม่ได้รับประกันการชำระหนี้ตามหุ้นกู้นี้ และไม่ได้รับผิดชอบในความเสียหายใดๆ ในการซื้อขายหุ้นกู้นี้</li>
+            <li>
+              บริษัทฯ ในฐานะผู้ค้าจะดำเนินการสลักหลังหุ้นกู้ โดยจำกัดความรับผิดชอบของตนเอง (endorse without recourse) และส่งมอบให้แก่ผู้ลงทุน ดังนั้น ผู้ลงทุนจะไม่มีสิทธิไล่เบี้ยใดๆ
+              ตามหุ้นกู้กับทางบริษัทฯ
+            </li>
+            <li>
+              ข้าพเจ้าได้ทราบถึงความเสี่ยงของหุ้นกู้แล้ว ทั้งนี้ หากหุ้นกู้ที่ข้าพเจ้าซื้อมีระดับความเสี่ยงสูงกว่าระดับความเสี่ยงตามแบบประเมินที่ยอมรับได้ของผู้ลงทุน(Suitability test)
+              ที่ข้าพเจ้ามีไว้ล่าสุด ข้าพเจ้ายังคงมีความประสงค์จะลงทุนในหุ้นกู้ต่อไป
+            </li>
+          </ul>
+        </div>
+
+        <div class="payment-info">
+          <div style="font-weight: bold">รายละเอียดการชำระเงิน</div>
+
+          <table>
+            <!-- ชื่อบัญชี: ไม่มีเส้นปะใต้ค่า -->
+            <tr>
+              <td class="label">ชื่อบัญชี</td>
+              <td class="value td-dashed" colspan="3">บริษัทหลักทรัพย์ หยวนต้า (ประเทศไทย) จำกัด</td>
+            </tr>
+
+            <!-- ธนาคาร/สาขา: มีเส้นปะ -->
+            <tr>
+              <td class="label">ธนาคาร</td>
+              <td class="value td-dashed">กสิกรไทย</td>
+              <td class="label">สาขา</td>
+              <td class="value td-dashed">ราชดำริ</td>
+            </tr>
+
+            <!-- เลขที่บัญชี: มีเส้นปะ -->
+            <tr>
+              <td class="label">เลขที่บัญชี</td>
+              <td colspan="3" class="value td-dashed" style="font-size: 10pt !important">042-1-11388-2</td>
+            </tr>
+
+            <!-- Remark: มีเส้นปะ -->
+            <tr>
+              <td class="label">Remark :</td>
+              <td colspan="3" class="value td-dashed">ตัด ATS เข้าบัญชีตามรายละเอียดการชำระเงิน</td>
+            </tr>
+
+            <tr>
+              <td class="label" colspan="4">รายละเอียดการส่งมอบ / รับมอบหุ้นกู้</td>
+            </tr>
+
+            <tr>
+              <td class="td-dashed" colspan="4">PTI No.: 019-00000000-29 Brokerage Account No. {{AccountCode}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div style="font-size: 9pt">
+        ข้าพเจ้ายอมรับความเสี่ยงดังกล่าวข้างต้น ขอรับรองและยืนยันรายการซื้อขายข้างต้นเป็นรายการที่ถูกต้อง และมีหน้าที่ตรวจ
+        <span style="text-decoration: underline">การรับหุ้นกู้</span> กรณีที่ข้าพเจ้ามิได้รับหุ้นกู้ ข้าพเจ้าจะแจ้งให้บริษัทฯ ทราบทันทีหรืออย่างช้าไม่เกิน 3 วันหลังจากวันชำระราคารายการซื้อขาย
+      </div>
+
+      <div class="footer">
+        <div style="text-align: right; display: flex; justify-content: flex-end; padding-right: 75px">บริษัทฯ ขอยืนยันการซื้อ / ขาย หุ้นกู้ตามรายงานข้างต้น</div>
+
+        <div class="signatures">
+          <div class="sig-block">
+            <div class="sig-line"></div>
+            <div>ลายเซ็นลูกค้า</div>
+            <div>Customer's Signature</div>
+          </div>
+          <div class="sig-block">
+            <div class="sig-line"></div>
+            <div>ผู้มีอำนาจลงนามแทน บริษัทหลักทรัพย์ หยวนต้า (ประเทศไทย) จำกัด</div>
+            <div>Authorized Signature (s)</div>
+          </div>
+        </div>
+        <div style="text-align: left; padding-left: 37px; margin-top: 5px; font-size: 9pt">(กรุณาลงนามและประทับตราบริษัทฯ เพื่อส่งกลับ บริษัทหลักทรัพย์ หยวนต้า (ประเทศไทย) จำกัด)</div>
+      </div>
+    </div>
+
+  </body>
+</html>

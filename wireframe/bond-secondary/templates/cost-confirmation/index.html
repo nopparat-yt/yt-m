@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template - Cost Confirmation | Bond Secondary</title>
+    <meta property="og:title" content="Template - Cost Confirmation | Bond Secondary" />
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        background-color: #d0d0d0;
+        font-family: "Tahoma", sans-serif;
+        font-size: 9pt;
+        padding: 30px;
+        display: flex;
+        justify-content: center;
+        line-height: 2;
+      }
+
+      .a4-page {
+        background-color: white;
+        width: 210mm;
+        min-height: 297mm;
+        padding: 18mm 25mm 18mm 25mm;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+        position: relative;
+        color: #000;
+      }
+
+      /* ===== LOGO ===== */
+      .header-logo {
+        margin-bottom: 4px;
+      }
+      .header-logo img {
+        height: 48px;
+        width: auto;
+      }
+
+      /* ===== TITLE ===== */
+      .doc-title {
+        text-align: center;
+        font-weight: bold;
+        font-size: 12pt;
+        color: #1F4E79;
+        margin-bottom: 16px;
+        margin-top: 15px;
+      }
+
+      /* ===== DATE ===== */
+      .date-section {
+        text-align: right;
+        font-size: 9pt;
+        margin-bottom: 20px;
+      }
+      .highlight {
+      }
+
+      /* ===== BODY TEXT ===== */
+      .para {
+        font-size: 9pt;
+        margin-bottom: 6px;
+        line-height: 2;
+      }
+      .para-indent {
+        font-size: 9pt;
+        margin-bottom: 6px;
+        line-height: 2;
+        text-indent: 36pt;
+      }
+
+      .to-section {
+        margin-bottom: 10px;
+      }
+      .to-line {
+        display: flex;
+        font-size: 9pt;
+        line-height: 2;
+      }
+      .to-label {
+        min-width: 36pt;
+      }
+      .to-indent {
+        padding-left: 36pt;
+        font-size: 9pt;
+        line-height: 2;
+      }
+
+      /* Name with dotted underline */
+      .name-underline {
+        text-decoration: underline;
+        text-decoration-style: dotted;
+        text-underline-offset: 3px;
+      }
+      .name-underline-highlight {
+        text-decoration: underline;
+        text-decoration-style: dotted;
+        text-underline-offset: 3px;
+      }
+
+      /* Security name bold+highlight */
+      .bond-name {
+        font-size: 9pt;
+      }
+
+      /* ===== DATA TABLE ===== */
+      .data-table {
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-collapse: collapse;
+        font-size: 9pt;
+      }
+      .data-table th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+        border: 1px solid #999;
+        padding: 7px 10px;
+        text-align: left;
+        font-size: 9pt;
+        line-height: 1.4;
+      }
+      .data-table th.val-col {
+        text-align: right;
+        white-space: nowrap;
+      }
+      .data-table td {
+        border: 1px solid #999;
+        padding: 7px 10px;
+        font-size: 9pt;
+        vertical-align: top;
+        line-height: 1.4;
+      }
+      .data-table td.val-col {
+        text-align: right;
+        white-space: nowrap;
+        font-weight: normal;
+      }
+      .data-table .label-col {
+        font-weight: bold;
+        width: 60%;
+      }
+      .data-table .val-col {
+        width: 40%;
+        font-weight: bold;
+        color: #000;
+      }
+      /* ticker symbol large bold */
+      .ticker {
+        font-size: 9pt;
+        font-weight: bold;
+      }
+
+      /* ===== BODY PARAGRAPH (lower section) ===== */
+      .body-text {
+        font-size: 9pt;
+        line-height: 2;
+        text-indent: 36pt;
+        margin-bottom: 6px;
+        margin-top: 25px;
+      }
+
+      /* ===== SIGNATURE SECTION ===== */
+      .signature-section {
+        margin-top: 40px;
+        text-align: center;
+        font-size: 9pt;
+        /* เพิ่ม margin-left auto และกำหนดความกว้างให้ผลักไปชิดขวา */
+        width: 320px;
+        margin-left: auto; 
+      }
+      .sig-line-row {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        gap: 10px;
+        margin-bottom: 4px;
+      }
+      .sig-label {
+        white-space: nowrap;
+      }
+      .sig-dots {
+        flex: 0 0 160px;
+        border-bottom: 1px dotted #555;
+        margin-bottom: 4px;
+      }
+      .sig-name {
+        font-size: 9pt;
+        margin-top: 4px;
+      }
+
+      /* ===== REFERENCE (Footer) ===== */
+      .reference {
+        /* ปรับเป็น absolute ชิดขอบล่างของกล่อง A4 */
+        position: absolute;
+        bottom: 18mm; 
+        left: 25mm;
+        font-size: 9pt;
+      }
+
+      @media print {
+        @page { margin: 0; size: A4; }
+        body { background-color: white; padding: 0; }
+        .a4-page { box-shadow: none; width: 100%; min-height: 100vh; }
+        /* ซ่อนสิ่งที่ไม่จำเป็นตอนปรินต์ถ้ามี */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="a4-page">
+
+      <div class="header-logo">
+        <img src="https://www.yuanta.co.th/cms/uploads/Logo_aa5fd5a665.svg" alt="Yuanta Securities Logo" />
+      </div>
+
+      <div class="doc-title">หนังสือยืนยันราคาต้นทุน</div>
+
+      <div class="date-section">
+        <span class="highlight">{{DocumentDate}}</span>
+      </div>
+
+      <div class="to-section">
+        <div class="to-line">
+          <span class="to-label">เรียน</span>
+          <span>กรรมการผู้จัดการ</span>
+        </div>
+        <div class="to-indent">บริษัทหลักทรัพย์ หยวนต้า (ประเทศไทย) จำกัด</div>
+      </div>
+
+      <div class="para-indent" style="margin-top:20px;">
+        ข้าพเจ้า <span class="name-underline-highlight">{{FullName}}</span><span class="name-underline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>ขอแจ้งข้อมูลและยืนยันราคาต้นทุนของหลักทรัพย์ที่เสนอขายดังนี้
+      </div>
+
+      <div class="para" style="margin-top:8px;">
+        ชื่อหลักทรัพย์ : <span class="bond-name">{{BondName}} ({{Symbol}})</span>
+      </div>
+
+      <table class="data-table" style="margin-top:12px;">
+        <tbody>
+          <tr>
+            <td class="label-col" style="border-bottom: 2px solid #999;">ชื่อย่อหลักทรัพย์/ ตราสารหนี้</td>
+            <td class="val-col" style="border-bottom: 2px solid #999;"><span class="ticker">{{Symbol}}</span></td>
+          </tr>
+          <tr>
+            <td class="label-col">จำนวนหุ้น/ หน่วย</td>
+            <td class="val-col">{{Quantity}}</td>
+          </tr>
+          <tr>
+            <td class="label-col">ราคาขายต่อหุ้น/ หน่วย (บาท)</td>
+            <td class="val-col">{{SellPricePerUnit}}</td>
+          </tr>
+          <tr>
+            <td class="label-col">มูลค่าเสนอขาย</td>
+            <td class="val-col">{{SellTotalAmount}}</td>
+          </tr>
+          <tr>
+            <td class="label-col">ราคาต้นทุนต่อหุ้น/ หน่วย (บาท)</td>
+            <td class="val-col">{{CostPricePerUnit}}</td>
+          </tr>
+          <tr>
+            <td class="label-col">มูลค่าต้นทุน</td>
+            <td class="val-col">{{CostTotalAmount}}</td>
+          </tr>
+          <tr>
+            <td class="label-col">ส่วนต่างมูลค่าขายกับมูลค่าต้นทุน (บาท)</td>
+            <td class="val-col">{{TotalDiffAmount}}</td>
+          </tr>
+          <tr>
+            <td class="label-col">ภาษีหัก ณ ที่จ่าย (บาท)</td>
+            <td class="val-col">{{WHTTaxAmount}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="body-text">
+        ข้าพเจ้ารับทราบและยอมรับว่าการแจ้งต้นทุนของหลักทรัพย์ที่นำมาเสนอขายกับ บริษัทหลักทรัพย์ หยวนต้า (ประเทศไทย) จำกัด จะมีผลผูกพันกับข้าพเจ้าทุกประการ ดังนั้นหากเกิดความเสียหายประการใด ๆ ต่อข้าพเจ้าอันเนื่องมาจากการแจ้งต้นทุนของหลักทรัพย์ที่นำมาเสนอขายในครั้งนี้  บริษัท ไม่ต้องรับผิดชอบใด ๆ  แก่ข้าพเจ้า และข้าพเจ้าขอรับรองว่า ข้อมูลดังกล่าวข้างต้นถูกต้องตรงตามความเป็นจริงทุกประการ
+      </div>
+
+      <div class="signature-section" style="margin-top:50px;">
+        <div class="sig-line-row">
+          <span class="sig-label">ลงชื่อ</span>
+          <span class="sig-dots"></span>
+          <span class="sig-label">ผู้เสนอขาย</span>
+        </div>
+        <div class="sig-name">( <span class="highlight">{{FullName}}</span> )</div>
+      </div>
+
+      <div class="reference">
+        Reference: <span class="highlight">{{RefNo}}</span>
+      </div>
+
+    </div>
+  </body>
+</html>

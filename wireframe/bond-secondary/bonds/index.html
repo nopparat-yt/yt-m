@@ -1,0 +1,1067 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Wireframe - Bond Master List | Bond Secondary</title>
+<meta property="og:title" content="Wireframe - Bond Master List | Bond Secondary" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+
+    <style>
+      :root {
+        --bg: #f8f9fa;
+        --card: #ffffff;
+        --ink: #1d2939;
+        --muted: #475467;
+        --line: #eaecf0;
+        --brand: #0055a5;
+        --danger: #d92d20;
+        --ok: #039855;
+        --warn: #f79009;
+        --excel: #007f3e;
+        --shadow: 0 4px 12px rgba(16, 24, 40, 0.05);
+        --radius: 12px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: "Sarabun", sans-serif;
+        color: var(--ink);
+        background: var(--bg);
+        font-size: 14px;
+        scroll-behavior: smooth;
+      }
+      .app {
+        max-width: 1536px;
+        margin: 32px auto;
+        padding: 0 20px 60px;
+      }
+
+      .mi {
+        font-family: "Material Icons Round";
+        font-style: normal;
+        font-size: 18px;
+        line-height: 1;
+        display: inline-flex;
+        align-items: center;
+        vertical-align: middle;
+      }
+      .mi.xs {
+        font-size: 16px;
+      }
+
+      .topbar {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+      .title h1 {
+        font-size: 24px;
+        margin: 0;
+        font-weight: 600;
+        color: var(--brand);
+      }
+      .title .sub {
+        font-size: 14px;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+
+      .btn {
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--ink);
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        transition: all 0.2s;
+        white-space: nowrap;
+        text-decoration: none;
+      }
+      .btn:hover {
+        background: #f9fafb;
+        border-color: #98a2b3;
+      }
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        background: #f2f4f7;
+      }
+      .btn.primary {
+        background: var(--brand);
+        border-color: var(--brand);
+        color: #fff;
+      }
+      .btn.primary:hover {
+        background: #004385;
+        border-color: #004385;
+      }
+      .btn.excel {
+        background: #ecfdf3;
+        border-color: #abefc6;
+        color: var(--excel);
+      }
+      .btn.excel:hover {
+        background: #d1fadf;
+        border-color: #75e0a7;
+      }
+      .btn.btn-sm {
+        padding: 6px 10px;
+        font-size: 13px;
+        border-radius: 6px;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        margin-bottom: 24px;
+      }
+      .card .bd {
+        padding: 20px;
+      }
+
+      #bondFormCard {
+        display: none;
+        border-top: 4px solid var(--warn);
+      }
+      #bondFormCard.is-edit {
+        border-top-color: var(--brand);
+      }
+      .form-header {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 12px;
+      }
+
+      .row {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 16px 12px;
+        align-items: start;
+        margin-bottom: 12px;
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        flex: 1;
+      }
+      .field label {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .req::after {
+        content: " *";
+        color: var(--danger);
+        font-weight: 700;
+      }
+      input,
+      select {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-family: inherit;
+        font-size: 14px;
+        outline: none;
+        transition: all 0.2s;
+      }
+      input:focus,
+      select:focus {
+        border-color: var(--brand);
+        box-shadow: 0 0 0 3px rgba(0, 85, 165, 0.15);
+      }
+      .hint {
+        font-size: 11.5px;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+
+      .table-responsive {
+        overflow-x: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+      }
+      th {
+        background: #fcfcfd;
+        padding: 12px 16px;
+        font-weight: 600;
+        font-size: 13px;
+        color: var(--muted);
+        border-bottom: 1px solid var(--line);
+        border-top: 1px solid var(--line);
+        white-space: nowrap;
+      }
+      td {
+        padding: 16px;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+      }
+      tr:hover {
+        background: #f9fafb;
+      }
+
+      .td-symbol {
+        font-weight: 600;
+        color: var(--brand);
+        font-size: 15px;
+        display: block;
+      }
+      .td-isin {
+        color: var(--muted);
+        font-size: 13px;
+        font-family: monospace;
+      }
+      .td-name {
+        font-weight: 500;
+        color: var(--ink);
+        line-height: 1.4;
+        display: block;
+      }
+      .td-issuer {
+        color: var(--muted);
+        font-size: 12.5px;
+      }
+
+      .rating-badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 4px;
+        background: #f2f4f7;
+        border: 1px solid #d0d5dd;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+      .date-label {
+        font-size: 11px;
+        color: var(--muted);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+      }
+
+      .status {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .status.active {
+        background: #ecfdf3;
+        color: #027a48;
+        border: 1px solid #abefc6;
+      }
+      .status.matured {
+        background: #fef3f2;
+        color: #b42318;
+        border: 1px solid #fecdca;
+      }
+
+      /* Pagination Styles */
+      .pagination {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 16px;
+        border-top: 1px solid var(--line);
+        margin-top: 8px;
+        font-size: 13px;
+        color: var(--muted);
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .page-controls {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+      }
+      .page-info-group {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .page-size-select {
+        padding: 4px 8px;
+        border-radius: 6px;
+        border: 1px solid var(--line);
+        font-size: 13px;
+        outline: none;
+        cursor: pointer;
+      }
+
+      .col-12 {
+        grid-column: span 12;
+      }
+      @media (min-width: 768px) {
+        .col-md-6 {
+          grid-column: span 6;
+        }
+        .col-md-4 {
+          grid-column: span 4;
+        }
+        .col-md-3 {
+          grid-column: span 3;
+        }
+        .col-md-2 {
+          grid-column: span 2;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="app">
+      <div class="topbar">
+        <div class="title">
+          <h1>จัดการข้อมูลหุ้นกู้ (Bond Master)</h1>
+          <div class="sub">ฐานข้อมูลหุ้นกู้สำหรับใช้งานในระบบ Secondary Market (อ้างอิงข้อมูลจาก ThaiBMA)</div>
+        </div>
+        <div style="display: flex; gap: 12px">
+          <button class="btn excel" onclick="document.getElementById('csvUpload').click()">
+            <span class="mi xs">upload_file</span>
+            Import ThaiBMA (CSV)
+          </button>
+          <input type="file" id="csvUpload" accept=".csv" style="display: none" onchange="alert('จำลองการนำเข้าไฟล์: ' + this.files[0].name)" />
+          <button class="btn primary" onclick="openAddForm()"><span class="mi xs">add</span> เพิ่มข้อมูลหุ้นกู้ใหม่</button>
+        </div>
+      </div>
+
+      <div class="card" id="bondFormCard">
+        <div class="bd">
+          <div class="form-header">
+            <span id="formTitle" style="color: var(--warn)">+ เพิ่มข้อมูลหุ้นกู้ใหม่</span>
+            <button class="btn btn-sm" onclick="closeForm()" style="border: none; background: transparent; font-size: 20px; color: var(--muted); padding: 0">&times;</button>
+          </div>
+
+          <div class="row">
+            <div class="field col-12 col-md-3">
+              <label class="req">Symbol (ThaiBMA)</label>
+              <input type="text" id="frmSymbol" placeholder="เช่น CPALL24OA" />
+            </div>
+            <div class="field col-12 col-md-3">
+              <label class="req">ISIN</label>
+              <input type="text" id="frmIsin" placeholder="เช่น TH0637034A04" />
+            </div>
+            <div class="field col-12 col-md-3">
+              <label class="req">Company Rating / Agency</label>
+              <input type="text" id="frmRating" placeholder="เช่น A+ / TRIS" />
+            </div>
+            <div class="field col-12 col-md-3">
+              <label class="req">Current Par (THB/Unit)</label>
+              <input type="text" inputmode="decimal" id="frmPar" value="1,000.00" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field col-12 col-md-6">
+              <label class="req">Issue Name Thai (ชื่อหุ้นกู้)</label>
+              <input type="text" id="frmName" placeholder="ชื่อเต็มของหุ้นกู้" />
+            </div>
+            <div class="field col-12 col-md-6">
+              <label class="req">Issuer Name (ผู้ออกหุ้นกู้)</label>
+              <input type="text" id="frmIssuer" placeholder="เช่น บริษัท ซีพี ออลล์ จำกัด (มหาชน)" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field col-12 col-md-3">
+              <label class="req">Issue Date</label>
+              <input type="date" id="frmIssueDate" />
+            </div>
+            <div class="field col-12 col-md-3">
+              <label class="req">Maturity Date</label>
+              <input type="date" id="frmMaturity" />
+            </div>
+            <div class="field col-12 col-md-3">
+              <label class="req">Next Coupon Date</label>
+              <input type="date" id="frmNextCoupon" />
+              <div class="hint" style="color: var(--brand); font-weight: 500">* จำเป็นสำหรับการคำนวณ Accrued</div>
+            </div>
+            <div class="field col-12 col-md-3">
+              <label class="req">Coupon Rate (%)</label>
+              <input type="text" inputmode="decimal" id="frmCoupon" placeholder="เช่น 3.25" />
+            </div>
+          </div>
+
+          <div class="row" style="margin-bottom: 0">
+            <div class="field col-12 col-md-3">
+              <label class="req">Coupon Frequency</label>
+              <select id="frmFreq">
+                <option value="2">2 (Semi-Annually)</option>
+                <option value="4">4 (Quarterly)</option>
+                <option value="1">1 (Annually)</option>
+                <option value="12">12 (Monthly)</option>
+                <option value="0">0 (Zero Coupon)</option>
+              </select>
+              <div class="hint">จำนวนครั้งที่จ่ายดอกเบี้ยต่อปี</div>
+            </div>
+            <div class="field col-12 col-md-3">
+              <label>Secured Type</label>
+              <select id="frmSecured">
+                <option value="Unsecured">Unsecured (ไม่มีประกัน)</option>
+                <option value="Secured">Secured (มีประกัน)</option>
+              </select>
+            </div>
+            <div class="field col-12 col-md-3">
+              <label>Claim Type</label>
+              <select id="frmClaim">
+                <option value="Senior">Senior (ไม่ด้อยสิทธิ)</option>
+                <option value="Subordinated">Subordinated (ด้อยสิทธิ)</option>
+              </select>
+            </div>
+            <div class="field col-12 col-md-3">
+              <label>Issue Size (THB mln)</label>
+              <input type="text" inputmode="decimal" id="frmSize" placeholder="มูลค่าที่ออก" />
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; border-top: 1px solid var(--line); padding-top: 16px">
+            <button class="btn" onclick="closeForm()">ยกเลิก</button>
+            <button class="btn primary" onclick="saveForm()"><span class="mi xs">save</span> บันทึกข้อมูล</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="filterCard">
+        <div class="bd" style="display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end">
+          <div class="field" style="flex: 2; min-width: 250px">
+            <label>ค้นหา (Symbol / ISIN / Bond Name)</label>
+            <input type="text" placeholder="พิมพ์คำค้นหา..." />
+          </div>
+          <div class="field">
+            <label>ผู้ออกหุ้นกู้ (Issuer)</label>
+            <select>
+              <option>ทั้งหมด</option>
+              <option>CPALL</option>
+              <option>PTT</option>
+              <option>AREEYA</option>
+              <option>MQDC</option>
+              <option>TTA</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>สถานะ (Status)</label>
+            <select>
+              <option>ทั้งหมด</option>
+              <option>Active</option>
+              <option>Matured</option>
+            </select>
+          </div>
+          <div>
+            <button class="btn" type="button" style="height: 42px; background: #f2f4f7"><span class="mi xs">search</span> ค้นหา</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Symbol / ISIN</th>
+                <th>Issue Name / Issuer</th>
+                <th style="text-align: right">Coupon / Freq.</th>
+                <th style="text-align: center">Rating / Par</th>
+                <th>Maturity / Next Cpn.</th>
+                <th style="text-align: center">Status</th>
+                <th style="text-align: center">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="bd" style="padding-top: 0">
+          <div class="pagination">
+            <div class="page-info-group">
+              <span>แสดงหน้าละ</span>
+              <select id="pageSize" class="page-size-select" onchange="changePageSize()">
+                <option value="5">5</option>
+                <option value="10" selected>10</option>
+                <option value="15">15</option>
+                <option value="50">50</option>
+              </select>
+              <span id="pageInfo">รายการที่ 0-0 จากทั้งหมด 0 รายการ</span>
+            </div>
+
+            <div class="page-controls">
+              <button class="btn btn-sm" id="btnPrev" onclick="prevPage()">ก่อนหน้า</button>
+              <div id="pageNumbers" style="display: flex; gap: 4px"></div>
+              <button class="btn btn-sm" id="btnNext" onclick="nextPage()">ถัดไป</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function fmt(n) {
+        return Number(n).toLocaleString("th-TH", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+      function fmtDate(ds) {
+        if (!ds) return "-";
+        const d = new Date(ds);
+        return `${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}/${d.getFullYear()}`;
+      }
+
+      // Mock Data สกัดจากไฟล์ CSV จำนวน 17 รายการ
+      const mockBonds = [
+        {
+          symbol: "A24NA",
+          isin: "TH0770034B08",
+          name: "หุ้นกู้มีประกันของบริษัท อารียา พรอพเพอร์ตี้ จำกัด (มหาชน) ครั้งที่ 4/2566 ชุดที่ 1 ครบกำหนดไถ่ถอนปี พ.ศ. 2572 โดยเลื่อนวันครบกำหนดไถ่ถอนครั้งที่ 2 ซึ่งผู้ออกหุ้นกู้มีสิทธิไถ่ถอนหุ้นกู้ก่อนครบกำหนดไถ่ถอน",
+          issuer: "AREEYA PROPERTY PUBLIC COMPANY LIMITED",
+          par: 1000.0,
+          rating: "-/TRIS",
+          maturity: "2029-11-01",
+          issueDate: "2023-11-01",
+          nextCoupon: "2026-06-15",
+          coupon: 7.45,
+          freq: 4,
+          secured: "Secured",
+          claim: "Senior",
+          size: 198.8,
+          status: "Active",
+          id: 1,
+        },
+        {
+          symbol: "ABACUS26DA",
+          isin: "THD481076C00",
+          name: "หุ้นกู้เสี่ยงสูงของบริษัท อบาคัส ดิจิทัล จำกัด ครั้งที่ 1/2568 ครบกำหนดไถ่ถอนปี พ.ศ. 2569",
+          issuer: "ABACUS DIGITAL COMPANY LIMITED",
+          par: 1000.0,
+          rating: "NR",
+          maturity: "2026-12-04",
+          issueDate: "2025-12-04",
+          nextCoupon: "2026-03-04",
+          coupon: 4.6,
+          freq: 4,
+          secured: "Unsecured",
+          claim: "Senior",
+          size: 1000.0,
+          status: "Active",
+          id: 2,
+        },
+        {
+          symbol: "ABPSPV264A",
+          isin: "TH7954036409",
+          name: "หุ้นกู้มีผู้ค้ำประกันของบริษัท อมตะ บี.กริม เพาเวอร์ เอสพีวี1 จำกัดครั้งที่ 1/2560 ชุดที่ 6 ครบกำหนดไถ่ถอนปี พ.ศ. 2569",
+          issuer: "AMATA B.GRIMM POWER SPV1 COMPANY LIMITED",
+          par: 1000.0,
+          rating: "NR",
+          maturity: "2026-04-21",
+          issueDate: "2017-04-21",
+          nextCoupon: "2026-04-21",
+          coupon: 4.01,
+          freq: 2,
+          secured: "Secured",
+          claim: "Senior",
+          size: 1000.0,
+          status: "Active",
+          id: 3,
+        },
+        {
+          symbol: "ACE26OA",
+          isin: "TH8906036A09",
+          name: "หุ้นกู้ของบริษัท แอ๊บโซลูท คลีน เอ็นเนอร์จี้ จำกัด (มหาชน) ครั้งที่ 1/2566 ชุดที่ 2 ครบกำหนดไถ่ถอนปี พ.ศ. 2569",
+          issuer: "ABSOLUTE CLEAN ENERGY PUBLIC COMPANY LIMITED",
+          par: 1000.0,
+          rating: "BBB+/TRIS",
+          maturity: "2026-10-18",
+          issueDate: "2023-10-18",
+          nextCoupon: "2026-04-20",
+          coupon: 4.9,
+          freq: 4,
+          secured: "Unsecured",
+          claim: "Senior",
+          size: 156.4,
+          status: "Active",
+          id: 4,
+        },
+        {
+          symbol: "ACPG26NA",
+          isin: "THB463036B00",
+          name: "หุ้นกู้เสี่ยงสูงมีประกันของบริษัท อัลฟาแคปปิตอล พาร์ทเนอร์ส กรุ๊ป จำกัด (มหาชน) ครั้งที่ 2/2567 ครบกำหนดไถ่ถอนปี พ.ศ. 2569 ซึ่งผู้ออกหุ้นกู้มีสิทธิไถ่ถอนหุ้นกู้ก่อนครบกำหนดไถ่ถอน",
+          issuer: "ALPHA CAPITAL PARTNERS GROUP PUBLIC COMPANY LIMITED",
+          par: 1000.0,
+          rating: "BB+/TRIS",
+          maturity: "2026-11-28",
+          issueDate: "2024-11-28",
+          nextCoupon: "2026-03-02",
+          coupon: 6.6,
+          freq: 4,
+          secured: "Secured",
+          claim: "Senior",
+          size: 494.1,
+          status: "Active",
+          id: 5,
+        },
+        {
+          symbol: "ADVANC265A",
+          isin: "TH0268036504",
+          name: "หุ้นกู้บริษัท แอดวานซ์ อินโฟร์ เซอร์วิส จำกัด (มหาชน) ครั้งที่ 1/2564 ชุดที่ 1 ครบกำหนดไถ่ถอนปี พ.ศ. 2569",
+          issuer: "ADVANCED INFO SERVICE PUBLIC COMPANY LIMITED",
+          par: 1000.0,
+          rating: "-/TRIS,AAA(tha)/Fitch (Thailand)",
+          maturity: "2026-05-07",
+          issueDate: "2021-05-07",
+          nextCoupon: "2026-05-07",
+          coupon: 1.58,
+          freq: 2,
+          secured: "Unsecured",
+          claim: "Senior",
+          size: 1000.0,
+          status: "Active",
+          id: 6,
+        },
+        {
+          symbol: "AFIVE272A",
+          isin: "TH0746037207",
+          name: "หุ้นกู้เสี่ยงสูงของบริษัท แอสเซท ไฟว์ กรุ๊ป จํากัด (มหาชน) ครั้งที 1/2568 ครบกําหนดไถ่ถอนปี พ.ศ. 2570 ซึ่งผู้ออกหุ้นกู้มีสิทธิไถ่ถอนหุ้นกู้ก่อนครบกําหนดไถ่ถอน",
+          issuer: "ASSET FIVE GROUP PUBLIC COMPANY LIMITED",
+          par: 1000.0,
+          rating: "NR",
+          maturity: "2027-02-08",
+          issueDate: "2025-08-08",
+          nextCoupon: "2026-05-08",
+          coupon: 7.5,
+          freq: 4,
+          secured: "Unsecured",
+          claim: "Senior",
+          size: 300.0,
+          status: "Active",
+          id: 7,
+        },
+        {
+          symbol: "AGE267A",
+          isin: "TH0990036707",
+          name: "หุ้นกู้เสี่ยงสูงมีประกันของบริษัท เอเชีย กรีน เอนเนอจี จำกัด (มหาชน) ครั้งที่ 2/2568 ชุดที่ 1 ครบกําหนดไถ่ถอนปี พ.ศ. 2569 ซึ่งผู้ออกหุ้นกู้มีสิทธิไถ่ถอนหุ้นกู้ก่อนครบกำหนดไถ่ถอน",
+          issuer: "ASIA GREEN ENERGY PUBLIC COMPANY LIMITED",
+          par: 1000.0,
+          rating: "BB+/TRIS",
+          maturity: "2026-07-30",
+          issueDate: "2025-04-30",
+          nextCoupon: "2026-04-30",
+          coupon: 6.9,
+          freq: 4,
+          secured: "Secured",
+          claim: "Senior",
+          size: 117.1,
+          status: "Active",
+          id: 8,
+        },
+        {
+          symbol: "AMATA27OA",
+          isin: "TH0617037A09",
+          name: "หุ้นกู้ของบริษัท อมตะ คอร์ปอเรชัน จำกัด (มหาชน) ครั้งที่ 1/2563 ชุดที่ 3 ครบกำหนดไถ่ถอนปี พ.ศ. 2570",
+          issuer: "AMATA CORPORATION PUBLIC COMPANY LIMITED",
+          par: 1000.0,
+          rating: "A-/TRIS",
+          maturity: "2027-10-01",
+          issueDate: "2020-10-01",
+          nextCoupon: "2026-04-01",
+          coupon: 3.7,
+          freq: 2,
+          secured: "Unsecured",
+          claim: "Senior",
+          size: 500.0,
+          status: "Active",
+          id: 9,
+        },
+        {
+          symbol: "ANAN19PA",
+          isin: "TH4101B30009",
+          name: "หุ้นกู้ด้อยสิทธิที่มีลักษณะคล้ายทุนไถ่ถอนเมื่อเลิกบริษัทซึ่งผู้ออกหุ้นกู้มีสิทธิไถ่ถอนหุ้นกู้ก่อนกำหนดและมีสิทธิเลื่อนชำระดอกเบี้ยโดยไม่มีเงื่อนไขใดๆของบริษัทอนันดา ดีเวลลอปเม้นท์ จำกัด (มหาชน) ครั้งที่ 1/2562",
+          issuer: "ANANDA DEVELOPMENT PUBLIC COMPANY LIMITED",
+          par: 1000.0,
+          rating: "BB+/TRIS",
+          maturity: "2119-03-29",
+          issueDate: "2019-03-29",
+          nextCoupon: "2026-03-30",
+          coupon: 8.81,
+          freq: 4,
+          secured: "Unsecured",
+          claim: "Hybrid",
+          size: 1000.0,
+          status: "Active",
+          id: 10,
+        },
+        {
+          symbol: "AP26320A",
+          isin: "TH0308A76389",
+          name: "ตั๋วแลกเงิน บริษัท เอพี (ไทยแลนด์) จำกัด (มหาชน) ครั้งที่ 02/2569 มูลค่า 1,500.00 ล้านบาท ครบกำหนดไถ่ถอนวันที่ 20 มีนาคม 2569 (AP26320A)",
+          issuer: "AP (THAILAND) PUBLIC COMPANY LIMITED",
+          par: 1000.0,
+          rating: "A/TRIS",
+          maturity: "2026-03-20",
+          issueDate: "2026-02-12",
+          nextCoupon: "2026-03-20",
+          coupon: 0.0,
+          freq: 0,
+          secured: "Unsecured",
+          claim: "Senior",
+          size: 1500.0,
+          status: "Active",
+          id: 11,
+        },
+        {
+          symbol: "APCS246A",
+          isin: "TH1071034603",
+          name: "หุ้นกู้ (มีประกันเพิ่มเติมในภายหลัง) ของบริษัท เอเซีย พรีซิชั่น จำกัด (มหาชน) ครั้งที่ 1/2565 ครบกำหนดไถ่ถอนปี พ.ศ. 2569 ซึ่งผู้ออกหุ้นกู้มีสิทธิไถ่ถอนหุ้นกู้ก่อนครบกำหนดไถ่ถอน",
+          issuer: "ASIA PRECISION PUBLIC COMPANY LIMITED",
+          par: 500.0,
+          rating: "NR",
+          maturity: "2026-06-16",
+          issueDate: "2022-06-16",
+          nextCoupon: "2026-03-16",
+          coupon: 7.0,
+          freq: 4,
+          secured: "Secured",
+          claim: "Senior",
+          size: 385.1,
+          status: "Active",
+          id: 12,
+        },
+        {
+          symbol: "AQUA25NA",
+          isin: "TH0793035B09",
+          name: "หุ้นกู้เสี่ยงสูงชนิดระบุชื่อผู้ถือ ประเภทไม่ด้อยสิทธิ มีประกันของบริษัท อควา คอร์เปอเรชั่น จำกัด (มหาชน) ครั้งที่ 1/2566 ครบกำหนดไถ่ถอนปี พ.ศ. 2570 โดยเลื่อนวันครบกำหนดไถ่ถอน ครั้งที่ 1 ซึ่งผู้ออกหุ้นกู้มีสิทธิไถ่ถอนหุ้นกู้ก่อนครบกำหนดไถ่ถอน",
+          issuer: "AQUA CORPORATION PUBLIC COMPANY LIMITED",
+          par: 1000.0,
+          rating: "B+/TRIS",
+          maturity: "2027-11-29",
+          issueDate: "2023-05-30",
+          nextCoupon: "2026-03-02",
+          coupon: 7.0,
+          freq: 4,
+          secured: "Secured",
+          claim: "Senior",
+          size: 556.8,
+          status: "Active",
+          id: 13,
+        },
+        {
+          symbol: "ASAHI267A",
+          isin: "TH5735076702",
+          name: "หุ้นกู้ไม่ด้อยสิทธิและไม่มีหลักประกันของบริษัท อาซาฮี-ไทย อัลลอย จำกัด ครั้งที่ 1/2568 ครบกำหนดไถ่ถอนปี พ.ศ. 2569",
+          issuer: "ASAHI-THAI ALLOY COMPANY LIMITED",
+          par: 1000.0,
+          rating: "NR",
+          maturity: "2026-07-20",
+          issueDate: "2025-07-21",
+          nextCoupon: "2026-07-20",
+          coupon: 5.5,
+          freq: 2,
+          secured: "Unsecured",
+          claim: "Senior",
+          size: 500.0,
+          status: "Active",
+          id: 14,
+        },
+        {
+          symbol: "ASIA265A",
+          isin: "TH0156036509",
+          name: "หุ้นกู้มีประกันของบริษัท เอเชียโฮเต็ล จำกัด (มหาชน) ครั้งที่ 1/2567 ครบกำหนดไถ่ถอนปี พ.ศ. 2569 ซึ่งผู้ออกหุ้นกู้มีสิทธิไถ่ถอนหุ้นกู้ก่อนวันครบกำหนดไถ่ถอนหุ้นกู้",
+          issuer: "ASIA HOTEL PUBLIC COMPANY LIMITED",
+          par: 1000.0,
+          rating: "BB/TRIS",
+          maturity: "2026-05-30",
+          issueDate: "2024-05-30",
+          nextCoupon: "2026-03-02",
+          coupon: 7.0,
+          freq: 4,
+          secured: "Secured",
+          claim: "Senior",
+          size: 480.0,
+          status: "Active",
+          id: 15,
+        },
+        {
+          symbol: "ASK263A",
+          isin: "TH0816036303",
+          name: "หุ้นกู้ไม่ด้อยสิทธิ และไม่มีประกันของบริษัท เอเซียเสริมกิจลีสซิ่ง จำกัด (มหาชน) ครั้งที่ 1/2566 ชุดที่ 3 ครบกำหนดไถ่ถอนปี พ.ศ. 2569",
+          issuer: "ASIA SERMKIJ LEASING PUBLIC COMPANY LIMITED",
+          par: 1000.0,
+          rating: "-/TRIS,A(tha)/Fitch (Thailand)",
+          maturity: "2026-03-03",
+          issueDate: "2023-03-03",
+          nextCoupon: "2026-03-04",
+          coupon: 3.3,
+          freq: 2,
+          secured: "Unsecured",
+          claim: "Senior",
+          size: 400.0,
+          status: "Matured",
+          id: 16,
+        },
+        {
+          symbol: "ASP26416A",
+          isin: "TH0137A76481",
+          name: "ตั๋วแลกเงิน บริษัท เอเซีย พลัส กรุ๊ป โฮลดิ้งส์ จำกัด (มหาชน) มูลค่า 100.00 ล้านบาท ครบกำหนดไถ่ถอนวันที่ 16 เมษายน 2569 (ASP26416A)",
+          issuer: "ASIA PLUS GROUP HOLDINGS PUBLIC COMPANY LIMITED",
+          par: 1000.0,
+          rating: "A(tha)/Fitch (Thailand)",
+          maturity: "2026-04-16",
+          issueDate: "2026-01-16",
+          nextCoupon: "2026-04-16",
+          coupon: 0.0,
+          freq: 0,
+          secured: "Unsecured",
+          claim: "Senior",
+          size: 100.0,
+          status: "Active",
+          id: 17,
+        },
+        {
+          symbol: "ASW267A",
+          isin: "THA263036701",
+          name: "หุ้นกู้ของบริษัท แอสเซทไวส์ จำกัด (มหาชน) ครั้งที่ 2/2566 ชุดที่ 2 ครบกําหนดไถ่ถอนปี พ.ศ. 2569",
+          issuer: "ASSETWISE PUBLIC COMPANY LIMITED",
+          par: 1000.0,
+          rating: "BBB-/TRIS",
+          maturity: "2026-07-06",
+          issueDate: "2023-07-06",
+          nextCoupon: "2026-04-07",
+          coupon: 5.95,
+          freq: 4,
+          secured: "Unsecured",
+          claim: "Senior",
+          size: 582.0,
+          status: "Active",
+          id: 18,
+        },
+        {
+          symbol: "AQUA25NA",
+          isin: "TH7130A37101",
+          name: "หุ้นกู้เสี่ยงสูงชนิดระบุชื่อผู้ถือ ประเภทไม่ด้อยสิทธิ มีประกันของบริษัท อควา คอร์เปอเรชั่น จำกัด (มหาชน) ครั้งที่ 1/2566 ครบกำหนดไถ่ถอนปี พ.ศ. 2570 โดยเลื่อนวันครบกำหนดไถ่ถอน ครั้งที่ 1 ซึ่งผู้ออกหุ้นกู้มีสิทธิไถ่ถอนหุ้นกู้ก่อนครบกำหนดไถ่ถอน",
+          issuer: "MAGNOLIA QUALITY DEVELOPMENT CORPORATION LIMITED",
+          par: 1000.0,
+          rating: "NR",
+          maturity: "2027-01-21",
+          issueDate: "2024-07-19",
+          nextCoupon: "2026-04-20",
+          coupon: 6.75,
+          freq: 4,
+          secured: "Secured",
+          claim: "Senior",
+          size: 1047.2,
+          status: "Active",
+          id: 19,
+        },
+        {
+          symbol: "TTA287A",
+          isin: "TH0535038705",
+          name: "หุ้นกู้ของบริษัท โทรีเซนไทย เอเยนต์ซีส์ จำกัด (มหาชน) ครั้งที่ 1/2569 ครบกำหนดไถ่ถอนปี พ.ศ. 2571",
+          issuer: "THORESEN THAI AGENCIES PUBLIC COMPANY LIMITED",
+          par: 1000.0,
+          rating: "BBB/TRIS,-/Fitch (Thailand)",
+          maturity: "2028-07-27",
+          issueDate: "2026-01-27",
+          nextCoupon: "2026-04-27",
+          coupon: 5.15,
+          freq: 4,
+          secured: "Unsecured",
+          claim: "Senior",
+          size: 1000.0,
+          status: "Active",
+          id: 20,
+        },
+      ];
+      // Pagination State
+      let currentPage = 1;
+      let itemsPerPage = 10;
+      const tbody = document.getElementById("tableBody");
+
+      function changePageSize() {
+        const select = document.getElementById("pageSize");
+        itemsPerPage = parseInt(select.value);
+        currentPage = 1;
+        renderTable();
+      }
+
+      function renderTable() {
+        tbody.innerHTML = "";
+
+        const totalItems = mockBonds.length;
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+
+        const currentBonds = mockBonds.slice(startIndex, endIndex);
+
+        currentBonds.forEach((bond) => {
+          const tr = document.createElement("tr");
+          if (bond.status === "Matured") {
+            tr.style.opacity = "0.6";
+            tr.style.background = "#fcfcfd";
+          }
+
+          tr.innerHTML = `
+          <td>
+            <div style="display:flex; flex-direction:column; gap:4px;">
+              <span class="td-symbol">${bond.symbol}</span>
+              <span class="td-isin">${bond.isin}</span>
+            </div>
+          </td>
+          <td>
+            <div style="display:flex; flex-direction:column; gap:4px; max-width: 350px;">
+              <span class="td-name" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${bond.name}">${bond.name}</span>
+              <span class="td-issuer">${bond.issuer}</span>
+            </div>
+          </td>
+          <td style="text-align: right;">
+            <div style="display:flex; flex-direction:column; gap:4px;">
+              <span style="font-weight: 600; color: var(--ink);">${fmt(bond.coupon)}%</span>
+              <span style="font-size: 12px; color: var(--muted);">${bond.freq > 0 ? bond.freq + " ครั้ง/ปี" : "Zero Coupon"}</span>
+            </div>
+          </td>
+          <td style="text-align: center;">
+            <div style="display:flex; flex-direction:column; align-items:center; gap:2px;">
+              <span class="rating-badge">${bond.rating}</span>
+              <span style="font-size:12px; color:var(--muted);">Par: ${fmt(bond.par, 0)}</span>
+            </div>
+          </td>
+          <td>
+            <div style="display:flex; flex-direction:column; gap:4px;">
+              <div><span class="date-label" style="display:inline-block; width:35px;">Mat:</span> <span style="font-weight:500;">${fmtDate(bond.maturity)}</span></div>
+              <div><span class="date-label" style="display:inline-block; width:35px; color:var(--brand);">Nxt:</span> <span style="font-weight:600; color:var(--ink);">${fmtDate(bond.nextCoupon)}</span></div>
+            </div>
+          </td>
+          <td style="text-align: center;">
+            <span class="status ${bond.status.toLowerCase()}">● ${bond.status}</span>
+          </td>
+          <td style="text-align: center;">
+            <button class="btn btn-sm" onclick='openEditForm(${JSON.stringify(bond)})'><span class="mi xs">edit</span></button>
+          </td>
+        `;
+          tbody.appendChild(tr);
+        });
+
+        updatePaginationUI(startIndex + 1, endIndex, totalItems, totalPages);
+      }
+
+      function updatePaginationUI(start, end, total, totalPages) {
+        document.getElementById("pageInfo").textContent = `รายการที่ ${total === 0 ? 0 : start}-${end} จากทั้งหมด ${total} รายการ`;
+
+        const btnPrev = document.getElementById("btnPrev");
+        const btnNext = document.getElementById("btnNext");
+        btnPrev.disabled = currentPage === 1;
+        btnNext.disabled = currentPage === totalPages || totalPages === 0;
+
+        const pageNumbersContainer = document.getElementById("pageNumbers");
+        pageNumbersContainer.innerHTML = "";
+
+        for (let i = 1; i <= totalPages; i++) {
+          const btn = document.createElement("button");
+          btn.className = `btn btn-sm ${i === currentPage ? "primary" : ""}`;
+          btn.textContent = i;
+          btn.onclick = () => {
+            currentPage = i;
+            renderTable();
+          };
+          pageNumbersContainer.appendChild(btn);
+        }
+      }
+
+      function prevPage() {
+        if (currentPage > 1) {
+          currentPage--;
+          renderTable();
+        }
+      }
+
+      function nextPage() {
+        const totalPages = Math.ceil(mockBonds.length / itemsPerPage);
+        if (currentPage < totalPages) {
+          currentPage++;
+          renderTable();
+        }
+      }
+
+      // --- Form Logic ---
+      const formCard = document.getElementById("bondFormCard");
+      const formTitle = document.getElementById("formTitle");
+
+      function clearForm() {
+        ["frmSymbol", "frmIsin", "frmName", "frmIssuer", "frmRating", "frmMaturity", "frmIssueDate", "frmNextCoupon", "frmCoupon", "frmSize"].forEach((id) => (document.getElementById(id).value = ""));
+        document.getElementById("frmPar").value = "1,000.00";
+        document.getElementById("frmFreq").value = "4";
+        document.getElementById("frmSecured").value = "Unsecured";
+        document.getElementById("frmClaim").value = "Senior";
+      }
+
+      function openAddForm() {
+        clearForm();
+        formCard.style.display = "block";
+        formCard.classList.remove("is-edit");
+        formTitle.innerHTML = `<span style="color:var(--warn);"><span class="mi">add_circle</span> เพิ่มข้อมูลหุ้นกู้ใหม่</span>`;
+        window.scrollTo(0, 0);
+      }
+
+      function openEditForm(bond) {
+        formCard.style.display = "block";
+        formCard.classList.add("is-edit");
+        formTitle.innerHTML = `<span style="color:var(--brand);"><span class="mi">edit_note</span> แก้ไขข้อมูล: ${bond.symbol}</span>`;
+
+        document.getElementById("frmSymbol").value = bond.symbol;
+        document.getElementById("frmIsin").value = bond.isin;
+        document.getElementById("frmName").value = bond.name;
+        document.getElementById("frmIssuer").value = bond.issuer;
+        document.getElementById("frmPar").value = fmt(bond.par);
+        document.getElementById("frmRating").value = bond.rating;
+        document.getElementById("frmMaturity").value = bond.maturity;
+        document.getElementById("frmIssueDate").value = bond.issueDate;
+        document.getElementById("frmNextCoupon").value = bond.nextCoupon || "";
+        document.getElementById("frmCoupon").value = bond.coupon;
+        document.getElementById("frmFreq").value = bond.freq;
+        document.getElementById("frmSecured").value = bond.secured;
+        document.getElementById("frmClaim").value = bond.claim;
+        document.getElementById("frmSize").value = bond.size;
+
+        window.scrollTo(0, 0);
+      }
+
+      function closeForm() {
+        formCard.style.display = "none";
+      }
+
+      function saveForm() {
+        alert("บันทึกข้อมูลเรียบร้อยแล้ว (Demo)");
+        closeForm();
+      }
+
+      // Initial render
+      renderTable();
+    </script>
+  </body>
+</html>

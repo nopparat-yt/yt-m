@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sample Report - Cost Confirmation (WHT) | Bond Secondary</title>
+    <meta property="og:title" content="Sample Report - Cost Confirmation (WHT) | Bond Secondary" />
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        background-color: #d0d0d0;
+        font-family: "Tahoma", sans-serif;
+        font-size: 9pt;
+        padding: 30px;
+        display: flex;
+        justify-content: center;
+        line-height: 1.6;
+      }
+
+      .a4-page {
+        background-color: white;
+        width: 210mm;
+        min-height: 297mm;
+        padding: 18mm 25mm 18mm 25mm;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+        position: relative;
+        color: #000;
+      }
+
+      /* ===== LOGO ===== */
+      .header-logo {
+        margin-bottom: 4px;
+      }
+      .header-logo img {
+        height: 48px;
+        width: auto;
+      }
+
+      /* ===== TITLE ===== */
+      .doc-title {
+        text-align: center;
+        font-weight: bold;
+        font-size: 12pt;
+        color: #1F4E79;
+        margin-bottom: 16px;
+        margin-top: 2px;
+      }
+
+      /* ===== DATE ===== */
+      .date-section {
+        text-align: right;
+        font-size: 9pt;
+        margin-bottom: 20px;
+      }
+      .highlight {
+      }
+
+      /* ===== BODY TEXT ===== */
+      .para {
+        font-size: 9pt;
+        margin-bottom: 6px;
+        line-height: 1.65;
+      }
+      .para-indent {
+        font-size: 9pt;
+        margin-bottom: 6px;
+        line-height: 1.65;
+        text-indent: 36pt;
+      }
+
+      .to-section {
+        margin-bottom: 10px;
+      }
+      .to-line {
+        display: flex;
+        font-size: 9pt;
+        line-height: 1.65;
+      }
+      .to-label {
+        min-width: 36pt;
+      }
+      .to-indent {
+        padding-left: 36pt;
+        font-size: 9pt;
+        line-height: 1.65;
+      }
+
+      /* Name with dotted underline */
+      .name-underline {
+        text-decoration: underline;
+        text-decoration-style: dotted;
+        text-underline-offset: 3px;
+      }
+      .name-underline-highlight {
+        text-decoration: underline;
+        text-decoration-style: dotted;
+        text-underline-offset: 3px;
+      }
+
+      /* Security name bold+highlight */
+      .bond-name {
+        font-size: 9pt;
+      }
+
+      /* ===== DATA TABLE ===== */
+      .data-table {
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-collapse: collapse;
+        font-size: 9pt;
+      }
+      .data-table th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+        border: 1px solid #999;
+        padding: 7px 10px;
+        text-align: left;
+        font-size: 9pt;
+        line-height: 1.4;
+      }
+      .data-table th.val-col {
+        text-align: right;
+        white-space: nowrap;
+      }
+      .data-table td {
+        border: 1px solid #999;
+        padding: 7px 10px;
+        font-size: 9pt;
+        vertical-align: top;
+        line-height: 1.4;
+      }
+      .data-table td.val-col {
+        text-align: right;
+        white-space: nowrap;
+        font-weight: normal;
+      }
+      .data-table .label-col {
+        font-weight: bold;
+        width: 60%;
+      }
+      .data-table .val-col {
+        width: 40%;
+        font-weight: bold;
+        color: #000;
+      }
+      /* ticker symbol large bold */
+      .ticker {
+        font-size: 9pt;
+        font-weight: bold;
+      }
+
+      /* ===== BODY PARAGRAPH (lower section) ===== */
+      .body-text {
+        font-size: 9pt;
+        line-height: 1.65;
+        text-indent: 36pt;
+        margin-bottom: 6px;
+        margin-top: 14px;
+      }
+
+      /* ===== SIGNATURE SECTION ===== */
+      .signature-section {
+        margin-top: 40px;
+        text-align: center;
+        font-size: 9pt;
+      }
+      .sig-line-row {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        gap: 10px;
+        margin-bottom: 4px;
+      }
+      .sig-label {
+        white-space: nowrap;
+      }
+      .sig-dots {
+        flex: 0 0 200px;
+        border-bottom: 1px dotted #555;
+        margin-bottom: 4px;
+      }
+      .sig-name {
+        font-size: 9pt;
+        margin-top: 4px;
+      }
+
+      /* Reference */
+      .reference {
+        margin-top: 30px;
+        font-size: 9pt;
+      }
+
+      @media print {
+        @page { margin: 0; size: A4; }
+        body { background-color: white; padding: 0; }
+        .a4-page { box-shadow: none; width: 100%; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="a4-page">
+
+      <!-- Logo -->
+      <div class="header-logo">
+        <img src="https://www.yuanta.co.th/cms/uploads/Logo_aa5fd5a665.svg" alt="Yuanta Securities Logo" />
+      </div>
+
+      <!-- Title -->
+      <div class="doc-title">หนังสือยืนยันราคาต้นทุน</div>
+
+      <!-- Date (right-aligned, highlighted) -->
+      <div class="date-section">
+        <span class="highlight">{{DocumentDate}}</span>
+      </div>
+
+      <!-- To -->
+      <div class="to-section">
+        <div class="to-line">
+          <span class="to-label">เรียน</span>
+          <span>กรรมการผู้จัดการ</span>
+        </div>
+        <div class="to-indent">บริษัทหลักทรัพย์ หยวนต้า (ประเทศไทย) จำกัด</div>
+      </div>
+
+      <!-- Intro sentence -->
+      <div class="para-indent" style="margin-top:10px;">
+        ข้าพเจ้า <span class="name-underline-highlight">{{FullName}}</span><span class="name-underline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>ขอแจ้งข้อมูลและยืนยันราคาต้นทุนของหลักทรัพย์ที่เสนอขายดังนี้
+      </div>
+
+      <!-- Bond name -->
+      <div class="para" style="margin-top:8px;">
+        ชื่อหลักทรัพย์ : <span class="bond-name">{{BondName}} ({{Symbol}})</span>
+      </div>
+
+      <!-- Data table -->
+      <table class="data-table" style="margin-top:12px;">
+        <tbody>
+          <tr>
+            <td class="label-col" style="border-bottom: 2px solid #999;">ชื่อย่อหลักทรัพย์/ ตราสารหนี้</td>
+            <td class="val-col" style="border-bottom: 2px solid #999;"><span class="ticker">{{Symbol}}</span></td>
+          </tr>
+          <tr>
+            <td class="label-col">จำนวนหุ้น/ หน่วย</td>
+            <td class="val-col">{{Quantity}}</td>
+          </tr>
+          <tr>
+            <td class="label-col">ราคาขายต่อหุ้น/ หน่วย (บาท)</td>
+            <td class="val-col">{{SellPricePerUnit}}</td>
+          </tr>
+          <tr>
+            <td class="label-col">มูลค่าเสนอขาย</td>
+            <td class="val-col">{{SellTotalAmount}}</td>
+          </tr>
+          <tr>
+            <td class="label-col">ราคาต้นทุนต่อหุ้น/ หน่วย (บาท)</td>
+            <td class="val-col">{{CostPricePerUnit}}</td>
+          </tr>
+          <tr>
+            <td class="label-col">มูลค่าต้นทุน</td>
+            <td class="val-col">{{CostTotalAmount}}</td>
+          </tr>
+          <tr>
+            <td class="label-col">ส่วนต่างมูลค่าขายกับมูลค่าต้นทุน (บาท)</td>
+            <td class="val-col">{{TotalDiffAmount}}</td>
+          </tr>
+          <tr>
+            <td class="label-col">ภาษีหัก ณ ที่จ่าย (บาท)</td>
+            <td class="val-col">{{WHTTaxAmount}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Body paragraph -->
+      <div class="body-text">
+        ข้าพเจ้ารับทราบและยอมรับว่าการแจ้งต้นทุนของหลักทรัพย์ที่นำมาเสนอขายกับ บริษัทหลักทรัพย์ หยวนต้า ประเทศไทย จำกัด (บริษัท) จะมีผลผูกพันกับข้าพเจ้าทุกประการ ดังนั้นหากเกิดความเสียหายประการใด ๆ ต่อข้าพเจ้าอันเนื่องมาจากการแจ้งต้นทุนของหลักทรัพย์ที่นำมาเสนอขายในครั้งนี้  บริษัท ไม่ต้องรับผิดชอบใด ๆ  แก่ข้าพเจ้า และข้าพเจ้าขอรับรองว่า ข้อมูลดังกล่าวข้างต้นถูกต้องตรงตามความเป็นจริงทุกประการ
+      </div>
+
+      <!-- Signature -->
+      <div class="signature-section" style="margin-top:50px;">
+        <div class="sig-line-row">
+          <span class="sig-label">ลงชื่อ</span>
+          <span class="sig-dots"></span>
+          <span class="sig-label">ผู้เสนอขาย</span>
+        </div>
+        <div class="sig-name">( <span class="highlight">{{FullName}}</span> )</div>
+      </div>
+
+      <!-- Reference -->
+      <div class="reference">
+        Reference: <span class="highlight">{{RefNo}}</span>
+      </div>
+
+    </div>
+
+    <script>
+      window.onload = function () {
+        renderData();
+      };
+
+      function renderData() {
+       
+        const dataMap = {
+          "{{FullName}}": "นางสมศรี รักเงิน",
+          "{{AccountCode}}": "156208-Y",
+          "{{TaxId}}": "1103702611069",
+          "{{Phone}}": "090-9756430",
+          "{{Email}}": "somchai.jaidee@gmail.com",
+          "{{Address}}": "4115 มบ.ลาดพร้าว 2 ซ.โยธินพัฒนา3 ซอย 11 แยก 5 ถ.ประดิษฐ์มนูญธรรม แขวงคลองจั่น เขตบางกะปิ กรุงเทพฯ 10240",
+          "{{TradeSideLabel}}": "ผู้ซื้อ / Buyer",
+          "{{RefNo}}": "S260029",
+          "{{WealthStatus}}": "(HNW)",
+          "{{MktName}}": "นางสาวณัฐฐาพร อาภาประสิทธิ์",
+          "{{MktPhone}}": "02-009-8642",
+          "{{Symbol}}": "AQUA25NA",
+          "{{BondName}}": "หุ้นกู้เสี่ยงสูงชนิดระบุชื่อผู้ถือ ประเภทไม่ด้อยสิทธิ มีประกันของบริษัท อควา คอร์เปอเรชั่น จำกัด (มหาชน) ครั้งที่ 1/2567 ครบกำหนดไถ่ถอนปี พ.ศ. 2570 โดยเลื่อนวันครบกำหนดไถ่ถอน ครั้งที่ 1 ซึ่งผู้ออกหุ้นกู้มีสิทธิไถ่ถอนหุ้นกู้ก่อนครบกำหนดไถ่ถอน",
+          "{{ISIN}}": "TH0535038705",
+          "{{IssuerRating}}": "BBB",
+          "{{Quantity}}": "500.00",
+          "{{BondPar}}": "1,000",
+          "{{BondCouponRate}}": "5.150000",
+          "{{Yield}}": "4.100000",
+          "{{DocumentDate}}": "05 กุมภาพันธ์ 2569",
+          "{{TradeDate}}": "05/02/2026",
+          "{{SettlementDate}}": "09/02/2026",
+          "{{MaturityDate}}": "27/07/2028",
+          "{{CleanPrice}}": "512,314.00",
+          "{{AccruedInterest}}": "917.13",
+          "{{SettleAmount}}": "513,231.12",
+          "{{SettleAmountLabel}}": "ห้าล้านหนึ่งหมื่นสามพันสองร้อยสามสิบเอ็ดบาทสิบสองสตางค์",
+          "{{CostPricePerUnit}}": "1,000.000000",
+          "{{SellPricePerUnit}}": "1,017.063470",
+          "{{CostTotalAmount}}": "500,000.00",
+          "{{SellTotalAmount}}": "508,531.74",
+          "{{DiffPerUnit}}": "17.063470",
+          "{{TotalDiffAmount}}": "8,531.74",
+          "{{WHTTaxAmount}}": "1,279.76",
+          "{{BankAccountName}}": "บริษัทหลักทรัพย์ หยวนต้า (ประเทศไทย) จำกัด",
+          "{{BankName}}": "กสิกรไทย",
+          "{{BankBranch}}": "ราชดำริ",
+          "{{BankAccount}}": "042-1-11388-2",
+          "{{PTINo}}": "019-00000000-29",
+          "{{Remark}}": "ตัด ATS เข้าบัญชีตามรายละเอียดการชำระเงิน"
+        };
+
+        // วิ่งวนลูป Replace ตัวแปรทั้งหมดที่มีในหน้า HTML
+        let content = document.body.innerHTML;
+        for (const [key, value] of Object.entries(dataMap)) {
+          // ใช้ RegExp เพื่อ Replace ทุกจุดที่เจอ (Global)
+          content = content.replace(new RegExp(key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g"), value);
+        }
+        document.body.innerHTML = content;
+      }
+
+    </script>
+  </body>
+</html>

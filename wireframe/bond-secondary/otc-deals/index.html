@@ -1,0 +1,1529 @@
+﻿<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Wireframe - OTC Deals List | Bond Secondary</title>
+    <meta property="og:title" content="Wireframe - OTC Deals List | Bond Secondary" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+
+    <!-- ═══════════════════════════════════════
+       STYLES
+  ═══════════════════════════════════════ -->
+    <style>
+      /* ── VARIABLES ── */
+      :root {
+        --bg: #f0f2f5;
+        --card: #ffffff;
+        --ink: #1d2939;
+        --muted: #475467;
+        --line: #eaecf0;
+        --brand: #0055a5;
+        --danger: #d92d20;
+        --ok: #039855;
+        --warn: #f79009;
+        --inv: #7c3aed;
+        --sell: #b42318;
+        --buy: #175cd3;
+        --shadow: 0 1px 8px rgba(16, 24, 40, 0.07);
+        --r: 12px;
+      }
+
+      /* ── RESET ── */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Sarabun", sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      /* ── MATERIAL ICONS ── */
+      .mi {
+        font-family: "Material Icons Round";
+        font-style: normal;
+        font-size: 18px;
+        line-height: 1;
+        display: inline-flex;
+        align-items: center;
+        vertical-align: middle;
+        user-select: none;
+      }
+      .mi.xs {
+        font-size: 14px;
+      }
+      .mi.sm {
+        font-size: 16px;
+      }
+
+      /* ── LAYOUT ── */
+      .app {
+        max-width: 1536px;
+        margin: 24px auto;
+        padding: 0 20px 80px;
+      }
+
+      /* ── TOPBAR ── */
+      .topbar {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 18px;
+        flex-wrap: wrap;
+      }
+      .topbar h1 {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--brand);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .topbar .sub {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+      .role-switch {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .role-chip {
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--muted);
+        border-radius: 999px;
+        padding: 5px 11px;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .role-chip.active {
+        border-color: var(--brand);
+        background: #eff8ff;
+        color: var(--brand);
+      }
+      .role-chip.settlement.active {
+        border-color: var(--warn);
+        background: #fffbeb;
+        color: var(--warn);
+      }
+      .role-note {
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--muted);
+        border-radius: 999px;
+        padding: 5px 10px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .role-hidden {
+        display: none !important;
+      }
+
+      /* ── BUTTONS ── */
+      .btn {
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--ink);
+        padding: 7px 13px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        display: inline-flex;
+        gap: 5px;
+        align-items: center;
+        transition: all 0.15s;
+        white-space: nowrap;
+        text-decoration: none;
+        font-family: inherit;
+      }
+      .btn:hover {
+        background: #f8fafc;
+        border-color: #94a3b8;
+      }
+      .btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+      .btn.sm {
+        padding: 5px 10px;
+        font-size: 12px;
+        border-radius: 6px;
+      }
+      .btn.xs {
+        padding: 3px 8px;
+        font-size: 11px;
+        border-radius: 5px;
+        font-weight: 600;
+      }
+      .btn.primary {
+        background: var(--brand);
+        border-color: var(--brand);
+        color: #fff;
+      }
+      .btn.primary:hover {
+        background: #004385;
+      }
+      .btn.success {
+        background: var(--ok);
+        border-color: var(--ok);
+        color: #fff;
+      }
+      .btn.success:hover {
+        background: #027a48;
+      }
+      .btn.danger-btn {
+        background: var(--danger);
+        border-color: var(--danger);
+        color: #fff;
+      }
+      .btn.danger-btn:hover {
+        background: #b42318;
+      }
+      .btn.outline {
+        background: transparent;
+        border-color: var(--line);
+        color: var(--muted);
+      }
+      .btn.outline:hover {
+        background: #f8fafc;
+        color: var(--ink);
+      }
+      .btn.ghost-danger {
+        background: #fef3f2;
+        border-color: #fecdca;
+        color: var(--danger);
+      }
+      .btn.ghost-danger:hover {
+        background: #fee2e2;
+      }
+      .btn.inv-btn {
+        background: var(--inv);
+        border-color: var(--inv);
+        color: #fff;
+      }
+      .btn.inv-btn:hover {
+        background: #6d28d9;
+      }
+      .btn.outline-doc {
+        border-color: #0d9488;
+        color: #0d9488;
+        background: transparent;
+      }
+      .btn.outline-doc:hover {
+        background: #f0fdfa;
+      }
+      .btn.outline-cost {
+        border-color: #8b5cf6;
+        color: #8b5cf6;
+        background: transparent;
+      }
+      .btn.outline-cost:hover {
+        background: #f5f3ff;
+      }
+      .btn.review-btn {
+        border-color: var(--warn);
+        color: var(--warn);
+        background: #fffbeb;
+      }
+      .btn.review-btn:hover {
+        background: #fef3c7;
+      }
+      .btn.mail-btn {
+        border-color: #0d9488;
+        color: #0d9488;
+        background: #f0fdfa;
+      }
+      .btn.mail-btn:hover {
+        background: #ccfbf1;
+      }
+
+      /* ── CARD ── */
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        box-shadow: var(--shadow);
+        margin-bottom: 14px;
+        overflow: hidden;
+      }
+      .card .bd {
+        padding: 14px 18px;
+      }
+
+      /* ── FILTER BAR ── */
+      .filters {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: flex-end;
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        flex: 1;
+        min-width: 130px;
+      }
+      .field label {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.2px;
+      }
+      input,
+      select {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        padding: 7px 9px;
+        font-family: inherit;
+        font-size: 13px;
+        outline: none;
+        transition: all 0.18s;
+        color: var(--ink);
+        background: #fff;
+      }
+      input:focus,
+      select:focus {
+        border-color: var(--brand);
+        box-shadow: 0 0 0 3px rgba(0, 85, 165, 0.1);
+      }
+
+      /* ═══════════════════════════════════
+       COLLAPSIBLE DEAL TABLE
+    ═══════════════════════════════════ */
+
+      /* outer table */
+      .deal-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .outer-thead th {
+        background: #fcfcfd;
+        padding: 10px 14px;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--muted);
+        border-bottom: 1px solid var(--line);
+        border-top: 1px solid var(--line);
+        white-space: nowrap;
+        text-transform: uppercase;
+        letter-spacing: 0.2px;
+      }
+
+      /* ── COMMAND ROW ── */
+      .cmd-row {
+        cursor: pointer;
+      }
+      .cmd-row td {
+        padding: 11px 14px;
+        background: #fff;
+        border-bottom: 1px solid var(--line);
+        transition: background 0.1s;
+      }
+      .cmd-row:hover td {
+        background: #f8fafc;
+      }
+      .cmd-row.expanded td {
+        background: #eef4ff;
+        border-bottom: none;
+      }
+
+      /* left border per status */
+      .cmd-row td:first-child {
+        border-left: 3px solid transparent;
+        padding-left: 11px;
+      }
+      .cmd-row.s-has_pending td:first-child {
+        border-left-color: var(--warn);
+      }
+      .cmd-row.s-has_rejected td:first-child {
+        border-left-color: var(--danger);
+      }
+      .cmd-row.s-has_completed td:first-child {
+        border-left-color: var(--ok);
+      }
+
+      /* expand chevron */
+      .expand-ico {
+        transition: transform 0.2s;
+        color: var(--brand);
+      }
+      .cmd-row.expanded .expand-ico {
+        transform: rotate(90deg);
+      }
+
+      /* ── DETAIL ROW ── */
+      .detail-row td {
+        padding: 0;
+        border-bottom: 2px solid #c7d8f0;
+        background: #f3f7fd;
+      }
+      .detail-row.hide {
+        display: none;
+      }
+
+      /* ── INNER LEG TABLE ── */
+      .leg-wrap {
+        padding-bottom: 8px;
+      }
+
+      .leg-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .leg-table th {
+        background: #edf2f9;
+        padding: 6px 14px;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--muted);
+        border-bottom: 1px solid #dde4ed;
+        white-space: nowrap;
+        text-transform: uppercase;
+        letter-spacing: 0.2px;
+      }
+      .leg-table td {
+        padding: 9px 14px;
+        border-bottom: 1px solid #e8edf5;
+        font-size: 13px;
+        vertical-align: middle;
+      }
+      .leg-table tr:last-child td {
+        border-bottom: none;
+      }
+      .leg-table tr:hover td {
+        background: rgba(0, 85, 165, 0.03);
+      }
+
+      /* add-sellout row */
+      .add-row td {
+        padding: 8px 14px;
+        background: #eef4ff;
+        border-top: 1px dashed #aac5ef;
+      }
+      .no-leg-msg {
+        padding: 10px 16px;
+        font-size: 12px;
+        color: var(--muted);
+        font-style: italic;
+      }
+
+      /* ── BADGES ── */
+      .sbadge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 9px;
+        border-radius: 999px;
+        font-size: 11.5px;
+        font-weight: 600;
+        white-space: nowrap;
+        border: 1px solid transparent;
+      }
+      .sbadge.draft {
+        background: #f2f4f7;
+        color: #344054;
+        border-color: #d0d5dd;
+      }
+      .sbadge.pending {
+        background: #fef0c7;
+        color: #b54708;
+        border-color: #fedf89;
+      }
+      .sbadge.rejected {
+        background: #fef3f2;
+        color: #b42318;
+        border-color: #fecdca;
+      }
+      .sbadge.completed {
+        background: #f0fdf4;
+        color: #166534;
+        border-color: #86efac;
+      }
+      .lsbadge {
+        display: inline-flex;
+        align-items: center;
+        padding: 1px 6px;
+        border-radius: 4px;
+        font-size: 10px;
+        font-weight: 700;
+      }
+      .lsbadge.draft {
+        background: #f2f4f7;
+        color: #475467;
+      }
+      .lsbadge.pending {
+        background: #fef0c7;
+        color: #b54708;
+      }
+      .lsbadge.rejected {
+        background: #fef3f2;
+        color: #b42318;
+      }
+      .lsbadge.completed {
+        background: #f0fdf4;
+        color: #166534;
+      }
+
+      .leg-ref {
+        display: inline-flex;
+        align-items: center;
+        padding: 2px 7px;
+        border-radius: 4px;
+        font-size: 11px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      .leg-ref.s {
+        background: #fef3f2;
+        color: var(--sell);
+        border: 1px solid #fecdca;
+      }
+      .leg-ref.b {
+        background: #eff8ff;
+        color: var(--buy);
+        border: 1px solid #b2ddff;
+      }
+
+      .acc-badge {
+        font-size: 10px;
+        font-weight: 700;
+        padding: 1px 5px;
+        border-radius: 4px;
+      }
+      .acc-badge.y {
+        background: #ecfdf3;
+        color: #027a48;
+      }
+      .acc-badge.n {
+        background: #fff7ed;
+        color: #c2410c;
+      }
+
+      /* ── ATTACH PILLS ── */
+      .attach-pills {
+        display: flex;
+        gap: 3px;
+        flex-wrap: wrap;
+      }
+      .apill {
+        display: inline-flex;
+        align-items: center;
+        gap: 2px;
+        padding: 1px 6px;
+        border-radius: 4px;
+        font-size: 10px;
+        font-weight: 600;
+      }
+      .apill.ok {
+        background: #ecfdf3;
+        color: #027a48;
+        border: 1px solid #a7f3d0;
+      }
+      .apill.warn {
+        background: #fffbeb;
+        color: #b54708;
+        border: 1px solid #fedf89;
+      }
+      .apill.na {
+        background: #f2f4f7;
+        color: #98a2b3;
+        border: 1px solid var(--line);
+      }
+
+      /* ── PAGINATION ── */
+      .pagination {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 12px;
+        border-top: 1px solid var(--line);
+        font-size: 12px;
+        color: var(--muted);
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .page-controls {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+      }
+      .page-info-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .pg-size {
+        padding: 4px 8px;
+        border-radius: 6px;
+        border: 1px solid var(--line);
+        font-size: 12px;
+        cursor: pointer;
+      }
+
+      /* ── MODAL ── */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(3px);
+        padding: 16px;
+      }
+      .modal-overlay.show {
+        display: flex;
+      }
+      .modal {
+        background: #fff;
+        width: 100%;
+        border-radius: var(--r);
+        box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        animation: mUp 0.2s forwards;
+        display: flex;
+        flex-direction: column;
+        max-height: 90vh;
+      }
+      .modal.sm {
+        max-width: 460px;
+      }
+      .modal.md {
+        max-width: 600px;
+      }
+      .modal.lg {
+        max-width: 760px;
+      }
+      @keyframes mUp {
+        from {
+          transform: translateY(20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+      .mhd {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 13px 18px;
+        border-bottom: 1px solid var(--line);
+        background: #fcfcfd;
+        flex-shrink: 0;
+      }
+      .mhd h2 {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+      }
+      .mclose {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        padding: 4px;
+        border-radius: 4px;
+      }
+      .mclose:hover {
+        background: #f2f4f7;
+        color: var(--danger);
+      }
+      .mbody {
+        overflow-y: auto;
+        flex: 1;
+      }
+      .mft {
+        padding: 11px 18px;
+        border-top: 1px solid var(--line);
+        background: #fcfcfd;
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+
+      .deal-sum-bar {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        padding: 11px 18px;
+        background: #f8fafc;
+        border-bottom: 1px solid var(--line);
+      }
+      .ds-item .dk {
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--muted);
+        text-transform: uppercase;
+        display: block;
+      }
+      .ds-item .dv {
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .doc-group-title {
+        padding: 6px 18px;
+        font-size: 10.5px;
+        font-weight: 700;
+        color: var(--muted);
+        background: #f8fafc;
+        border-bottom: 1px solid var(--line);
+        text-transform: uppercase;
+        letter-spacing: 0.2px;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+      }
+      .doc-row {
+        padding: 12px 18px;
+        border-bottom: 1px solid var(--line);
+      }
+      .doc-row:last-child {
+        border-bottom: none;
+      }
+
+      .leg-review-item {
+        padding: 11px 18px;
+        border-bottom: 1px solid var(--line);
+      }
+      .leg-review-item:last-child {
+        border-bottom: none;
+      }
+      .leg-review-hd {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        flex-wrap: wrap;
+        margin-bottom: 8px;
+      }
+      .reject-box {
+        margin-top: 7px;
+        display: none;
+      }
+      .reject-box.show {
+        display: block;
+      }
+      .reject-box label {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--danger);
+        display: block;
+        margin-bottom: 3px;
+      }
+      .reject-box textarea {
+        width: 100%;
+        border: 1px solid #fecdca;
+        border-radius: 6px;
+        padding: 6px 8px;
+        font-family: inherit;
+        font-size: 12px;
+        resize: vertical;
+        min-height: 52px;
+        outline: none;
+        background: #fef3f2;
+      }
+      .reject-box textarea:focus {
+        border-color: var(--danger);
+        box-shadow: 0 0 0 3px rgba(217, 45, 32, 0.1);
+      }
+
+      .info-box {
+        background: #eff8ff;
+        border: 1px solid #b2ddff;
+        border-radius: 7px;
+        padding: 8px 12px;
+        font-size: 12px;
+        color: #1e40af;
+        display: flex;
+        gap: 6px;
+        align-items: flex-start;
+        margin: 10px 18px;
+      }
+      .warn-box {
+        background: #fffbeb;
+        border: 1px solid #fedf89;
+        border-radius: 7px;
+        padding: 8px 12px;
+        font-size: 12px;
+        color: #92400e;
+        display: flex;
+        gap: 6px;
+        align-items: flex-start;
+        margin: 10px 18px;
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 48px 20px;
+        color: var(--muted);
+      }
+      .empty-state .mi {
+        font-size: 38px;
+        color: #d0d5dd;
+        display: block;
+        margin-bottom: 8px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="app">
+      <!-- TOPBAR -->
+      <div class="topbar">
+        <div>
+          <h1><span class="mi" style="font-size: 22px">account_balance</span>รายการซื้อขายหุ้นกู้ OTC Deal</h1>
+          <div class="sub">Fixed Income Desk · Secondary Market</div>
+        </div>
+        <a href="/wireframe/bond-secondary/otc-deals/create" class="btn primary"><span class="mi sm">add</span>สร้าง Deal</a>
+      </div>
+
+      <div class="card" style="margin-bottom: 12px">
+        <div class="bd" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: space-between">
+          <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center">
+            <div class="role-switch">
+              <button class="role-chip active" id="fixedRoleBtn" type="button" onclick="setRole('fixed')"><span class="mi xs">edit_note</span>Fixed Team</button>
+              <button class="role-chip settlement" id="settlementRoleBtn" type="button" onclick="setRole('settlement')"><span class="mi xs">fact_check</span>Settlement Team</button>
+            </div>
+            <div class="role-note" id="roleNote">จัดการ draft, pending และส่งเมลหลัง completed</div>
+          </div>
+          <div class="sub" id="roleSubtitle">มุมมอง Fixed Team · จัดเตรียมและส่งรายการ</div>
+        </div>
+      </div>
+
+      <!-- FILTERS -->
+      <div class="card">
+        <div class="bd filters">
+          <div class="field" style="flex: 2; min-width: 200px">
+            <label>ค้นหา</label>
+            <input type="text" id="searchInput" placeholder="Bond Deal Ref, Txn Ref, Account Code, ชื่อลูกค้า..." oninput="applyFilters()" />
+          </div>
+          <div class="field" style="display: none">
+            <label>Bond Symbol</label>
+            <select id="symFilter" onchange="applyFilters()">
+              <option value="">ทั้งหมด</option>
+              <option>CPALL26OA</option>
+              <option>PTT256A</option>
+              <option>MQDC271B</option>
+              <option>TTA287A</option>
+              <option>GULF285A</option>
+              <option>AQUA25NA</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>สถานะ Deal</label>
+            <select id="staFilter" onchange="applyFilters()">
+              <option value="">ทั้งหมด</option>
+              <option value="draft">Draft</option>
+              <option value="pending">Pending</option>
+              <option value="rejected">Rejected</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+          <div class="field" style="display: none">
+            <label>Deal Type</label>
+            <select id="typFilter" onchange="applyFilters()">
+              <option value="">ทั้งหมด</option>
+              <option value="principal_inventory">Principal Inventory</option>
+              <option value="matched">Matched</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>วันที่ทำรายการ</label>
+            <input type="date" id="dtFilter" onchange="applyFilters()" />
+          </div>
+          <div>
+            <button class="btn" style="background: #f2f4f7; height: 36px" onclick="applyFilters()"><span class="mi sm">search</span>ค้นหา</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAIN TABLE -->
+      <div class="card">
+        <div style="overflow-x: auto; min-height: 300px">
+          <table class="deal-table">
+            <thead class="outer-thead">
+              <tr>
+                <th style="width: 36px"></th>
+                <th>Bond Deal Ref</th>
+                <th>หุ้นกู้</th>
+                <th>รายการ</th>
+                <th>วันที่ทำรายการ</th>
+                <th style="text-align: right">Seller Notional</th>
+                <th style="text-align: right">Buyer Notional</th>
+                <th>เอกสาร</th>
+                <th style="text-align: center">Status</th>
+                <th style="text-align: right; min-width: 240px">การดำเนินการ</th>
+              </tr>
+            </thead>
+            <tbody id="tBody"></tbody>
+          </table>
+        </div>
+        <div class="bd" style="padding-top: 0">
+          <div class="pagination">
+            <div class="page-info-group">
+              <span>แสดงหน้า</span>
+              <select id="pgSize" class="pg-size" onchange="changePS()">
+                <option value="5">5</option>
+                <option value="10" selected>10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+              </select>
+              <span id="pgInfo">–</span>
+            </div>
+            <div class="page-controls">
+              <button class="btn sm" id="btnPrev" onclick="prevPage()">ก่อนหน้า</button>
+              <div id="pgNums" style="display: flex; gap: 4px"></div>
+              <button class="btn sm" id="btnNext" onclick="nextPage()">ถัดไป</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: Print -->
+    <div id="printModal" class="modal-overlay">
+      <div class="modal lg">
+        <div class="mhd">
+          <h2><span class="mi sm">print</span><span id="printTitle">พิมพ์เอกสาร</span></h2>
+          <button class="mclose" onclick="closeModal('printModal')"><span class="mi">close</span></button>
+        </div>
+        <div class="mbody" id="printBody"></div>
+        <div class="mft"><button class="btn outline" onclick="closeModal('printModal')">ปิด</button></div>
+      </div>
+    </div>
+
+    <!-- MODAL: Cancel -->
+    <div id="cancelModal" class="modal-overlay">
+      <div class="modal sm">
+        <div class="mhd">
+          <h2><span class="mi sm" style="color: var(--danger)">cancel</span>ยืนยันยกเลิก Deal</h2>
+          <button class="mclose" onclick="closeModal('cancelModal')"><span class="mi">close</span></button>
+        </div>
+        <div class="mbody">
+          <div style="padding: 18px">
+            <div class="warn-box" style="margin: 0 0 12px"><span class="mi xs" style="flex-shrink: 0">warning</span>การยกเลิก Deal จะไม่สามารถกู้คืนได้</div>
+            <div style="display: flex; flex-direction: column; gap: 4px">
+              <label style="font-size: 11px; font-weight: 700; color: var(--danger)">เหตุผลการยกเลิก *</label>
+              <textarea
+                id="cancelReason"
+                rows="3"
+                placeholder="ระบุเหตุผล..."
+                style="width: 100%; border: 1px solid #fecdca; border-radius: 6px; padding: 7px; font-family: inherit; font-size: 13px; resize: vertical; background: #fef3f2; outline: none"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="mft">
+          <button class="btn outline" onclick="closeModal('cancelModal')">ยกเลิก</button>
+          <button class="btn danger-btn" id="cancelConfirmBtn"><span class="mi sm">delete_forever</span>ยืนยันยกเลิก</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+      const fmt = (n) => Number(n || 0).toLocaleString("th-TH");
+      const fmtM = (n) => (n >= 1e6 ? `${(n / 1e6).toFixed(1)}M` : n >= 1e3 ? `${(n / 1e3).toFixed(0)}K` : String(n || 0));
+      const accCls = (code) => ((code || "").split("-").pop() === "Y" ? "y" : "n");
+      const titleCase = (v) =>
+        String(v || "")
+          .replace(/_/g, " ")
+          .replace(/\b\w/g, (c) => c.toUpperCase());
+      const detailHref = (dealRef) => `/wireframe/bond-secondary/otc-deals/${dealRef}`;
+      const toDisplayDate = (v) => (!v ? "–" : /^\d{4}-\d{2}-\d{2}$/.test(v) ? `${v.slice(8, 10)}/${v.slice(5, 7)}/${v.slice(0, 4)}` : v);
+      const DEALS = [
+        {
+          id: 1,
+          dealRef: "260001",
+          bond: "CPALL26OA",
+          attachments: { factSheet: true },
+          sellers: [
+            {
+              ref: "B260001-01",
+              name: "บล. ตัวอย่าง Counterparty A",
+              acc: "111111-Y",
+              tradeDate: "2026-03-18",
+              settleDate: "2026-03-20",
+              notional: 5000000,
+              yield: 4.85,
+              legStatus: "completed",
+              mailSentAt: "2026-03-18 14:10",
+              additionalDocuments: [{ documentName: "หนังสือยืนยันการถือครอง", attached: true }],
+            },
+          ],
+          buyers: [{ ref: "S260001-01", name: "ลูกค้า Private Wealth A", acc: "900001-Y", tradeDate: "2026-03-18", settleDate: "2026-03-20", notional: 5000000, yield: 4.98, legStatus: "completed", mailSentAt: "2026-03-18 14:12" }],
+        },
+        {
+          id: 2,
+          dealRef: "260002",
+          bond: "PTT256A",
+          attachments: { factSheet: true },
+          sellers: [
+            {
+              ref: "B260002-01",
+              name: "กองทุนประกัน A",
+              acc: "222222-N",
+              tradeDate: "2026-03-18",
+              settleDate: "2026-03-20",
+              notional: 8000000,
+              yield: 5.2,
+              legStatus: "completed",
+              mailSentAt: "2026-03-18 15:20",
+              additionalDocuments: [{ documentName: "ใบแจ้งราคาต้นทุน", attached: true }],
+            },
+          ],
+          buyers: [
+            { ref: "S260002-01", name: "ลูกค้า Private Wealth P1", acc: "900002-Y", tradeDate: "2026-03-18", settleDate: "2026-03-20", notional: 3000000, yield: 5.35, legStatus: "completed" },
+            { ref: "S260002-02", name: "ลูกค้า Private Wealth P2", acc: "900003-Y", tradeDate: "2026-03-19", settleDate: "2026-03-21", notional: 5000000, yield: 5.38, legStatus: "pending" },
+          ],
+        },
+        {
+          id: 3,
+          dealRef: "260003",
+          bond: "MQDC271B",
+          attachments: { factSheet: true },
+          sellers: [
+            {
+              ref: "B260003-01",
+              name: "กองทุนตราสารหนี้ A",
+              acc: "333333-N",
+              tradeDate: "2026-03-18",
+              settleDate: "2026-03-20",
+              notional: 4000000,
+              yield: 6.1,
+              legStatus: "completed",
+              additionalDocuments: [{ documentName: "หลักฐานราคาที่ลูกค้าแจ้ง", attached: true }],
+            },
+            {
+              ref: "B260003-02",
+              name: "กองทุนตราสารหนี้ B",
+              acc: "333334-N",
+              tradeDate: "2026-03-18",
+              settleDate: "2026-03-20",
+              notional: 2000000,
+              yield: 6.15,
+              legStatus: "rejected",
+              additionalDocuments: [{ documentName: "หนังสือมอบอำนาจ", attached: true }],
+            },
+          ],
+          buyers: [{ ref: "S260003-01", name: "ลูกค้า HNW A", acc: "900004-Y", tradeDate: "2026-03-18", settleDate: "2026-03-20", notional: 6000000, yield: 6.25, legStatus: "completed" }],
+        },
+        {
+          id: 4,
+          dealRef: "260004",
+          bond: "TTA287A",
+          attachments: { factSheet: true },
+          sellers: [
+            {
+              ref: "B260004-01",
+              name: "บริษัทประกันชีวิต B",
+              acc: "444444-N",
+              tradeDate: "2026-03-17",
+              settleDate: "2026-03-19",
+              notional: 6000000,
+              yield: 5.15,
+              legStatus: "pending",
+              additionalDocuments: [{ documentName: "เอกสารยืนยันการถือครอง", attached: true }],
+            },
+          ],
+          buyers: [{ ref: "S260004-01", name: "ลูกค้าสถาบัน B", acc: "900005-Y", tradeDate: "2026-03-17", settleDate: "2026-03-19", notional: 6000000, yield: 5.3, legStatus: "pending" }],
+        },
+        { id: 5, dealRef: "260005", bond: "GULF285A", attachments: { factSheet: true }, sellers: [], buyers: [] },
+        {
+          id: 6,
+          dealRef: "260006",
+          bond: "CPALL26OA",
+          attachments: { factSheet: false },
+          sellers: [
+            {
+              ref: "B260006-01",
+              name: "ลูกค้าทดลอง Draft A",
+              acc: "666666-Y",
+              tradeDate: "2026-03-17",
+              settleDate: "2026-03-19",
+              notional: 2000000,
+              yield: 4.75,
+              legStatus: "draft",
+              additionalDocuments: [{ documentName: "เอกสารเพิ่มเติม 1", attached: false }],
+            },
+          ],
+          buyers: [{ ref: "S260006-01", name: "ลูกค้าทดลอง Draft B", acc: "900006-N", tradeDate: "2026-03-17", settleDate: "2026-03-19", notional: 2000000, yield: 4.9, legStatus: "draft" }],
+        },
+        {
+          id: 7,
+          dealRef: "260007",
+          bond: "AQUA25NA",
+          attachments: { factSheet: true },
+          sellers: [
+            {
+              ref: "B260007-01",
+              name: "คู่ค้า D",
+              acc: "777777-N",
+              tradeDate: "2026-03-16",
+              settleDate: "2026-03-18",
+              notional: 9000000,
+              yield: 6.75,
+              legStatus: "completed",
+              additionalDocuments: [
+                { documentName: "หลักฐานการถือครองหุ้นกู้", attached: true },
+                { documentName: "เอกสาร KYC", attached: true },
+              ],
+            },
+          ],
+          buyers: [
+            { ref: "S260007-01", name: "ลูกค้า VIP D1", acc: "900007-Y", tradeDate: "2026-03-16", settleDate: "2026-03-18", notional: 2000000, yield: 6.9, legStatus: "completed" },
+            { ref: "S260007-02", name: "ลูกค้า VIP D2", acc: "900008-Y", tradeDate: "2026-03-16", settleDate: "2026-03-18", notional: 2000000, yield: 6.9, legStatus: "pending" },
+            { ref: "S260007-03", name: "ลูกค้า VIP D3", acc: "900009-Y", tradeDate: "2026-03-16", settleDate: "2026-03-18", notional: 2000000, yield: 6.9, legStatus: "draft" },
+          ],
+        },
+        {
+          id: 8,
+          dealRef: "260008",
+          bond: "PTT256A",
+          attachments: { factSheet: true },
+          sellers: [
+            {
+              ref: "B260008-01",
+              name: "บริษัทประกัน E",
+              acc: "888888-N",
+              tradeDate: "2026-03-15",
+              settleDate: "2026-03-17",
+              notional: 3000000,
+              yield: 5.2,
+              legStatus: "rejected",
+              additionalDocuments: [{ documentName: "หนังสือรับรองการถือครอง", attached: true }],
+            },
+          ],
+          buyers: [{ ref: "S260008-01", name: "ลูกค้า E", acc: "900010-Y", tradeDate: "2026-03-15", settleDate: "2026-03-17", notional: 3000000, yield: 5.35, legStatus: "rejected" }],
+        },
+      ];
+      let filtered = [...DEALS],
+        currentPage = 1,
+        pageSize = 10,
+        expandedIds = new Set(),
+        cancelTarget = null,
+        currentRole = "fixed";
+      const allLegs = (d) => [...(d.sellers || []), ...(d.buyers || [])];
+      const visibleLegs = (d) => (currentRole === "settlement" ? allLegs(d).filter((l) => l.legStatus !== "draft") : allLegs(d));
+      const visibleDeals = () => DEALS.filter((d) => currentRole !== "settlement" || visibleLegs(d).length > 0);
+      function getLegStatusMeta(s) {
+        return (
+          {
+            draft: ["draft", "edit_note", "Draft"],
+            pending: ["pending", "schedule", "Pending"],
+            rejected: ["rejected", "cancel", "Rejected"],
+            completed: ["completed", "task_alt", "Completed"],
+          }[s] || ["draft", "edit_note", "Draft"]
+        );
+      }
+      const lsBadge = (s) => {
+        const [cls, icon, label] = getLegStatusMeta(s);
+        return `<span class="lsbadge ${cls}"><span class="mi xs">${icon}</span>${label}</span>`;
+      };
+      const statusCounts = (d) => {
+        const counts = { draft: 0, pending: 0, rejected: 0, completed: 0 };
+        visibleLegs(d).forEach((l) => {
+          const key = l.legStatus || "draft";
+          if (counts[key] != null) counts[key] += 1;
+        });
+        return counts;
+      };
+      const dealTone = (d) => {
+        const c = statusCounts(d);
+        if (c.pending > 0) return "has_pending";
+        if (c.rejected > 0) return "has_rejected";
+        if (c.completed > 0) return "has_completed";
+        return "draft";
+      };
+      const statusSummary = (d) => {
+        const c = statusCounts(d);
+        const chips = [];
+        if (c.draft) chips.push(`<span class="sbadge draft"><span class="mi xs">edit_note</span>Draft ${c.draft}</span>`);
+        if (c.pending) chips.push(`<span class="sbadge pending"><span class="mi xs">schedule</span>Pending ${c.pending}</span>`);
+        if (c.rejected) chips.push(`<span class="sbadge rejected"><span class="mi xs">cancel</span>Rejected ${c.rejected}</span>`);
+        if (c.completed) chips.push(`<span class="sbadge completed"><span class="mi xs">task_alt</span>Completed ${c.completed}</span>`);
+        return chips.length ? chips.join("") : `<span style="color:var(--muted)">–</span>`;
+      };
+      const isMailPending = (leg) => leg.legStatus === "completed" && !leg.mailSentAt;
+      const pendingMailCount = (d) => visibleLegs(d).filter((l) => isMailPending(l)).length;
+      const mailStatusPill = (leg) => {
+        if (leg.legStatus !== "completed") return `<span class="apill na"><span class="mi xs">mail_lock</span>ยังไม่พร้อมส่ง</span>`;
+        if (leg.mailSentAt) return `<span class="apill ok"><span class="mi xs">mark_email_read</span>ส่งแล้ว</span>`;
+        return `<span class="apill warn"><span class="mi xs">mail</span>รอส่งเมล</span>`;
+      };
+      const sellerDocCount = (d) => (d.sellers || []).reduce((sum, s) => sum + (s.additionalDocuments || []).filter((doc) => doc.attached).length, 0);
+      const documentSummary = (d) => {
+        const c = sellerDocCount(d);
+        return `<div class="attach-pills"><span class="apill ${d.attachments?.factSheet ? "ok" : "na"}"><span class="mi xs">${d.attachments?.factSheet ? "description" : "hide_source"}</span>Fact Sheet</span><span class="apill ${c ? "ok" : "na"}"><span class="mi xs">${c ? "folder" : "hide_source"}</span>Seller Docs ${c}</span></div>`;
+      };
+      const transactionSummary = (d) =>
+        `<div style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Seller ${visibleLegs(d).filter((l) => l.ref.startsWith("B")).length} รายการ</span><span style="font-size:12px;color:var(--muted)">Buyer ${visibleLegs(d).filter((l) => l.ref.startsWith("S")).length} รายการ</span></div>`;
+      const dateSummary = (d) => {
+        const l = visibleLegs(d)[0];
+        return l
+          ? `<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:12px;color:var(--muted)">Trade: ${toDisplayDate(l.tradeDate)}</span><span style="font-size:12px;color:var(--muted)">Settle: ${toDisplayDate(l.settleDate)}</span></div>`
+          : `<span style="color:var(--muted)">–</span>`;
+      };
+      const sellerNotional = (d) =>
+        visibleLegs(d)
+          .filter((l) => l.ref.startsWith("B"))
+          .reduce((sum, l) => sum + Number(l.notional || 0), 0);
+      const buyerNotional = (d) =>
+        visibleLegs(d)
+          .filter((l) => l.ref.startsWith("S"))
+          .reduce((sum, l) => sum + Number(l.notional || 0), 0);
+      const reviewQueueLabel = (d) => {
+        const c = visibleLegs(d).filter((l) => l.legStatus === "pending").length;
+        return c ? `<span class="sbadge pending"><span class="mi xs">fact_check</span>${c} รายการรอตรวจ</span>` : "";
+      };
+      const mailQueueLabel = (d) => {
+        const c = pendingMailCount(d);
+        return c ? `<span class="sbadge completed"><span class="mi xs">mail</span>${c} รายการรอส่งเมล</span>` : "";
+      };
+      function cmdActions(d) {
+        const href = detailHref(d.dealRef),
+          draftCount = visibleLegs(d).filter((l) => l.legStatus === "draft").length,
+          unsentCount = pendingMailCount(d);
+        const viewBtn = `<a class="btn sm outline" href="${href}" onclick="event.stopPropagation()"><span class="mi xs">visibility</span>ดูรายละเอียด</a>`;
+        const printBtn = `<button class="btn sm" style="background:#fcfcfd" onclick="event.stopPropagation();openPrintModal(${d.id})"><span class="mi xs">print</span>พิมพ์</button>`;
+        const submitAllBtn =
+          currentRole === "fixed" && draftCount > 0 ? `<button class="btn sm review-btn" onclick="event.stopPropagation();submitAll(${d.id})"><span class="mi xs">send</span>Submit All</button>` : "";
+        const sendMailAllBtn =
+          currentRole === "settlement" && unsentCount > 0
+            ? `<button class="btn sm mail-btn" onclick="event.stopPropagation();sendMailAll(${d.id})"><span class="mi xs">outgoing_mail</span>Send Mail All (${unsentCount})</button>`
+            : "";
+        const cancelBtn =
+          currentRole === "fixed" && allLegs(d).every((l) => (l.legStatus || "draft") === "draft")
+            ? `<button class="btn sm ghost-danger" onclick="event.stopPropagation();openCancelModal(${d.id})"><span class="mi xs">delete</span>ลบ</button>`
+            : "";
+        return `<div style="display:flex;gap:5px;justify-content:flex-end;flex-wrap:wrap">${currentRole === "settlement" ? `${reviewQueueLabel(d)}${mailQueueLabel(d)}` : ""}${submitAllBtn}${sendMailAllBtn}${viewBtn}${printBtn}${cancelBtn}</div>`;
+      }
+      function buildLegTable(d) {
+        const head = `<thead><tr><th>Trade Date</th><th>Settlement Date</th><th>Txn Ref</th><th>คู่ค้า / บัญชี</th><th style="text-align:right">Notional (฿)</th><th style="text-align:right">Yield (%)</th><th>สถานะรายการ</th><th>เอกสาร</th><th style="text-align:right;min-width:180px">การดำเนินการ</th></tr></thead>`;
+        const renderRow = (leg, side) => {
+          const refClass = side === "seller" ? "s" : "b",
+            accountClass = accCls(leg.acc),
+            docCount = side === "seller" ? (leg.additionalDocuments || []).filter((doc) => doc.attached).length : 0,
+            docLabel =
+              side === "seller"
+                ? `<span class="apill ${docCount ? "ok" : "na"}"><span class="mi xs">${docCount ? "folder" : "hide_source"}</span>${docCount ? `${docCount} เอกสาร` : "ไม่มีเอกสาร"}</span>`
+                : `<span class="apill na"><span class="mi xs">description</span>คำสั่งซื้อขาย</span>`;
+          let actionHtml = `<span style="color:var(--muted);font-size:12px">–</span>`;
+          if (currentRole === "fixed" && leg.legStatus === "draft")
+            actionHtml = `<button class="btn xs primary" onclick="event.stopPropagation();submitLeg('${leg.ref}',${d.id})"><span class="mi xs">send</span>Submit</button>`;
+          if (currentRole === "fixed" && leg.legStatus === "pending") actionHtml = `<span style="color:var(--muted);font-size:12px">รอ Settlement ตรวจสอบ</span>`;
+          if (currentRole === "settlement" && isMailPending(leg))
+            actionHtml = `<button class="btn xs mail-btn" onclick="event.stopPropagation();sendMail('${leg.ref}',${d.id})"><span class="mi xs">outgoing_mail</span>Send Mail</button>`;
+          if (currentRole === "settlement" && leg.legStatus === "completed" && leg.mailSentAt)
+            actionHtml = `<span style="color:var(--ok);font-size:12px;font-weight:600">ส่งเมลแล้ว ${leg.mailSentAt}</span>`;
+          if (currentRole === "settlement" && leg.legStatus === "pending")
+            actionHtml = `<button class="btn xs success" onclick="event.stopPropagation();approveLeg('${leg.ref}',${d.id})"><span class="mi xs">task_alt</span>Complete</button><button class="btn xs ghost-danger" onclick="event.stopPropagation();rejectLeg('${leg.ref}',${d.id})"><span class="mi xs">cancel</span>Reject</button>`;
+          if (currentRole === "fixed" && leg.legStatus === "completed")
+            actionHtml = `<span style="color:var(--muted);font-size:12px">${leg.mailSentAt ? `ส่งเมลแล้ว ${leg.mailSentAt}` : "รอ Settlement ส่งเมล"}</span>`;
+          return `<tr><td style="white-space:nowrap;color:var(--muted)">${toDisplayDate(leg.tradeDate)}</td><td style="white-space:nowrap;color:var(--muted)">${toDisplayDate(leg.settleDate)}</td><td><span class="leg-ref ${refClass}">${leg.ref}</span></td><td><div style="font-weight:600">${leg.name}</div><div style="margin-top:2px"><span style="font-size:11px;color:var(--muted)">${leg.acc}</span><span class="acc-badge ${accountClass}" style="margin-left:3px">${accountClass.toUpperCase()}</span></div></td><td style="text-align:right;font-weight:600">${fmt(leg.notional)}</td><td style="text-align:right">${Number(leg.yield || 0).toFixed(2)}</td><td>${lsBadge(leg.legStatus)}</td><td><div class="attach-pills">${docLabel}${mailStatusPill(leg)}</div></td><td><div style="display:flex;gap:4px;justify-content:flex-end;flex-wrap:wrap">${actionHtml}</div></td></tr>`;
+        };
+        const sellers = currentRole === "settlement" ? (d.sellers || []).filter((l) => l.legStatus !== "draft") : d.sellers || [],
+          buyers = currentRole === "settlement" ? (d.buyers || []).filter((l) => l.legStatus !== "draft") : d.buyers || [];
+        let html = `<div class="leg-wrap"><table class="leg-table">${head}<tbody>`;
+        sellers.forEach((l) => (html += renderRow(l, "seller")));
+        buyers.forEach((l) => (html += renderRow(l, "buyer")));
+        if (!(sellers.length + buyers.length)) html += `<tr><td colspan="9" class="no-leg-msg">ยังไม่มีรายการ</td></tr>`;
+        html += `</tbody></table></div>`;
+        return html;
+      }
+      function findLeg(ref, dealId) {
+        const d = DEALS.find((x) => x.id === dealId);
+        return d ? allLegs(d).find((l) => l.ref === ref) || null : null;
+      }
+      function rerenderDetail(dealId) {
+        const row = document.getElementById(`det_${dealId}`),
+          d = DEALS.find((x) => x.id === dealId);
+        if (!row || !d) return;
+        row.querySelector("td").innerHTML = buildLegTable(d);
+      }
+      function applyFilters() {
+        const q = document.getElementById("searchInput").value.trim().toLowerCase(),
+          symbol = document.getElementById("symFilter").value,
+          status = document.getElementById("staFilter").value,
+          tradeDate = document.getElementById("dtFilter").value;
+        filtered = visibleDeals().filter((d) => {
+          if (symbol && d.bond !== symbol) return false;
+          if (status && !visibleLegs(d).some((l) => l.legStatus === status)) return false;
+          if (tradeDate && !visibleLegs(d).some((l) => l.tradeDate === tradeDate)) return false;
+          if (!q) return true;
+          return (
+            d.dealRef.toLowerCase().includes(q) ||
+            d.bond.toLowerCase().includes(q) ||
+            visibleLegs(d).some((l) => l.ref.toLowerCase().includes(q) || l.name.toLowerCase().includes(q) || l.acc.toLowerCase().includes(q))
+          );
+        });
+        currentPage = 1;
+        render();
+      }
+      function render() {
+        const tbody = document.getElementById("tBody");
+        tbody.innerHTML = "";
+        const total = filtered.length,
+          totalPages = Math.ceil(total / pageSize),
+          start = (currentPage - 1) * pageSize,
+          pageItems = filtered.slice(start, Math.min(start + pageSize, total));
+        if (!pageItems.length) {
+          tbody.innerHTML = `<tr><td colspan="10"><div class="empty-state"><span class="mi">search_off</span>ไม่พบรายการ</div></td></tr>`;
+          updatePagination(0, 0, 0, 0);
+          return;
+        }
+        pageItems.forEach((d) => {
+          const expanded = expandedIds.has(d.id);
+          const row = document.createElement("tr");
+          row.className = `cmd-row s-${dealTone(d)}${expanded ? " expanded" : ""}`;
+          row.id = `cmd_${d.id}`;
+          row.innerHTML = `<td style="text-align:center;width:36px"><span class="mi xs expand-ico">chevron_right</span></td><td><div style="font-weight:700;color:var(--brand);font-size:14px">${d.dealRef}</div><div style="font-size:10px;color:var(--muted)">Bond Deal Ref</div></td><td style="font-weight:700;white-space:nowrap">${d.bond}</td><td>${transactionSummary(d)}</td><td>${dateSummary(d)}</td><td style="text-align:right"><div style="font-weight:600">${fmtM(sellerNotional(d))}</div><div style="font-size:10px;color:var(--muted)">${fmt(sellerNotional(d))} ฿</div></td><td style="text-align:right"><div style="font-weight:600">${fmtM(buyerNotional(d))}</div><div style="font-size:10px;color:var(--muted)">${fmt(buyerNotional(d))} ฿</div></td><td>${documentSummary(d)}</td><td style="text-align:center"><div class="attach-pills" style="justify-content:center">${statusSummary(d)}</div></td><td style="text-align:right">${cmdActions(d)}</td>`;
+          row.addEventListener("click", () => toggleExp(d.id));
+          tbody.appendChild(row);
+          const detailRow = document.createElement("tr");
+          detailRow.className = `detail-row${expanded ? "" : " hide"}`;
+          detailRow.id = `det_${d.id}`;
+          const detailCell = document.createElement("td");
+          detailCell.colSpan = 10;
+          detailCell.innerHTML = buildLegTable(d);
+          detailRow.appendChild(detailCell);
+          tbody.appendChild(detailRow);
+        });
+        updatePagination(start + 1, Math.min(start + pageSize, total), total, totalPages);
+      }
+      function toggleExp(id) {
+        const cmd = document.getElementById(`cmd_${id}`),
+          det = document.getElementById(`det_${id}`);
+        if (!cmd || !det) return;
+        const open = det.classList.contains("hide");
+        if (open) expandedIds.add(id);
+        else expandedIds.delete(id);
+        cmd.classList.toggle("expanded", open);
+        det.classList.toggle("hide", !open);
+      }
+      function updatePagination(s, e, total, totalPages) {
+        document.getElementById("pgInfo").textContent = total === 0 ? "ไม่พบรายการ" : `รายการที่ ${s}–${e} จาก ${total}`;
+        document.getElementById("btnPrev").disabled = currentPage === 1;
+        document.getElementById("btnNext").disabled = currentPage === totalPages || totalPages === 0;
+        const c = document.getElementById("pgNums");
+        c.innerHTML = "";
+        let sp = Math.max(1, currentPage - 2),
+          ep = Math.min(totalPages, sp + 4);
+        if (ep - sp < 4) sp = Math.max(1, ep - 4);
+        for (let p = sp; p <= ep; p += 1) {
+          const b = document.createElement("button");
+          b.className = `btn sm ${p === currentPage ? "primary" : ""}`;
+          b.textContent = p;
+          b.onclick = () => {
+            currentPage = p;
+            render();
+          };
+          c.appendChild(b);
+        }
+      }
+      function prevPage() {
+        if (currentPage > 1) {
+          currentPage -= 1;
+          render();
+        }
+      }
+      function nextPage() {
+        const totalPages = Math.ceil(filtered.length / pageSize);
+        if (currentPage < totalPages) {
+          currentPage += 1;
+          render();
+        }
+      }
+      function changePS() {
+        pageSize = parseInt(document.getElementById("pgSize").value, 10);
+        currentPage = 1;
+        render();
+      }
+      function openModal(id) {
+        document.getElementById(id).classList.add("show");
+      }
+      function closeModal(id) {
+        document.getElementById(id).classList.remove("show");
+      }
+      document.querySelectorAll(".modal-overlay").forEach((o) =>
+        o.addEventListener("click", (e) => {
+          if (e.target === o) o.classList.remove("show");
+        }),
+      );
+      window.openPrintModal = function (id) {
+        const d = DEALS.find((x) => x.id === id);
+        if (!d) return;
+        document.getElementById("printTitle").textContent = `พิมพ์เอกสาร - ${d.dealRef}`;
+        let html = `<div class="deal-sum-bar"><div class="ds-item"><span class="dk">Bond Deal Ref</span><span class="dv">${d.dealRef}</span></div><div class="ds-item"><span class="dk">หุ้นกู้</span><span class="dv">${d.bond}</span></div><div class="ds-item"><span class="dk">Transaction Summary</span><span class="dv">${allLegs(d).length} รายการ</span></div></div>`;
+        html += `<div class="doc-group-title"><span class="mi xs">north_east</span>รายการฝั่ง Seller</div>`;
+        if (!(d.sellers || []).length) html += `<div class="doc-row" style="color:var(--muted)">ยังไม่มีรายการฝั่ง Seller</div>`;
+        else
+          d.sellers.forEach((leg) => {
+            const docs = (leg.additionalDocuments || []).filter((doc) => doc.attached);
+            html += `<div class="doc-row"><div style="display:flex;align-items:center;gap:7px;margin-bottom:8px;flex-wrap:wrap"><span class="leg-ref s">${leg.ref}</span><span style="font-weight:600">${leg.name}</span><span style="color:var(--muted);font-size:12px">(${leg.acc})</span>${lsBadge(leg.legStatus)}</div><div style="display:flex;gap:6px;flex-wrap:wrap">${docs.length ? docs.map((doc) => `<span class="apill ok"><span class="mi xs">description</span>${doc.documentName}</span>`).join("") : `<span class="apill na"><span class="mi xs">hide_source</span>ไม่มีเอกสารเพิ่มเติม</span>`}</div></div>`;
+          });
+        html += `<div class="doc-group-title" style="border-top:1px solid var(--line)"><span class="mi xs">south_west</span>รายการฝั่ง Buyer</div>`;
+        if (!(d.buyers || []).length) html += `<div class="doc-row" style="color:var(--muted)">ยังไม่มีรายการฝั่ง Buyer</div>`;
+        else
+          d.buyers.forEach((leg) => {
+            html += `<div class="doc-row"><div style="display:flex;align-items:center;gap:7px;margin-bottom:8px;flex-wrap:wrap"><span class="leg-ref b">${leg.ref}</span><span style="font-weight:600">${leg.name}</span><span style="color:var(--muted);font-size:12px">(${leg.acc})</span>${lsBadge(leg.legStatus)}</div><div style="display:flex;gap:6px;flex-wrap:wrap"><span class="apill ok"><span class="mi xs">description</span>ใบยืนยันคำสั่งซื้อขาย</span></div></div>`;
+          });
+        html += `<div style="padding:12px 18px;background:#fcfcfd;border-top:1px solid var(--line)"><button class="btn" style="width:100%;justify-content:center;background:#eff8ff;border-color:#b2ddff;color:var(--brand)" onclick="alert('ZIP: ${d.dealRef}')"><span class="mi xs">folder_zip</span>ดาวน์โหลดเอกสารทั้งหมด (ZIP)</button></div>`;
+        document.getElementById("printBody").innerHTML = html;
+        openModal("printModal");
+      };
+      window.openCancelModal = function (id) {
+        cancelTarget = id;
+        document.getElementById("cancelReason").value = "";
+        openModal("cancelModal");
+      };
+      document.getElementById("cancelConfirmBtn").addEventListener("click", () => {
+        if (cancelTarget == null) return;
+        const reason = document.getElementById("cancelReason").value.trim();
+        if (!reason) {
+          alert("กรุณาระบุเหตุผลการยกเลิก");
+          return;
+        }
+        const d = DEALS.find((x) => x.id === cancelTarget);
+        if (!d) return;
+        expandedIds.delete(d.id);
+        cancelTarget = null;
+        closeModal("cancelModal");
+        applyFilters();
+      });
+      window.submitLeg = function (ref, dealId) {
+        if (currentRole !== "fixed") {
+          alert("มุมมองนี้สำหรับ Settlement Team");
+          return;
+        }
+        const leg = findLeg(ref, dealId);
+        if (!leg || !confirm(`Submit transaction ${ref}?`)) return;
+        leg.legStatus = "pending";
+        rerenderDetail(dealId);
+        applyFilters();
+      };
+      window.approveLeg = function (ref, dealId) {
+        if (currentRole !== "settlement") {
+          alert("มุมมองนี้สำหรับ Fixed Team");
+          return;
+        }
+        const leg = findLeg(ref, dealId);
+        if (!leg || !confirm(`Complete transaction ${ref}?`)) return;
+        leg.legStatus = "completed";
+        leg.mailSentAt = "";
+        rerenderDetail(dealId);
+        applyFilters();
+      };
+      window.rejectLeg = function (ref, dealId) {
+        if (currentRole !== "settlement") {
+          alert("มุมมองนี้สำหรับ Fixed Team");
+          return;
+        }
+        const reason = prompt(`Reject transaction ${ref}\nกรุณาระบุเหตุผล:`, "");
+        if (reason === null) return;
+        if (!reason.trim()) {
+          alert("กรุณาระบุเหตุผล");
+          return;
+        }
+        const leg = findLeg(ref, dealId);
+        if (!leg) return;
+        leg.legStatus = "rejected";
+        leg.rejectReason = reason.trim();
+        rerenderDetail(dealId);
+        applyFilters();
+      };
+      window.submitAll = function (id) {
+        if (currentRole !== "fixed") {
+          alert("มุมมองนี้สำหรับ Settlement Team");
+          return;
+        }
+        const d = DEALS.find((x) => x.id === id);
+        if (!d) return;
+        const drafts = allLegs(d).filter((l) => l.legStatus === "draft");
+        if (!drafts.length) {
+          alert("ไม่มี transaction ที่เป็น Draft");
+          return;
+        }
+        if (!confirm(`Submit All ${drafts.length} transaction ใน Deal ${d.dealRef}?`)) return;
+        drafts.forEach((l) => (l.legStatus = "pending"));
+        applyFilters();
+      };
+      window.sendMail = function (ref, dealId) {
+        if (currentRole !== "settlement") {
+          alert("มุมมองนี้สำหรับ Settlement Team");
+          return;
+        }
+        const leg = findLeg(ref, dealId);
+        if (!leg || !isMailPending(leg) || !confirm(`Send confirmation email for ${ref}?`)) return;
+        leg.mailSentAt = new Date().toLocaleString("th-TH");
+        rerenderDetail(dealId);
+        applyFilters();
+      };
+      window.sendMailAll = function (dealId) {
+        if (currentRole !== "settlement") {
+          alert("มุมมองนี้สำหรับ Fixed Team");
+          return;
+        }
+        const d = DEALS.find((x) => x.id === dealId);
+        if (!d) return;
+        const targets = allLegs(d).filter((l) => isMailPending(l));
+        if (!targets.length) {
+          alert("ไม่มี transaction ที่รอส่งเมล");
+          return;
+        }
+        if (!confirm(`Send confirmation email ${targets.length} transaction ใน Deal ${d.dealRef}?`)) return;
+        const sentAt = new Date().toLocaleString("th-TH");
+        targets.forEach((leg) => {
+          leg.mailSentAt = sentAt;
+        });
+        rerenderDetail(dealId);
+        applyFilters();
+      };
+      window.setRole = function (role) {
+        currentRole = role === "settlement" ? "settlement" : "fixed";
+        document.getElementById("fixedRoleBtn").classList.toggle("active", currentRole === "fixed");
+        document.getElementById("settlementRoleBtn").classList.toggle("active", currentRole === "settlement");
+        document.getElementById("roleNote").textContent = currentRole === "fixed" ? "จัดการ draft และส่งรายการให้ Settlement" : "ตรวจสอบรายการ pending, ปิดรายการ และส่งเมลลูกค้า";
+        document.getElementById("roleSubtitle").textContent = currentRole === "fixed" ? "มุมมอง Fixed Team · จัดเตรียมและติดตามรายการ" : "มุมมอง Settlement Team · ตรวจสอบ ปิดรายการ และส่งเมล";
+        applyFilters();
+      };
+      window.prevPage = prevPage;
+      window.nextPage = nextPage;
+      window.changePS = changePS;
+      window.closeModal = closeModal;
+      setRole("fixed");
+    </script>
+  </body>
+</html>
